@@ -4,274 +4,218 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Йога Будни с Вячеславом</title>
+    <meta name="description" content="Закрытая библиотека практик. Хатха-йога, шаткармы, восстановление тела. Вячеслав Эрдниев.">
+    <meta property="og:title" content="Йога Будни с Вячеславом">
+    <meta property="og:description" content="Хатха-йога, шаткармы, восстановление тела. Только то, что работает.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sulya2106-cell.github.io/good-morning-club/">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;margin:0;padding:0;box-sizing:border-box}
-        :root{--bg:#0c0c0c;--surface:#161616;--surface-hover:#1e1e1e;--accent:#a0b87a;--accent-dim:rgba(160,184,122,.12);--text:#e8e6e1;--text-muted:#7a7870;--radius:14px}
+        :root{--bg:#0c0c0c;--surface:#161616;--sh:#1e1e1e;--accent:#a0b87a;--ad:rgba(160,184,122,.12);--text:#e8e6e1;--muted:#7a7870;--r:14px}
         body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+        a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 
         #loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:radial-gradient(ellipse at 50% 30%,#141a10 0%,var(--bg) 70%)}
-        #loading .spinner{width:36px;height:36px;border:3px solid #2a2a2a;border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:16px}
-        @keyframes spin{to{transform:rotate(360deg)}}
-        #loading p{color:var(--text-muted);font-size:14px}
+        .spin{width:36px;height:36px;border:3px solid #2a2a2a;border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite;margin-bottom:16px}
+        @keyframes sp{to{transform:rotate(360deg)}}
+        #loading p{color:var(--muted);font-size:14px}
 
-        .screen{display:none}.screen.active{display:flex}
-        .auth-screen{flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;text-align:center;background:radial-gradient(ellipse at 50% 30%,#141a10 0%,var(--bg) 70%)}
-        .app-screen.active{display:block}
+        .screen{display:none}.screen.active{display:flex}.app-screen.active{display:block}
+        .as{flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;text-align:center;background:radial-gradient(ellipse at 50% 30%,#141a10 0%,var(--bg) 70%)}
+        .ll{font-size:56px;margin-bottom:20px;filter:grayscale(30%)}.lt{font-size:26px;font-weight:600;margin-bottom:4px;letter-spacing:-.5px}
+        .la{color:var(--accent);font-size:15px;font-weight:500;margin-bottom:8px}.ls{color:var(--muted);font-size:14px;margin-bottom:32px}
+        .af{display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px}
+        .ai{background:var(--surface);border:1px solid #2a2a2a;border-radius:10px;padding:13px 16px;font-size:15px;color:var(--text);outline:none;font-family:inherit;transition:border-color .2s}
+        .ai:focus{border-color:var(--accent)}.ai::placeholder{color:var(--muted)}
+        .ab{background:var(--accent);color:var(--bg);border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s}
+        .ab:hover{opacity:.85}.ab:disabled{opacity:.5;cursor:wait}
+        .al{color:var(--accent);font-size:13px;cursor:pointer;margin-top:8px;background:none;border:none;font-family:inherit}.al:hover{text-decoration:underline}
+        .ae{color:#d07070;font-size:13px;min-height:18px}
+        .ib{background:var(--surface);border-radius:12px;padding:24px;max-width:400px;text-align:center}.ib h2{font-size:20px;margin-bottom:8px}.ib p{color:var(--muted);font-size:14px;margin-bottom:16px}
 
-        .lock-logo{font-size:56px;margin-bottom:20px;filter:grayscale(30%)}
-        .lock-title{font-size:26px;font-weight:600;margin-bottom:4px;letter-spacing:-.5px}
-        .lock-author{color:var(--accent);font-size:15px;font-weight:500;margin-bottom:8px}
-        .lock-subtitle{color:var(--text-muted);font-size:14px;margin-bottom:32px}
-        .auth-form{display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px}
-        .auth-input{background:var(--surface);border:1px solid #2a2a2a;border-radius:10px;padding:13px 16px;font-size:15px;color:var(--text);outline:none;font-family:inherit;transition:border-color .2s}
-        .auth-input:focus{border-color:var(--accent)}
-        .auth-input::placeholder{color:var(--text-muted)}
-        .auth-btn{background:var(--accent);color:var(--bg);border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s}
-        .auth-btn:hover{opacity:.85}.auth-btn:disabled{opacity:.5;cursor:wait}
-        .auth-link{color:var(--accent);font-size:13px;cursor:pointer;margin-top:8px;background:none;border:none;font-family:inherit}
-        .auth-link:hover{text-decoration:underline}
-        .auth-error{color:#d07070;font-size:13px;min-height:18px}
-        .info-box{background:var(--surface);border-radius:12px;padding:24px;max-width:400px;text-align:center}
-        .info-box h2{font-size:20px;margin-bottom:8px}
-        .info-box p{color:var(--text-muted);font-size:14px;margin-bottom:16px}
-
-        .header{padding:20px 24px;display:flex;align-items:center;justify-content:space-between;max-width:960px;margin:0 auto}
-        .brand{display:flex;align-items:center;gap:10px}
-        .brand-icon{font-size:24px}.brand-name{font-size:16px;font-weight:600;letter-spacing:-.3px}
-        .brand-tag{color:var(--text-muted);font-size:13px}
-        .header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-        .access-badge{background:var(--accent-dim);color:var(--accent);font-size:11px;font-weight:600;padding:5px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px}
-        .hdr-btn{background:none;border:1px solid #2a2a2a;color:var(--text-muted);border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s}
-        .hdr-btn:hover{border-color:var(--accent);color:var(--text)}
+        .hd{padding:20px 24px;display:flex;align-items:center;justify-content:space-between;max-width:960px;margin:0 auto}
+        .br{display:flex;align-items:center;gap:10px}.bi{font-size:24px}.bn{font-size:16px;font-weight:600;letter-spacing:-.3px}.bt{color:var(--muted);font-size:13px}
+        .hr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+        .badge{background:var(--ad);color:var(--accent);font-size:11px;font-weight:600;padding:5px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px}
+        .hb{background:none;border:1px solid #2a2a2a;color:var(--muted);border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s}
+        .hb:hover{border-color:var(--accent);color:var(--text)}
+        .hb .notif{background:#d07070;color:#fff;font-size:9px;padding:1px 5px;border-radius:10px;margin-left:4px}
 
         .hero{text-align:center;padding:48px 24px 32px;max-width:600px;margin:0 auto}
         .hero h1{font-size:38px;font-weight:700;line-height:1.15;margin-bottom:14px;letter-spacing:-1px}
         .hero h1 span{color:var(--accent)}
-        .hero p{color:var(--text-muted);font-size:16px;max-width:460px;margin:0 auto;line-height:1.7}
+        .hero p{color:var(--muted);font-size:16px;max-width:460px;margin:0 auto;line-height:1.7}
 
-        /* About section */
-        .about{max-width:960px;margin:0 auto 40px;padding:0 24px}
-        .about-card{background:var(--surface);border-radius:var(--radius);padding:32px;display:flex;gap:28px;align-items:flex-start}
-        .about-avatar{font-size:64px;flex-shrink:0}
-        .about-body{flex:1}
-        .about-name{font-size:22px;font-weight:700;margin-bottom:2px}
-        .about-role{color:var(--accent);font-size:14px;font-weight:500;margin-bottom:12px}
-        .about-text{color:var(--text-muted);font-size:14px;line-height:1.7;margin-bottom:16px}
-        .about-links{display:flex;gap:12px;flex-wrap:wrap}
-        .about-link{display:inline-flex;align-items:center;gap:6px;background:var(--surface-hover);border:1px solid #2a2a2a;border-radius:8px;padding:8px 14px;font-size:13px;color:var(--text-muted);text-decoration:none;transition:all .2s}
-        .about-link:hover{border-color:var(--accent);color:var(--text)}
-        .about-link svg{width:16px;height:16px;fill:currentColor}
+        .abt{max-width:960px;margin:0 auto 40px;padding:0 24px}
+        .abt-c{background:var(--surface);border-radius:var(--r);padding:32px;display:flex;gap:28px;align-items:flex-start}
+        .abt-av{font-size:64px;flex-shrink:0}.abt-b{flex:1}.abt-n{font-size:22px;font-weight:700;margin-bottom:2px}
+        .abt-r{color:var(--accent);font-size:14px;font-weight:500;margin-bottom:12px}
+        .abt-t{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:16px}
+        .abt-l{display:flex;gap:12px;flex-wrap:wrap}
+        .abt-a{display:inline-flex;align-items:center;gap:6px;background:var(--sh);border:1px solid #2a2a2a;border-radius:8px;padding:8px 14px;font-size:13px;color:var(--muted);text-decoration:none;transition:all .2s}
+        .abt-a:hover{border-color:var(--accent);color:var(--text);text-decoration:none}
+        .abt-a svg{width:16px;height:16px;fill:currentColor}
 
-        .filters{display:flex;gap:8px;padding:0 24px;max-width:960px;margin:36px auto 20px;flex-wrap:wrap}
-        .fbtn{background:var(--surface);border:1px solid transparent;color:var(--text-muted);border-radius:100px;padding:9px 18px;font-size:13px;cursor:pointer;transition:all .2s;font-family:inherit}
-        .fbtn:hover{color:var(--text);background:var(--surface-hover)}
-        .fbtn.on{background:var(--accent);color:var(--bg);font-weight:500}
-        .fbtn.lk{opacity:.4;cursor:not-allowed}.fbtn.lk:hover{color:var(--text-muted);background:var(--surface)}
+        /* Search */
+        .search-wrap{max-width:960px;margin:0 auto;padding:0 24px}
+        .search-input{width:100%;background:var(--surface);border:1px solid #2a2a2a;border-radius:10px;padding:12px 16px 12px 40px;font-size:14px;color:var(--text);outline:none;font-family:inherit;transition:border-color .2s;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%237a7870' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:14px center}
+        .search-input:focus{border-color:var(--accent)}
+        .search-input::placeholder{color:var(--muted)}
 
-        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;padding:0 24px 80px;max-width:960px;margin:0 auto}
+        /* Filters - horizontal scroll on mobile */
+        .filters{display:flex;gap:8px;padding:12px 24px 0;max-width:960px;margin:0 auto;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+        .filters::-webkit-scrollbar{display:none}
+        .fb{background:var(--surface);border:1px solid transparent;color:var(--muted);border-radius:100px;padding:9px 18px;font-size:13px;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;flex-shrink:0}
+        .fb:hover{color:var(--text);background:var(--sh)}
+        .fb.on{background:var(--accent);color:var(--bg);font-weight:500}
+        .fb.lk{opacity:.4;cursor:not-allowed}.fb.lk:hover{color:var(--muted);background:var(--surface)}
 
-        /* Video cards */
-        .card{background:var(--surface);border-radius:var(--radius);overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:pointer;position:relative}
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;padding:20px 24px 80px;max-width:960px;margin:0 auto}
+
+        .card{background:var(--surface);border-radius:var(--r);overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:pointer;position:relative}
         .card:hover{transform:translateY(-3px);box-shadow:0 10px 36px rgba(0,0,0,.5)}
-        .card.locked{opacity:.5;pointer-events:none}
-        .card.locked .clo{display:flex}
+        .card.locked{opacity:.5;pointer-events:none}.card.locked .clo{display:flex}
         .clo{display:none;position:absolute;inset:0;background:rgba(12,12,12,.75);z-index:5;align-items:center;justify-content:center;flex-direction:column;gap:6px}
-        .clo-i{font-size:28px}.clo-t{font-size:12px;color:var(--text-muted)}
+        .clo-i{font-size:28px}.clo-t{font-size:12px;color:var(--muted)}
         .cvid{position:relative;width:100%;padding-top:56.25%;background:#0a0a0a}
         .cvid iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
         .cph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:44px;background:linear-gradient(135deg,#121410,#1a1c16)}
         .cbod{padding:14px 16px}
-        .ctag{display:inline-block;background:var(--accent-dim);color:var(--accent);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:3px 9px;border-radius:5px;margin-bottom:7px}
+        .ctag{display:inline-block;background:var(--ad);color:var(--accent);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:3px 9px;border-radius:5px;margin-bottom:7px}
         .cttl{font-size:15px;font-weight:600;margin-bottom:5px;line-height:1.35}
-        .cmeta{color:var(--text-muted);font-size:12px;display:flex;gap:12px}
-        .empty{text-align:center;padding:80px 24px;color:var(--text-muted)}
+        .cmeta{color:var(--muted);font-size:12px;display:flex;gap:12px}
+        .empty{text-align:center;padding:80px 24px;color:var(--muted)}
 
-        /* Text cards (compact, opens popup) */
-        .tcard{background:var(--surface);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s}
+        .tcard{background:var(--surface);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s}
         .tcard:hover{transform:translateY(-3px);box-shadow:0 10px 36px rgba(0,0,0,.5)}
-        .tcard-inner{display:flex;align-items:center;gap:14px;padding:18px 16px}
-        .tcard-emoji{font-size:32px;flex-shrink:0}
-        .tcard-info{flex:1}
-        .tcard-title{font-size:15px;font-weight:600;line-height:1.3}
-        .tcard-sub{font-size:12px;color:var(--text-muted);margin-top:3px}
-        .tcard-arrow{color:var(--text-muted);font-size:18px;flex-shrink:0}
-        .tcard .ctag{margin:0 0 0 16px}
+        .tcard-in{display:flex;align-items:center;gap:14px;padding:18px 16px}
+        .tcard-e{font-size:32px;flex-shrink:0}.tcard-i{flex:1}.tcard-t{font-size:15px;font-weight:600;line-height:1.3}
+        .tcard-s{font-size:12px;color:var(--muted);margin-top:3px}.tcard-ar{color:var(--muted);font-size:18px;flex-shrink:0}
 
-        /* Video modal */
         .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100;align-items:center;justify-content:center;padding:24px}
         .mo.open{display:flex}
-        .mo-inner{width:100%;max-width:800px}
-        .mo-vid{position:relative;width:100%;padding-top:56.25%;background:#000;border-radius:10px;overflow:hidden}
-        .mo-vid iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
-        .mo-info{padding:18px 0}.mo-title{font-size:19px;font-weight:600;margin-bottom:4px}
-        .mo-desc{color:var(--text-muted);font-size:14px}
+        .mo-in{width:100%;max-width:800px}
+        .mo-v{position:relative;width:100%;padding-top:56.25%;background:#000;border-radius:10px;overflow:hidden}
+        .mo-v iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+        .mo-i{padding:18px 0}.mo-t{font-size:19px;font-weight:600;margin-bottom:4px}.mo-d{color:var(--muted);font-size:14px}
 
-        /* Text popup (fullscreen-ish) */
         .tp{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;overflow-y:auto;-webkit-overflow-scrolling:touch}
         .tp.open{display:block}
-        .tp-scroll{max-width:720px;margin:0 auto;padding:60px 28px 80px;min-height:100vh}
-        .tp-tag{display:inline-block;background:var(--accent-dim);color:var(--accent);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:4px 10px;border-radius:5px;margin-bottom:16px}
+        .tp-s{max-width:720px;margin:0 auto;padding:60px 28px 80px;min-height:100vh}
+        .tp-tg{display:inline-block;background:var(--ad);color:var(--accent);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:4px 10px;border-radius:5px;margin-bottom:16px}
         .tp h1{font-size:28px;font-weight:700;line-height:1.2;margin-bottom:8px;letter-spacing:-.5px}
-        .tp h2{font-size:18px;font-weight:500;color:var(--text-muted);margin-bottom:24px;line-height:1.4}
-        .tp-body{font-size:15px;line-height:1.8;color:var(--text)}
-        .tp-body p{margin-bottom:16px}
-        .tp-body ul{padding-left:20px;margin-bottom:16px}
-        .tp-body li{margin-bottom:6px}
-        .tp-body strong{color:var(--accent-light, #c5d9a4);font-weight:600}
-        .tp-body a{color:var(--accent);text-decoration:none}
-        .tp-body a:hover{text-decoration:underline}
+        .tp h2{font-size:18px;font-weight:500;color:var(--muted);margin-bottom:24px;line-height:1.4}
+        .tp-b{font-size:15px;line-height:1.8;color:var(--text)}.tp-b p{margin-bottom:16px}.tp-b ul{padding-left:20px;margin-bottom:16px}.tp-b li{margin-bottom:6px}
+        .tp-b strong{color:#c5d9a4;font-weight:600}
+        .tp-f{margin-top:40px;padding-top:24px;border-top:1px solid #222;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+        .tp-fn{font-size:14px;font-weight:600}
+        .tp-fl{display:flex;gap:10px}
+        .tp-fa{display:inline-flex;align-items:center;gap:5px;font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s}
+        .tp-fa:hover{color:var(--accent);text-decoration:none}
+        .tp-fa svg{width:15px;height:15px;fill:currentColor}
 
-        .tp-footer{margin-top:40px;padding-top:24px;border-top:1px solid #222;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-        .tp-footer-name{font-size:14px;font-weight:600}
-        .tp-footer-links{display:flex;gap:10px}
-        .tp-footer-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;color:var(--text-muted);text-decoration:none;transition:color .2s}
-        .tp-footer-link:hover{color:var(--accent)}
-        .tp-footer-link svg{width:15px;height:15px;fill:currentColor}
+        .px{position:fixed;top:16px;right:20px;background:rgba(30,30,30,.8);border:1px solid #333;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:22px;cursor:pointer;z-index:101;backdrop-filter:blur(8px)}
+        .px:hover{color:var(--text);border-color:var(--accent)}
 
-        .popup-x{position:fixed;top:16px;right:20px;background:rgba(30,30,30,.8);border:1px solid #333;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:22px;cursor:pointer;z-index:101;backdrop-filter:blur(8px)}
-        .popup-x:hover{color:var(--text);border-color:var(--accent)}
-
-        .footer{text-align:center;padding:24px;color:var(--text-muted);font-size:12px;border-top:1px solid #1a1a1a;max-width:960px;margin:0 auto}
-        .footer a{color:var(--accent);text-decoration:none}
+        .footer{text-align:center;padding:24px;color:var(--muted);font-size:12px;border-top:1px solid #1a1a1a;max-width:960px;margin:0 auto}
 
         .adm{max-width:960px;margin:0 auto;padding:24px}
         .adm h2{font-size:22px;margin-bottom:16px}
-        .adm-tbl{width:100%;border-collapse:collapse;font-size:13px}
-        .adm-tbl th{text-align:left;padding:10px 8px;border-bottom:1px solid #2a2a2a;color:var(--text-muted);font-weight:500}
-        .adm-tbl td{padding:10px 8px;border-bottom:1px solid #1a1a1a;vertical-align:middle}
-        .adm-tbl select{background:var(--surface);color:var(--text);border:1px solid #2a2a2a;border-radius:6px;padding:4px 8px;font-family:inherit;font-size:12px}
-        .abtn{background:var(--surface);color:var(--text-muted);border:1px solid #2a2a2a;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:inherit;margin:2px}
-        .abtn:hover{border-color:var(--accent);color:var(--text)}
+        .at{width:100%;border-collapse:collapse;font-size:13px}
+        .at th{text-align:left;padding:10px 8px;border-bottom:1px solid #2a2a2a;color:var(--muted);font-weight:500}
+        .at td{padding:10px 8px;border-bottom:1px solid #1a1a1a;vertical-align:middle}
+        .at select{background:var(--surface);color:var(--text);border:1px solid #2a2a2a;border-radius:6px;padding:4px 8px;font-family:inherit;font-size:12px}
+        .atb{background:var(--surface);color:var(--muted);border:1px solid #2a2a2a;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:inherit;margin:2px}
+        .atb:hover{border-color:var(--accent);color:var(--text)}
 
         @media(max-width:600px){
             .hero h1{font-size:28px}.grid{grid-template-columns:1fr}.hero{padding:32px 20px 20px}
-            .about-card{flex-direction:column;align-items:center;text-align:center;padding:24px}
-            .about-links{justify-content:center}
-            .tp-scroll{padding:50px 20px 60px}
-            .tp h1{font-size:24px}
-            .adm-tbl{font-size:11px}
+            .abt-c{flex-direction:column;align-items:center;text-align:center;padding:24px}.abt-l{justify-content:center}
+            .tp-s{padding:50px 20px 60px}.tp h1{font-size:24px}.at{font-size:11px}
         }
     </style>
 </head>
 <body>
 
-<div id="loading"><div class="spinner"></div><p>Загрузка...</p></div>
+<div id="loading"><div class="spin"></div><p>Загрузка...</p></div>
 
-<div class="screen auth-screen" id="s-auth">
-    <div class="lock-logo">🕉</div>
-    <div class="lock-title">Йога Будни</div>
-    <div class="lock-author">с Вячеславом Эрдниевым</div>
-    <div class="lock-subtitle">Закрытая библиотека практик</div>
-    <form class="auth-form" id="fLogin" onsubmit="return doLogin()">
-        <input type="email" class="auth-input" id="inEmail" placeholder="Email" autocomplete="email" required>
-        <input type="password" class="auth-input" id="inPass" placeholder="Пароль" autocomplete="current-password" required>
-        <button type="submit" class="auth-btn" id="btnLogin">Войти</button>
-        <div class="auth-error" id="errLogin"></div>
-        <button type="button" class="auth-link" onclick="toggleAuth()">Нет аккаунта? Зарегистрироваться</button>
-        <button type="button" class="auth-link" onclick="resetPw()" style="margin-top:0;font-size:12px;color:var(--text-muted)">Забыли пароль?</button>
+<div class="screen as" id="s-auth">
+    <div class="ll">🕉</div><div class="lt">Йога Будни</div><div class="la">с Вячеславом Эрдниевым</div><div class="ls">Закрытая библиотека практик</div>
+    <form class="af" id="fL" onsubmit="return doLogin()">
+        <input type="email" class="ai" id="iE" placeholder="Email" autocomplete="email" required>
+        <input type="password" class="ai" id="iP" placeholder="Пароль" autocomplete="current-password" required>
+        <button type="submit" class="ab" id="bL">Войти</button>
+        <div class="ae" id="eL"></div>
+        <button type="button" class="al" onclick="togA()">Нет аккаунта? Зарегистрироваться</button>
+        <button type="button" class="al" onclick="rstPw()" style="margin-top:0;font-size:12px;color:var(--muted)">Забыли пароль?</button>
     </form>
-    <form class="auth-form" id="fReg" style="display:none" onsubmit="return doReg()">
-        <input type="email" class="auth-input" id="rEmail" placeholder="Email" autocomplete="email" required>
-        <input type="password" class="auth-input" id="rPass" placeholder="Пароль (мин. 6 символов)" autocomplete="new-password" required>
-        <input type="password" class="auth-input" id="rPass2" placeholder="Повторите пароль" autocomplete="new-password" required>
-        <button type="submit" class="auth-btn" id="btnReg">Зарегистрироваться</button>
-        <div class="auth-error" id="errReg"></div>
-        <button type="button" class="auth-link" onclick="toggleAuth()">Уже есть аккаунт? Войти</button>
+    <form class="af" id="fR" style="display:none" onsubmit="return doReg()">
+        <input type="email" class="ai" id="rE" placeholder="Email" autocomplete="email" required>
+        <input type="password" class="ai" id="rP" placeholder="Пароль (мин. 6 символов)" autocomplete="new-password" required>
+        <input type="password" class="ai" id="rP2" placeholder="Повторите пароль" autocomplete="new-password" required>
+        <button type="submit" class="ab" id="bR">Зарегистрироваться</button>
+        <div class="ae" id="eR"></div>
+        <button type="button" class="al" onclick="togA()">Уже есть аккаунт? Войти</button>
     </form>
 </div>
 
-<div class="screen auth-screen" id="s-pending"><div class="info-box"><h2>⏳ Ожидание доступа</h2><p>Ваш аккаунт зарегистрирован. Доступ будет открыт преподавателем.</p><button class="auth-btn" onclick="doLogout()">Выйти</button></div></div>
-<div class="screen auth-screen" id="s-blocked"><div class="info-box"><h2>🚫 Доступ заблокирован</h2><p>Обратитесь к преподавателю.</p><button class="auth-btn" onclick="doLogout()">Выйти</button></div></div>
-<div class="screen auth-screen" id="s-device"><div class="info-box"><h2>📱 Лимит устройств</h2><p>Аккаунт привязан к другому устройству. Обратитесь к преподавателю для сброса.</p><button class="auth-btn" onclick="doLogout()">Выйти</button></div></div>
+<div class="screen as" id="s-pending"><div class="ib"><h2>⏳ Ожидание доступа</h2><p>Ваш аккаунт зарегистрирован. Доступ будет открыт преподавателем.</p><button class="ab" onclick="doLogout()">Выйти</button></div></div>
+<div class="screen as" id="s-blocked"><div class="ib"><h2>🚫 Доступ заблокирован</h2><p>Обратитесь к преподавателю.</p><button class="ab" onclick="doLogout()">Выйти</button></div></div>
+<div class="screen as" id="s-device"><div class="ib"><h2>📱 Лимит устройств</h2><p>Аккаунт привязан к другому устройству. Обратитесь к преподавателю для сброса.</p><button class="ab" onclick="doLogout()">Выйти</button></div></div>
 
 <div class="screen app-screen" id="s-app">
-    <header class="header">
-        <div class="brand"><span class="brand-icon">🕉</span><div><div class="brand-name">Йога Будни</div><div class="brand-tag">Вячеслав Эрдниев</div></div></div>
-        <div class="header-right">
-            <span class="access-badge" id="badge"></span>
-            <button class="hdr-btn" id="admBtn" style="display:none" onclick="showAdmin()">👑 Админ</button>
-            <button class="hdr-btn" onclick="doLogout()">Выйти</button>
+    <header class="hd">
+        <div class="br"><span class="bi">🕉</span><div><div class="bn">Йога Будни</div><div class="bt">Вячеслав Эрдниев</div></div></div>
+        <div class="hr">
+            <span class="badge" id="badge"></span>
+            <button class="hb" id="admB" style="display:none" onclick="showAdm()">👑 Админ<span class="notif" id="notif" style="display:none"></span></button>
+            <button class="hb" onclick="doLogout()">Выйти</button>
         </div>
     </header>
-    <div id="mainView">
+    <div id="mainV">
         <section class="hero"><h1>Практика <span>без лишнего</span></h1><p>Хатха-йога, шаткармы, восстановление тела. Только то, что работает - проверено на себе.</p></section>
-
-        <!-- About -->
-        <div class="about">
-            <div class="about-card">
-                <div class="about-avatar">🧘‍♂️</div>
-                <div class="about-body">
-                    <div class="about-name">Вячеслав Эрдниев</div>
-                    <div class="about-role">Преподаватель хатха-йоги и шаткарм</div>
-                    <div class="about-text">
-                        Бывший инженер-сейсмолог. Ушёл из Москвы в йогу не ради тренда - просто в какой-то момент тело и голова потребовали другого. Практикую и преподаю больше 10 лет. Был в Ришикеше, Варанаси, Дхарамсале. Специализируюсь на шаткармах и восстановлении тела. Без эзотерики - только то, что проверил на себе.
-                    </div>
-                    <div class="about-links">
-                        <a href="https://www.instagram.com/shat_karm?igsh=MWVleGZvczlxeXh2eg==" target="_blank" class="about-link">
-                            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                            @shat_karm
-                        </a>
-                        <a href="https://t.me/shat_karm" target="_blank" class="about-link">
-                            <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-                            @shat_karm
-                        </a>
-                        <a href="https://yogaenthusiasts.ru/shatkarm" target="_blank" class="about-link">
-                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                            Сайт
-                        </a>
-                    </div>
+        <div class="abt"><div class="abt-c">
+            <div class="abt-av">🧘‍♂️</div>
+            <div class="abt-b">
+                <div class="abt-n">Вячеслав Эрдниев</div>
+                <div class="abt-r">Преподаватель хатха-йоги и шаткарм</div>
+                <div class="abt-t">Бывший инженер-сейсмолог. Ушёл из Москвы в йогу не ради тренда - просто в какой-то момент тело и голова потребовали другого. Практикую и преподаю больше 10 лет. Был в Ришикеше, Варанаси, Дхарамсале. Специализируюсь на шаткармах и восстановлении тела. Без эзотерики - только то, что проверил на себе.</div>
+                <div class="abt-l">
+                    <a href="https://www.instagram.com/shat_karm?igsh=MWVleGZvczlxeXh2eg==" target="_blank" class="abt-a"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@shat_karm</a>
+                    <a href="https://t.me/shat_karm" target="_blank" class="abt-a"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>@shat_karm</a>
+                    <a href="https://yogaenthusiasts.ru/shatkarm" target="_blank" class="abt-a"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>Сайт</a>
                 </div>
             </div>
-        </div>
-
+        </div></div>
+        <div class="search-wrap"><input type="text" class="search-input" id="searchIn" placeholder="Поиск по практикам..." oninput="doSearch()"></div>
         <div class="filters" id="filters"></div>
         <div class="grid" id="grid"></div>
     </div>
-    <div class="adm" id="admPanel" style="display:none">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h2>👑 Управление учениками</h2><button class="hdr-btn" onclick="hideAdmin()">← Назад</button></div>
-        <table class="adm-tbl"><thead><tr><th>Email</th><th>Имя</th><th>Уровень</th><th>Устройства</th><th>Статус</th><th>Действия</th></tr></thead><tbody id="utbl"></tbody></table>
+    <div class="adm" id="admP" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h2>👑 Управление учениками</h2><button class="hb" onclick="hideAdm()">← Назад</button></div>
+        <table class="at"><thead><tr><th>Email</th><th>Имя</th><th>Доступ</th><th>Устр.</th><th></th><th>Действия</th></tr></thead><tbody id="utbl"></tbody></table>
     </div>
     <footer class="footer">Йога Будни · Вячеслав Эрдниев · <a href="https://instagram.com/shat_karm" target="_blank">@shat_karm</a></footer>
 </div>
 
-<!-- Video modal -->
-<div class="mo" id="modal" onclick="xModal(event)">
-    <button class="popup-x" onclick="xModal()">✕</button>
-    <div class="mo-inner"><div class="mo-vid" id="mVid"></div><div class="mo-info"><div class="mo-title" id="mTitle"></div><div class="mo-desc" id="mDesc"></div></div></div>
-</div>
+<div class="mo" id="modal" onclick="xMo(event)"><button class="px" onclick="xMo()">✕</button><div class="mo-in"><div class="mo-v" id="mV"></div><div class="mo-i"><div class="mo-t" id="mT"></div><div class="mo-d" id="mD"></div></div></div></div>
 
-<!-- Text popup (fullscreen) -->
-<div class="tp" id="tpopup">
-    <button class="popup-x" onclick="xTP()">✕</button>
-    <div class="tp-scroll">
-        <div class="tp-tag" id="tpTag"></div>
-        <h1 id="tpH1"></h1>
-        <h2 id="tpH2"></h2>
-        <div class="tp-body" id="tpBody"></div>
-        <div class="tp-footer">
-            <div class="tp-footer-name">Вячеслав Эрдниев</div>
-            <div class="tp-footer-links">
-                <a href="https://t.me/shat_karm" target="_blank" class="tp-footer-link">
-                    <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-                    @shat_karm
-                </a>
-                <a href="https://www.instagram.com/shat_karm?igsh=MWVleGZvczlxeXh2eg==" target="_blank" class="tp-footer-link">
-                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                    @shat_karm
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
+<div class="tp" id="tpop"><button class="px" onclick="xTP()">✕</button><div class="tp-s"><div class="tp-tg" id="tpTg"></div><h1 id="tpH1"></h1><h2 id="tpH2"></h2><div class="tp-b" id="tpB"></div>
+<div class="tp-f"><div class="tp-fn">Вячеслав Эрдниев</div><div class="tp-fl">
+<a href="https://t.me/shat_karm" target="_blank" class="tp-fa"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>@shat_karm</a>
+<a href="https://www.instagram.com/shat_karm?igsh=MWVleGZvczlxeXh2eg==" target="_blank" class="tp-fa"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@shat_karm</a>
+</div></div></div></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+import { PRACTICES as P, TEXTS as T } from './content.js';
 
-const app = initializeApp({apiKey:"AIzaSyCSgJXAnewN1sQv4fVjv3Wa12U5GO5v5bk",authDomain:"yoga-budni.firebaseapp.com",projectId:"yoga-budni",storageBucket:"yoga-budni.firebasestorage.app",messagingSenderId:"930284585076",appId:"1:930284585076:web:63475b797592b0bbfdd121"});
+const app=initializeApp({apiKey:"AIzaSyCSgJXAnewN1sQv4fVjv3Wa12U5GO5v5bk",authDomain:"yoga-budni.firebaseapp.com",projectId:"yoga-budni",storageBucket:"yoga-budni.firebasestorage.app",messagingSenderId:"930284585076",appId:"1:930284585076:web:63475b797592b0bbfdd121"});
 const auth=getAuth(app),db=getFirestore(app);
 
 function fp(){const c=document.createElement('canvas'),x=c.getContext('2d');x.textBaseline='top';x.font='14px Arial';x.fillText('yb',2,2);const r=[navigator.userAgent,navigator.language,screen.width+'x'+screen.height,screen.colorDepth,new Date().getTimezoneOffset(),navigator.hardwareConcurrency||0,c.toDataURL().slice(-50)].join('|');let h=0;for(let i=0;i<r.length;i++){h=((h<<5)-h)+r.charCodeAt(i);h|=0}return'fp_'+Math.abs(h).toString(36)}
@@ -280,63 +224,12 @@ const devFP=fp();
 const ADMINS=['sulya2106@gmail.com'];
 const CATS={body:{l:'🧘 Телесные практики'},recovery:{l:'💆 Восстановление тела'},breath:{l:'💨 Дыхательные практики'},nauli:{l:'🌀 Работа с наули'},theory:{l:'📖 Теория'}};
 const CN={body:'Телесные практики',recovery:'Восстановление тела',breath:'Дыхательные практики',nauli:'Наули',theory:'Теория'};
-// Пресеты для быстрого выбора в админке
 const PRESETS={'Тело':['body','breath','theory'],'Очищение':['recovery','breath','theory'],'Наули':['nauli','breath','theory'],'Полный':['body','recovery','breath','nauli','theory']};
 
-const P=[
-    // Телесные практики
-    {t:'Утренний комплекс - пробуждение',c:'body',d:'30 мин',lv:'Все уровни',desc:'Базовый утренний комплекс. Суставная разминка, основные асаны, дыхание.',vk:'',e:'🌄'},
-    {t:'Работа со спиной - вытяжения и скрутки',c:'body',d:'40 мин',lv:'Все уровни',desc:'Безопасная работа с позвоночником. Грудной и поясничный отделы.',vk:'',e:'🧘'},
-    {t:'Полная вечерняя практика',c:'body',d:'50 мин',lv:'Средний',desc:'Глубокая работа с телом. Силовые элементы, балансы, длинная шавасана.',vk:'',e:'🌙'},
-    {t:'Экспресс-разминка',c:'body',d:'10 мин',lv:'Все уровни',desc:'Быстрая проработка всего тела. Когда времени мало.',vk:'',e:'⚡'},
-    // Восстановление тела
-    {t:'Шанкх пракшалана - полный разбор',c:'recovery',d:'45 мин',lv:'Подготовленные',desc:'Техника полного очищения кишечника. Подготовка, выполнение, выход.',vk:'',e:'🔥'},
-    {t:'Куньджала крия - очищение желудка',c:'recovery',d:'20 мин',lv:'Подготовленные',desc:'Техника очищения верхнего отдела ЖКТ. Выполняется натощак.',vk:'',e:'💧'},
-    {t:'Тратака - практика концентрации',c:'recovery',d:'15 мин',lv:'Все уровни',desc:'Очищение и укрепление глаз. Концентрация на пламени свечи.',vk:'',e:'🕯'},
-    // Дыхательные практики
-    {t:'Капалабхати - очищающее дыхание',c:'breath',d:'20 мин',lv:'Средний',desc:'Резкие короткие выдохи через нос. Очищает лёгкие и ум.',vk:'',e:'💨'},
-    {t:'Уддияна бандха',c:'breath',d:'15 мин',lv:'Средний',desc:'Брюшной замок на задержке после выдоха. Массаж внутренних органов.',vk:'',e:'🫁'},
-    {t:'Полное йогическое дыхание',c:'breath',d:'25 мин',lv:'Все уровни',desc:'Трёхступенчатое дыхание: живот, грудь, ключицы. Основа всех пранаям.',vk:'',e:'🌬'},
-    // Работа с наули
-    {t:'Наули крия - от нуля до практики',c:'nauli',d:'30 мин',lv:'Средний',desc:'Пошаговое освоение наули. От уддияны к изоляции прямых мышц.',vk:'',e:'🌀'},
-    {t:'Мадхьяма наули - центральная фиксация',c:'nauli',d:'15 мин',lv:'Подготовленные',desc:'Изоляция центральной группы мышц живота. Ключевой этап.',vk:'',e:'🎯'},
-    // Теория
-    {t:'Доши и питание - основы аюрведы',c:'theory',d:'25 мин',lv:'Все уровни',desc:'Как определить свою дошу. Практические рекомендации.',vk:'',e:'📖'},
-];
-
-const T=[
-    // Телесные практики
-    {t:'Как подготовиться к занятиям',c:'body',e:'📋',sub:'Чеклист для начинающих',
-     h1:'Как подготовиться к занятиям',h2:'Всё, что нужно знать перед первой практикой',
-     body:'<p><strong>Что взять с собой:</strong></p><ul><li><strong>Коврик</strong> - нескользящий, толщина 4-6 мм</li><li><strong>Одежда</strong> - свободная, не стесняет движения</li><li><strong>Полотенце</strong> - небольшое, для лица</li></ul><p><strong>Когда заниматься:</strong></p><p>Утром натощак - идеально. Если не получается, то через 2-3 часа после еды. Если голодно - банан или горсть орехов за 30 минут.</p><p><strong>Пространство:</strong></p><p>Проветренное, тихое, комфортная температура. Телефон - на беззвучный. Это ваше время.</p><p><strong>После практики:</strong></p><p>Стакан тёплой воды. Не ешьте 20-30 минут. Не бегите сразу в душ - дайте телу остыть.</p>'},
-    {t:'Расписание групповых',c:'body',e:'🗓',sub:'Элиста, 8 мкр, д.46',
-     h1:'Расписание групповых занятий',h2:'Приходите, первое занятие бесплатно',
-     body:'<p><strong>Понедельник / Среда / Пятница</strong></p><p>Начало: 19:00<br>Длительность: 1.5 часа</p><p><strong>Адрес:</strong> г. Элиста, 8 микрорайон, д. 46</p><p><strong>Что брать:</strong> коврик (есть запасные), удобная одежда, вода.</p><p><strong>Запись:</strong> в директ <a href="https://instagram.com/shat_karm" target="_blank">@shat_karm</a> или в <a href="https://t.me/shat_karm" target="_blank">Telegram</a>.</p><p>Первое занятие - бесплатно. Приходите попробовать, познакомиться. Без обязательств.</p>'},
-    // Восстановление тела
-    {t:'Подготовка к шанкх пракшалане',c:'recovery',e:'⚠️',sub:'Что нужно знать заранее',
-     h1:'Подготовка к шанкх пракшалане',h2:'Важные правила до, во время и после процедуры',
-     body:'<p><strong>За сутки до:</strong></p><ul><li>Лёгкая пища - каши, овощи, супы</li><li>Без мяса, без жареного, без алкоголя</li><li>Последний приём пищи - не позже 18:00</li></ul><p><strong>Утром (натощак):</strong></p><ul><li>Приготовьте 2-3 литра тёплой воды с солью (1 ч.л. на литр)</li><li>Температура воды - чуть теплее тела (37-38°C)</li><li>Запланируйте 2-3 часа свободного времени</li><li>Доступ к туалету обязателен</li></ul><p><strong>Противопоказания:</strong></p><ul><li>Язва, гастрит в обострении</li><li>Беременность</li><li>Менструация</li><li>Острые воспаления ЖКТ</li><li>Повышенное давление (тяжёлая форма)</li></ul><p><strong>После процедуры:</strong></p><p>Через 30-40 минут - кичари (рис с мунг далом на гхи). Весь день - лёгкая тёплая пища. Никакого кофе, сырых овощей, фруктов, холодного.</p>'},
-    // Дыхательные практики
-    {t:'Как правильно дышать',c:'breath',e:'🌬',sub:'Основы пранаямы',
-     h1:'Как правильно дышать',h2:'Дыхание - мост между телом и умом',
-     body:'<p><strong>Три типа дыхания:</strong></p><ul><li><strong>Брюшное (диафрагмальное)</strong> - основа. На вдохе живот мягко расширяется, на выдохе - возвращается. Так мы должны дышать всегда</li><li><strong>Грудное</strong> - расширение рёбер в стороны. Включается при физической нагрузке</li><li><strong>Ключичное</strong> - верхняя часть лёгких. Поверхностное, стрессовое дыхание</li></ul><p><strong>Полное йогическое дыхание</strong> объединяет все три: вдох идёт снизу вверх (живот → грудь → ключицы), выдох - сверху вниз.</p><p><strong>Правила:</strong></p><ul><li>Дышите носом. Всегда. Рот - для еды и разговоров</li><li>Выдох длиннее вдоха (идеально 1:2)</li><li>Не задерживайте дыхание, если не умеете</li><li>Практикуйте натощак или через 2 часа после еды</li></ul><p>Начните с 5 минут осознанного дыхания каждое утро. Через месяц вы удивитесь.</p>'},
-    // Работа с наули
-    {t:'Что такое наули и зачем она нужна',c:'nauli',e:'📚',sub:'Теория и подготовка',
-     h1:'Что такое наули',h2:'Одна из самых мощных техник хатха-йоги',
-     body:'<p><strong>Наули</strong> - это изолированное вращение прямых мышц живота. Выглядит как волна, которая проходит по животу слева направо и обратно.</p><p><strong>Зачем:</strong></p><ul><li>Массаж всех внутренних органов</li><li>Усиление пищеварительного огня (агни)</li><li>Тонус мышц живота без "качания пресса"</li><li>Устранение застойных явлений в области таза</li><li>Подготовка к продвинутым пранаямам</li></ul><p><strong>Этапы освоения:</strong></p><ul><li><strong>1. Уддияна бандха</strong> - брюшной замок. Без неё наули невозможна</li><li><strong>2. Мадхьяма наули</strong> - изоляция центральной группы мышц (самый сложный этап)</li><li><strong>3. Вама/дакшина наули</strong> - смещение влево и вправо</li><li><strong>4. Круговое вращение</strong> - полная наули крия</li></ul><p><strong>Сроки:</strong> от 2 недель до 3 месяцев на освоение. У каждого по-разному. Не торопитесь.</p><p><strong>Противопоказания:</strong> беременность, менструация, грыжи, острые воспаления брюшной полости, повышенное давление.</p>'},
-    // Теория
-    {t:'Питание по аюрведе',c:'theory',e:'🍵',sub:'Базовые правила без фанатизма',
-     h1:'Питание по аюрведе',h2:'Не диета. Здравый смысл, проверенный тысячелетиями',
-     body:'<p><strong>Основные принципы:</strong></p><ul><li><strong>Ешьте тёплое</strong> - холодная еда гасит пищеварительный огонь (агни). Даже салат лучше комнатной температуры</li><li><strong>Основной приём - обед</strong> - с 12 до 14, когда агни на максимуме. Завтрак лёгкий, ужин - ещё легче</li><li><strong>Не запивайте еду</strong> - пейте за 30 минут до или через час после</li><li><strong>Специи - ваши друзья</strong> - куркума, имбирь, кумин, кориандр, чёрный перец</li><li><strong>Ешьте осознанно</strong> - сядьте, отложите телефон, жуйте</li></ul><p><strong>Чего избегать:</strong></p><ul><li>Молоко с фруктами (несовместимо)</li><li>Холодные напитки сразу после еды</li><li>Еда после 20:00</li><li>Переедание (желудок на 2/3)</li></ul>'},
-    {t:'Что такое шаткармы',c:'theory',e:'🧹',sub:'6 очистительных техник йоги',
-     h1:'Что такое шаткармы',h2:'Шесть групп очистительных практик из хатха-йоги',
-     body:'<p><strong>Шаткармы</strong> (шат = шесть, карма = действие) - фундамент хатха-йоги. Прежде чем строить тело, его нужно очистить.</p><p><strong>Шесть групп:</strong></p><ul><li><strong>Нети</strong> - промывание носовых пазух. Джала-нети (водой) и сутра-нети (нитью)</li><li><strong>Дхаути</strong> - очищение пищеварительного тракта. Вастра-дхаути (тканью), данда-дхаути (зондом)</li><li><strong>Наули</strong> - вращение прямых мышц живота. Массаж внутренних органов изнутри</li><li><strong>Басти</strong> - очищение толстого кишечника с помощью воды и мышечного контроля</li><li><strong>Капалабхати</strong> - дыхательное очищение. Быстрые резкие выдохи, пассивный вдох</li><li><strong>Тратака</strong> - неподвижный взгляд на пламя свечи. Очищает глаза, тренирует концентрацию</li></ul><p><strong>Важно:</strong> не начинайте самостоятельно. Каждая техника имеет противопоказания и требует правильного обучения.</p>'},
-];
-
-let uData=null,admin=false;
+let uData=null,admin=false,curCat='all',searchQ='';
 
 function show(id){document.getElementById('loading').style.display='none';document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-function access(c){if(admin)return true;if(!uData)return false;const cats=uData.cats||[];return cats.includes(c)}
+function acc(c){if(admin)return true;if(!uData)return false;return(uData.cats||[]).includes(c)}
 
 onAuthStateChanged(auth,async u=>{
     if(!u){show('s-auth');return}
@@ -346,78 +239,91 @@ onAuthStateChanged(auth,async u=>{
         const snap=await getDoc(ref);
         if(!snap.exists()){
             if(admin){await setDoc(ref,{email:u.email,name:'Админ',cats:['body','recovery','breath','nauli','theory'],maxDevices:99,devices:[devFP],active:true,createdAt:new Date().toISOString()});uData={cats:['body','recovery','breath','nauli','theory'],name:'Админ'}}
-            else{await setDoc(ref,{email:u.email,name:'',cats:[],maxDevices:1,devices:[],active:false,createdAt:new Date().toISOString()});show('s-pending');return}
+            else{await setDoc(ref,{email:u.email,name:'',cats:[],maxDevices:2,devices:[],active:false,createdAt:new Date().toISOString()});show('s-pending');return}
         }else{
             const d=snap.data();
             if(!d.active&&!admin){show('s-blocked');return}
             if((!d.cats||!d.cats.length)&&!d.level&&!admin){show('s-pending');return}
-            // Migrate old level-based users to cats
-            if(d.level&&!d.cats){const LVLCATS={practice:['body','breath','theory'],shatkarma:['recovery','breath','theory'],nauli:['nauli','breath','theory'],full:['body','recovery','breath','nauli','theory']};d.cats=LVLCATS[d.level]||[];await updateDoc(ref,{cats:d.cats})}
+            if(d.level&&!d.cats){const LC={practice:['body','breath','theory'],shatkarma:['recovery','breath','theory'],nauli:['nauli','breath','theory'],full:['body','recovery','breath','nauli','theory']};d.cats=LC[d.level]||[];await updateDoc(ref,{cats:d.cats})}
             const devs=d.devices||[];
-            if(!devs.includes(devFP)){if(devs.length>=(d.maxDevices||1)&&!admin){show('s-device');return}await updateDoc(ref,{devices:arrayUnion(devFP)})}
+            if(!devs.includes(devFP)){if(devs.length>=(d.maxDevices||2)&&!admin){show('s-device');return}await updateDoc(ref,{devices:arrayUnion(devFP)})}
             uData=d;
         }
     }catch(e){console.error(e);show('s-auth');return}
-    showAppUI();
+    showUI();
 });
 
-function showAppUI(){show('s-app');const cats=uData?.cats||[];const badge=admin?'Админ':cats.length===5?'Полный доступ':cats.map(c=>({body:'Тело',recovery:'Очищение',breath:'Дыхание',nauli:'Наули',theory:'Теория'}[c]||c)).filter(x=>x!=='Дыхание'&&x!=='Теория').join(' + ')||'Базовый';document.getElementById('badge').textContent=badge;if(admin)document.getElementById('admBtn').style.display='';buildFilters();render('all')}
-
-function buildFilters(){
-    const f=document.getElementById('filters');
-    let h='<button class="fbtn on" data-c="all">Все</button>';
-    for(const[c,i]of Object.entries(CATS)){const lk=!access(c);h+=`<button class="fbtn${lk?' lk':''}" data-c="${c}" ${lk?'disabled':''}>${i.l}${lk?' 🔒':''}</button>`}
-    f.innerHTML=h;
-    f.querySelectorAll('.fbtn:not(.lk)').forEach(b=>b.onclick=()=>{f.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');render(b.dataset.c)});
+async function showUI(){
+    show('s-app');
+    const cats=uData?.cats||[];
+    const b=admin?'Админ':cats.length===5?'Полный доступ':cats.map(c=>({body:'Тело',recovery:'Очищение',breath:'Дыхание',nauli:'Наули',theory:'Теория'}[c]||c)).filter(x=>x!=='Дыхание'&&x!=='Теория').join(' + ')||'Базовый';
+    document.getElementById('badge').textContent=b;
+    if(admin){document.getElementById('admB').style.display='';
+        // Count pending users
+        try{const snap=await getDocs(collection(db,'users'));let pend=0;snap.forEach(d=>{const u=d.data();if(!u.active&&(!u.cats||!u.cats.length))pend++});
+        const n=document.getElementById('notif');if(pend>0){n.textContent=pend;n.style.display=''}else{n.style.display='none'}}catch(e){}}
+    buildF();render();
 }
 
-function render(cat){
+function buildF(){
+    const f=document.getElementById('filters');
+    let h='<button class="fb on" data-c="all">Все</button>';
+    for(const[c,i]of Object.entries(CATS)){const lk=!acc(c);h+=`<button class="fb${lk?' lk':''}" data-c="${c}" ${lk?'disabled':''}>${i.l}${lk?' 🔒':''}</button>`}
+    f.innerHTML=h;
+    f.querySelectorAll('.fb:not(.lk)').forEach(b=>b.onclick=()=>{f.querySelectorAll('.fb').forEach(x=>x.classList.remove('on'));b.classList.add('on');curCat=b.dataset.c;render()});
+}
+
+function render(){
     const g=document.getElementById('grid');
-    let list=cat==='all'?[...P]:P.filter(p=>p.c===cat);
-    let tlist=cat==='all'?[...T]:T.filter(t=>t.c===cat);
-    if(cat==='all'){const a=list.filter(p=>access(p.c)),b=list.filter(p=>!access(p.c));list=[...a,...b]}
-    tlist=tlist.filter(t=>access(t.c));
-    if(!list.length&&!tlist.length){g.innerHTML='<div class="empty"><div style="font-size:44px;margin-bottom:16px">🧘</div><div>Пока нет практик</div></div>';return}
-
-    let html=list.map(p=>{
-        const lk=!access(p.c),i=P.indexOf(p);
-        return`<div class="card${lk?' locked':''}" ${lk?'':`onclick="openM(${i})"`}>
-            <div class="clo"><div class="clo-i">🔒</div><div class="clo-t">Нет доступа</div></div>
-            <div class="cvid">${!lk&&p.vk?`<iframe src="${p.vk}" allow="autoplay;encrypted-media;fullscreen;picture-in-picture" allowfullscreen></iframe>`:`<div class="cph">${p.e}</div>`}</div>
-            <div class="cbod"><span class="ctag">${CN[p.c]||p.c}</span><div class="cttl">${p.t}</div><div class="cmeta"><span>⏱ ${p.d}</span><span>📊 ${p.lv}</span></div></div></div>`
-    }).join('');
-
-    html+=tlist.map((t,i)=>`<div class="tcard" onclick="openTP(${T.indexOf(t)})">
-        <span class="ctag" style="margin:14px 0 0 16px">${CN[t.c]||t.c}</span>
-        <div class="tcard-inner"><div class="tcard-emoji">${t.e}</div><div class="tcard-info"><div class="tcard-title">${t.t}</div><div class="tcard-sub">${t.sub||''}</div></div><span class="tcard-arrow">→</span></div>
-    </div>`).join('');
-
+    const q=searchQ.toLowerCase();
+    let list=curCat==='all'?[...P]:P.filter(p=>p.c===curCat);
+    let tlist=curCat==='all'?[...T]:T.filter(t=>t.c===curCat);
+    if(q){list=list.filter(p=>p.t.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q));tlist=tlist.filter(t=>t.t.toLowerCase().includes(q)||(t.sub||'').toLowerCase().includes(q))}
+    if(curCat==='all'){const a=list.filter(p=>acc(p.c)),b=list.filter(p=>!acc(p.c));list=[...a,...b]}
+    tlist=tlist.filter(t=>acc(t.c));
+    if(!list.length&&!tlist.length){g.innerHTML=q?'<div class="empty"><div style="font-size:44px;margin-bottom:16px">🔍</div><div>Ничего не найдено</div></div>':'<div class="empty"><div style="font-size:44px;margin-bottom:16px">🧘</div><div>Пока нет практик</div></div>';return}
+    let html=list.map(p=>{const lk=!acc(p.c),i=P.indexOf(p);return`<div class="card${lk?' locked':''}" ${lk?'':`onclick="openM(${i})"`}><div class="clo"><div class="clo-i">🔒</div><div class="clo-t">Нет доступа</div></div><div class="cvid">${!lk&&p.vk?`<iframe src="${p.vk}" allow="autoplay;encrypted-media;fullscreen;picture-in-picture" allowfullscreen></iframe>`:`<div class="cph">${p.e}</div>`}</div><div class="cbod"><span class="ctag">${CN[p.c]||p.c}</span><div class="cttl">${p.t}</div><div class="cmeta"><span>⏱ ${p.d}</span><span>📊 ${p.lv}</span></div></div></div>`}).join('');
+    html+=tlist.map(t=>`<div class="tcard" onclick="openTP(${T.indexOf(t)})"><span class="ctag" style="margin:14px 0 0 16px">${CN[t.c]||t.c}</span><div class="tcard-in"><div class="tcard-e">${t.e}</div><div class="tcard-i"><div class="tcard-t">${t.t}</div><div class="tcard-s">${t.sub||''}</div></div><span class="tcard-ar">→</span></div></div>`).join('');
     g.innerHTML=html;
 }
 
-window.openM=i=>{const p=P[i];if(!access(p.c))return;document.getElementById('mTitle').textContent=p.t;document.getElementById('mDesc').textContent=`${p.d} · ${p.lv} — ${p.desc}`;document.getElementById('mVid').innerHTML=p.vk?`<iframe src="${p.vk}" allow="autoplay;encrypted-media;fullscreen;picture-in-picture" allowfullscreen></iframe>`:`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:56px;background:#0a0a0a">${p.e}</div>`;document.getElementById('modal').classList.add('open');document.body.style.overflow='hidden'};
-window.xModal=e=>{if(e&&e.target!==e.currentTarget)return;document.getElementById('modal').classList.remove('open');document.getElementById('mVid').innerHTML='';document.body.style.overflow=''};
+window.doSearch=()=>{searchQ=document.getElementById('searchIn').value;render()};
 
-window.openTP=i=>{const t=T[i];if(!access(t.c))return;document.getElementById('tpTag').textContent=CN[t.c]||t.c;document.getElementById('tpH1').textContent=t.h1||t.t;document.getElementById('tpH2').textContent=t.h2||t.sub||'';document.getElementById('tpBody').innerHTML=t.body;document.getElementById('tpopup').classList.add('open');document.body.style.overflow='hidden'};
-window.xTP=()=>{document.getElementById('tpopup').classList.remove('open');document.body.style.overflow=''};
+window.openM=i=>{const p=P[i];if(!acc(p.c))return;document.getElementById('mT').textContent=p.t;document.getElementById('mD').textContent=`${p.d} · ${p.lv} — ${p.desc}`;document.getElementById('mV').innerHTML=p.vk?`<iframe src="${p.vk}" allow="autoplay;encrypted-media;fullscreen;picture-in-picture" allowfullscreen></iframe>`:`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:56px;background:#0a0a0a">${p.e}</div>`;document.getElementById('modal').classList.add('open');document.body.style.overflow='hidden';history.pushState({m:'video'},'')};
+window.xMo=e=>{if(e&&e.target!==e.currentTarget)return;document.getElementById('modal').classList.remove('open');document.getElementById('mV').innerHTML='';document.body.style.overflow=''};
 
-window.doLogin=()=>{const em=document.getElementById('inEmail').value.trim(),pw=document.getElementById('inPass').value,er=document.getElementById('errLogin'),btn=document.getElementById('btnLogin');er.textContent='';btn.disabled=true;btn.textContent='Вхожу...';signInWithEmailAndPassword(auth,em,pw).catch(e=>{er.textContent=e.code==='auth/invalid-credential'?'Неверный email или пароль':e.code==='auth/too-many-requests'?'Слишком много попыток':e.message;btn.disabled=false;btn.textContent='Войти'});return false};
-window.doReg=()=>{const em=document.getElementById('rEmail').value.trim(),pw=document.getElementById('rPass').value,pw2=document.getElementById('rPass2').value,er=document.getElementById('errReg'),btn=document.getElementById('btnReg');er.textContent='';if(pw.length<6){er.textContent='Пароль минимум 6 символов';return false}if(pw!==pw2){er.textContent='Пароли не совпадают';return false}btn.disabled=true;btn.textContent='Регистрация...';createUserWithEmailAndPassword(auth,em,pw).catch(e=>{er.textContent=e.code==='auth/email-already-in-use'?'Email уже зарегистрирован':e.code==='auth/invalid-email'?'Некорректный email':e.message;btn.disabled=false;btn.textContent='Зарегистрироваться'});return false};
+window.openTP=i=>{const t=T[i];if(!acc(t.c))return;document.getElementById('tpTg').textContent=CN[t.c]||t.c;document.getElementById('tpH1').textContent=t.h1||t.t;document.getElementById('tpH2').textContent=t.h2||t.sub||'';document.getElementById('tpB').innerHTML=t.body;document.getElementById('tpop').classList.add('open');document.body.style.overflow='hidden';history.pushState({m:'text'},'')};
+window.xTP=()=>{document.getElementById('tpop').classList.remove('open');document.body.style.overflow=''};
+
+// Back button closes modals
+window.addEventListener('popstate',()=>{
+    if(document.getElementById('modal').classList.contains('open'))xMo();
+    if(document.getElementById('tpop').classList.contains('open'))xTP();
+});
+
+// Swipe down to close text popup
+let touchY=0;
+document.getElementById('tpop').addEventListener('touchstart',e=>{touchY=e.touches[0].clientY},{passive:true});
+document.getElementById('tpop').addEventListener('touchend',e=>{const dy=e.changedTouches[0].clientY-touchY;if(dy>100&&document.getElementById('tpop').scrollTop<10)xTP()},{passive:true});
+
+window.doLogin=()=>{const em=document.getElementById('iE').value.trim(),pw=document.getElementById('iP').value,er=document.getElementById('eL'),btn=document.getElementById('bL');er.textContent='';er.style.color='';btn.disabled=true;btn.textContent='Вхожу...';signInWithEmailAndPassword(auth,em,pw).catch(e=>{er.textContent=e.code==='auth/invalid-credential'?'Неверный email или пароль':e.code==='auth/too-many-requests'?'Слишком много попыток':e.message;btn.disabled=false;btn.textContent='Войти'});return false};
+window.doReg=()=>{const em=document.getElementById('rE').value.trim(),pw=document.getElementById('rP').value,pw2=document.getElementById('rP2').value,er=document.getElementById('eR'),btn=document.getElementById('bR');er.textContent='';if(pw.length<6){er.textContent='Пароль минимум 6 символов';return false}if(pw!==pw2){er.textContent='Пароли не совпадают';return false}btn.disabled=true;btn.textContent='Регистрация...';createUserWithEmailAndPassword(auth,em,pw).catch(e=>{er.textContent=e.code==='auth/email-already-in-use'?'Email уже зарегистрирован':e.code==='auth/invalid-email'?'Некорректный email':e.message;btn.disabled=false;btn.textContent='Зарегистрироваться'});return false};
 window.doLogout=()=>{signOut(auth).then(()=>location.reload())};
-window.toggleAuth=()=>{const l=document.getElementById('fLogin'),r=document.getElementById('fReg');if(l.style.display==='none'){l.style.display='';r.style.display='none'}else{l.style.display='none';r.style.display=''}};
-window.resetPw=async()=>{const em=document.getElementById('inEmail').value.trim();const er=document.getElementById('errLogin');if(!em){er.textContent='Введите email, затем нажмите "Забыли пароль?"';return}try{await sendPasswordResetEmail(auth,em);er.style.color='var(--accent)';er.textContent='Ссылка для сброса отправлена на '+em}catch(e){er.textContent=e.code==='auth/user-not-found'?'Такой email не зарегистрирован':e.message}};
-window.showAdmin=async()=>{if(!admin)return;document.getElementById('admPanel').style.display='';document.getElementById('mainView').style.display='none';const snap=await getDocs(collection(db,'users')),tb=document.getElementById('utbl');
+window.togA=()=>{const l=document.getElementById('fL'),r=document.getElementById('fR');if(l.style.display==='none'){l.style.display='';r.style.display='none'}else{l.style.display='none';r.style.display=''}};
+window.rstPw=async()=>{const em=document.getElementById('iE').value.trim();const er=document.getElementById('eL');if(!em){er.textContent='Введите email, затем нажмите "Забыли пароль?"';return}try{await sendPasswordResetEmail(auth,em);er.style.color='var(--accent)';er.textContent='Ссылка для сброса отправлена на '+em}catch(e){er.textContent=e.code==='auth/user-not-found'?'Такой email не зарегистрирован':e.message}};
+
+window.showAdm=async()=>{if(!admin)return;document.getElementById('admP').style.display='';document.getElementById('mainV').style.display='none';const snap=await getDocs(collection(db,'users')),tb=document.getElementById('utbl');
 tb.innerHTML='';snap.forEach(d=>{const u=d.data(),dc=(u.devices||[]).length,cats=u.cats||[];
 const cbs=Object.keys(CATS).map(c=>`<label style="display:inline-flex;align-items:center;gap:2px;font-size:11px;cursor:pointer;white-space:nowrap"><input type="checkbox" ${cats.includes(c)?'checked':''} onchange="tglCat('${d.id}','${c}',this.checked)" style="cursor:pointer;accent-color:var(--accent)">${CN[c]}</label>`).join(' ');
-const pbtns=Object.entries(PRESETS).map(([n])=>`<button class="abtn" onclick="setPre('${d.id}','${n}')" style="font-size:10px">${n}</button>`).join('');
-tb.innerHTML+=`<tr><td>${u.email||'-'}</td><td>${u.name||'-'}</td><td style="min-width:180px"><div style="display:flex;flex-wrap:wrap;gap:4px 8px">${cbs}</div><div style="margin-top:6px;display:flex;gap:3px;flex-wrap:wrap">${pbtns}</div></td><td>${dc}/${u.maxDevices||1}</td><td>${u.active!==false?'✅':'❌'}</td><td><button class="abtn" onclick="tglUsr('${d.id}',${u.active!==false})">${u.active!==false?'Блок':'Разблок'}</button><button class="abtn" onclick="rstDev('${d.id}')">Сброс</button></td></tr>`})};
-window.hideAdmin=()=>{document.getElementById('admPanel').style.display='none';document.getElementById('mainView').style.display=''};
-window.tglCat=async(id,cat,on)=>{const ref=doc(db,'users',id);const snap=await getDoc(ref);const d=snap.data();let cats=d.cats||[];if(on&&!cats.includes(cat))cats.push(cat);if(!on)cats=cats.filter(c=>c!==cat);await updateDoc(ref,{cats,active:true});showAdmin()};
-window.setPre=async(id,name)=>{const cats=[...PRESETS[name]];await updateDoc(doc(db,'users',id),{cats,active:true});showAdmin()};
-window.tglUsr=async(id,on)=>{await updateDoc(doc(db,'users',id),{active:!on});showAdmin()};
-window.rstDev=async(id)=>{await updateDoc(doc(db,'users',id),{devices:[]});showAdmin()};
+const pb=Object.entries(PRESETS).map(([n])=>`<button class="atb" onclick="setPre('${d.id}','${n}')" style="font-size:10px">${n}</button>`).join('');
+tb.innerHTML+=`<tr><td>${u.email||'-'}</td><td>${u.name||'-'}</td><td style="min-width:180px"><div style="display:flex;flex-wrap:wrap;gap:4px 8px">${cbs}</div><div style="margin-top:6px;display:flex;gap:3px;flex-wrap:wrap">${pb}</div></td><td>${dc}/${u.maxDevices||2}</td><td>${u.active!==false?'✅':'❌'}</td><td><button class="atb" onclick="tglUsr('${d.id}',${u.active!==false})">${u.active!==false?'Блок':'Разблок'}</button><button class="atb" onclick="rstDev('${d.id}')">Сброс</button></td></tr>`})};
+window.hideAdm=()=>{document.getElementById('admP').style.display='none';document.getElementById('mainV').style.display=''};
+window.tglCat=async(id,cat,on)=>{const ref=doc(db,'users',id);const snap=await getDoc(ref);const d=snap.data();let cats=d.cats||[];if(on&&!cats.includes(cat))cats.push(cat);if(!on)cats=cats.filter(c=>c!==cat);await updateDoc(ref,{cats,active:true});showAdm()};
+window.setPre=async(id,name)=>{await updateDoc(doc(db,'users',id),{cats:[...PRESETS[name]],active:true});showAdm()};
+window.tglUsr=async(id,on)=>{await updateDoc(doc(db,'users',id),{active:!on});showAdm()};
+window.rstDev=async(id)=>{await updateDoc(doc(db,'users',id),{devices:[]});showAdm()};
 
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){window.xModal();window.xTP()}if(e.key==='F12'){e.preventDefault();return}if(e.ctrlKey&&'sucp'.includes(e.key))e.preventDefault();if(e.ctrlKey&&e.shiftKey&&'IJC'.includes(e.key))e.preventDefault()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){xMo();xTP()}if(e.key==='F12'){e.preventDefault();return}if(e.ctrlKey&&'sucp'.includes(e.key))e.preventDefault();if(e.ctrlKey&&e.shiftKey&&'IJC'.includes(e.key))e.preventDefault()});
 document.addEventListener('contextmenu',e=>e.preventDefault());
 document.addEventListener('dragstart',e=>e.preventDefault());
 </script>
