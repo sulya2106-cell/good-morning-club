@@ -222,6 +222,9 @@ function fp(){const c=document.createElement('canvas'),x=c.getContext('2d');x.te
 const devFP=fp();
 
 const ADMINS=['sulya2106@gmail.com'];
+const TG_BOT='8706822293:AAGF6HlnV9GIZwczAIg3Yv_FObQH7_eLGVg';
+const TG_CHAT='469446876';
+function tgNotify(text){fetch(`https://api.telegram.org/bot${TG_BOT}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:TG_CHAT,text,parse_mode:'HTML'})}).catch(()=>{})}
 const CATS={body:{l:'🧘 Телесные практики'},recovery:{l:'💆 Восстановление тела'},breath:{l:'💨 Дыхательные практики'},nauli:{l:'🌀 Работа с наули'},theory:{l:'📖 Теория'}};
 const CN={body:'Телесные практики',recovery:'Восстановление тела',breath:'Дыхательные практики',nauli:'Наули',theory:'Теория'};
 const PRESETS={'Тело':['body','breath','theory'],'Очищение':['recovery','breath','theory'],'Наули':['nauli','breath','theory'],'Полный':['body','recovery','breath','nauli','theory']};
@@ -239,7 +242,7 @@ onAuthStateChanged(auth,async u=>{
         const snap=await getDoc(ref);
         if(!snap.exists()){
             if(admin){await setDoc(ref,{email:u.email,name:'Админ',cats:['body','recovery','breath','nauli','theory'],maxDevices:99,devices:[devFP],active:true,createdAt:new Date().toISOString()});uData={cats:['body','recovery','breath','nauli','theory'],name:'Админ'}}
-            else{await setDoc(ref,{email:u.email,name:'',cats:[],maxDevices:2,devices:[],active:false,createdAt:new Date().toISOString()});show('s-pending');return}
+            else{await setDoc(ref,{email:u.email,name:'',cats:[],maxDevices:2,devices:[],active:false,createdAt:new Date().toISOString()});tgNotify(`🆕 <b>Новая регистрация</b>\n\n📧 ${u.email}\n⏳ Ожидает одобрения\n\n👉 <a href="https://sulya2106-cell.github.io/good-morning-club/">Открыть админку</a>`);show('s-pending');return}
         }else{
             const d=snap.data();
             if(!d.active&&!admin){show('s-blocked');return}
