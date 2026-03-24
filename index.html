@@ -170,6 +170,7 @@
         <button type="submit" class="auth-btn" id="btnLogin">Войти</button>
         <div class="auth-error" id="errLogin"></div>
         <button type="button" class="auth-link" onclick="toggleAuth()">Нет аккаунта? Зарегистрироваться</button>
+        <button type="button" class="auth-link" onclick="resetPw()" style="margin-top:0;font-size:12px;color:var(--text-muted)">Забыли пароль?</button>
     </form>
     <form class="auth-form" id="fReg" style="display:none" onsubmit="return doReg()">
         <input type="email" class="auth-input" id="rEmail" placeholder="Email" autocomplete="email" required>
@@ -267,7 +268,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
 const app = initializeApp({apiKey:"AIzaSyCSgJXAnewN1sQv4fVjv3Wa12U5GO5v5bk",authDomain:"yoga-budni.firebaseapp.com",projectId:"yoga-budni",storageBucket:"yoga-budni.firebasestorage.app",messagingSenderId:"930284585076",appId:"1:930284585076:web:63475b797592b0bbfdd121"});
@@ -404,7 +405,7 @@ window.doLogin=()=>{const em=document.getElementById('inEmail').value.trim(),pw=
 window.doReg=()=>{const em=document.getElementById('rEmail').value.trim(),pw=document.getElementById('rPass').value,pw2=document.getElementById('rPass2').value,er=document.getElementById('errReg'),btn=document.getElementById('btnReg');er.textContent='';if(pw.length<6){er.textContent='Пароль минимум 6 символов';return false}if(pw!==pw2){er.textContent='Пароли не совпадают';return false}btn.disabled=true;btn.textContent='Регистрация...';createUserWithEmailAndPassword(auth,em,pw).catch(e=>{er.textContent=e.code==='auth/email-already-in-use'?'Email уже зарегистрирован':e.code==='auth/invalid-email'?'Некорректный email':e.message;btn.disabled=false;btn.textContent='Зарегистрироваться'});return false};
 window.doLogout=()=>{signOut(auth).then(()=>location.reload())};
 window.toggleAuth=()=>{const l=document.getElementById('fLogin'),r=document.getElementById('fReg');if(l.style.display==='none'){l.style.display='';r.style.display='none'}else{l.style.display='none';r.style.display=''}};
-
+window.resetPw=async()=>{const em=document.getElementById('inEmail').value.trim();const er=document.getElementById('errLogin');if(!em){er.textContent='Введите email, затем нажмите "Забыли пароль?"';return}try{await sendPasswordResetEmail(auth,em);er.style.color='var(--accent)';er.textContent='Ссылка для сброса отправлена на '+em}catch(e){er.textContent=e.code==='auth/user-not-found'?'Такой email не зарегистрирован':e.message}};
 window.showAdmin=async()=>{if(!admin)return;document.getElementById('admPanel').style.display='';document.getElementById('mainView').style.display='none';const snap=await getDocs(collection(db,'users')),tb=document.getElementById('utbl');
 tb.innerHTML='';snap.forEach(d=>{const u=d.data(),dc=(u.devices||[]).length,cats=u.cats||[];
 const cbs=Object.keys(CATS).map(c=>`<label style="display:inline-flex;align-items:center;gap:2px;font-size:11px;cursor:pointer;white-space:nowrap"><input type="checkbox" ${cats.includes(c)?'checked':''} onchange="tglCat('${d.id}','${c}',this.checked)" style="cursor:pointer;accent-color:var(--accent)">${CN[c]}</label>`).join(' ');
