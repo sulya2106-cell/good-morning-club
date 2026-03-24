@@ -81,8 +81,12 @@
         .clo{display:none;position:absolute;inset:0;background:rgba(12,12,12,.75);z-index:5;align-items:center;justify-content:center;flex-direction:column;gap:6px}
         .clo-i{font-size:28px}.clo-t{font-size:12px;color:var(--muted)}
         .cvid{position:relative;width:100%;padding-top:56.25%;background:#0a0a0a}
-        .cvid iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+        .cvid iframe{position:absolute;inset:0;width:100%;height:100%;border:none;pointer-events:none}
         .cph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:44px;background:linear-gradient(135deg,#121410,#1a1c16)}
+        .cplay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;cursor:pointer;background:rgba(0,0,0,.3);transition:background .2s}
+        .cplay:hover{background:rgba(0,0,0,.15)}
+        .cplay-btn{width:52px;height:52px;background:rgba(0,0,0,.6);border-radius:50%;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,.2)}
+        .cplay-btn::after{content:'';display:block;width:0;height:0;border-style:solid;border-width:10px 0 10px 18px;border-color:transparent transparent transparent #fff;margin-left:3px}
         .cbod{padding:14px 16px}
         .ctag{display:inline-block;background:var(--ad);color:var(--accent);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:3px 9px;border-radius:5px;margin-bottom:7px}
         .cttl{font-size:15px;font-weight:600;margin-bottom:5px;line-height:1.35}
@@ -313,7 +317,7 @@ function render(){
     if(curCat==='all'){const a=list.filter(p=>acc(p.c)),b=list.filter(p=>!acc(p.c));list=[...a,...b]}
     tlist=tlist.filter(t=>acc(t.c));
     if(!list.length&&!tlist.length){g.innerHTML=q?'<div class="empty"><div style="font-size:44px;margin-bottom:16px">🔍</div><div>Ничего не найдено</div></div>':'<div class="empty"><div style="font-size:44px;margin-bottom:16px">🧘</div><div>Пока нет практик</div></div>';return}
-    let html=list.map(p=>{const lk=!acc(p.c),i=P.indexOf(p);return`<div class="card${lk?' locked':''}" ${lk?'':`onclick="openM(${i})"`}><div class="clo"><div class="clo-i">🔒</div><div class="clo-t">Нет доступа</div></div><div class="cvid"><div class="cph">${p.e}<div style="position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.6);border-radius:6px;padding:3px 8px;font-size:11px;color:#ccc">▶</div></div></div><div class="cbod"><span class="ctag">${CN[p.c]||p.c}</span><div class="cttl">${p.t}</div><div class="cmeta"><span>⏱ ${p.d}</span><span>📊 ${p.lv}</span></div></div></div>`}).join('');
+    let html=list.map(p=>{const lk=!acc(p.c),i=P.indexOf(p);const thumb=!lk&&p.vk?`<iframe src="${p.vk}" loading="lazy"></iframe><div class="cplay"><div class="cplay-btn"></div></div>`:`<div class="cph">${p.e}</div>`;return`<div class="card${lk?' locked':''}" ${lk?'':`onclick="openM(${i})"`}><div class="clo"><div class="clo-i">🔒</div><div class="clo-t">Нет доступа</div></div><div class="cvid">${thumb}</div><div class="cbod"><span class="ctag">${CN[p.c]||p.c}</span><div class="cttl">${p.t}</div><div class="cmeta"><span>⏱ ${p.d}</span><span>📊 ${p.lv}</span></div></div></div>`}).join('');
     html+=tlist.map(t=>`<div class="tcard" onclick="openTP(${T.indexOf(t)})"><span class="ctag" style="margin:14px 0 0 16px">${CN[t.c]||t.c}</span><div class="tcard-in"><div class="tcard-e">${t.e}</div><div class="tcard-i"><div class="tcard-t">${t.t}</div><div class="tcard-s">${t.sub||''}</div></div><span class="tcard-ar">→</span></div></div>`).join('');
     g.innerHTML=html;
 }
