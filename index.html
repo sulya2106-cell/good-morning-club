@@ -95,12 +95,24 @@
         .tcard-e{font-size:32px;flex-shrink:0}.tcard-i{flex:1}.tcard-t{font-size:15px;font-weight:600;line-height:1.3}
         .tcard-s{font-size:12px;color:var(--muted);margin-top:3px}.tcard-ar{color:var(--muted);font-size:18px;flex-shrink:0}
 
-        .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100;align-items:center;justify-content:center;padding:24px}
-        .mo.open{display:flex}
-        .mo-in{width:100%;max-width:800px}
-        .mo-v{position:relative;width:100%;padding-top:56.25%;background:#000;border-radius:10px;overflow:hidden}
+        .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;overflow-y:auto;-webkit-overflow-scrolling:touch}
+        .mo.open{display:block}
+        .mo-s{max-width:900px;margin:0 auto;padding:60px 24px 80px}
+        .mo-v{position:relative;width:100%;padding-top:56.25%;background:#000;border-radius:12px;overflow:hidden}
         .mo-v iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
-        .mo-i{padding:18px 0}.mo-t{font-size:19px;font-weight:600;margin-bottom:4px}.mo-d{color:var(--muted);font-size:14px}
+        .mo-fs{position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,.6);border:1px solid #444;border-radius:8px;padding:6px 12px;font-size:12px;color:#ccc;cursor:pointer;z-index:6;backdrop-filter:blur(4px);display:flex;align-items:center;gap:4px}
+        .mo-fs:hover{background:rgba(0,0,0,.8);color:#fff;border-color:var(--accent)}
+        .mo-i{padding:20px 0}
+        .mo-tg{display:inline-block;background:var(--ad);color:var(--accent);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:4px 10px;border-radius:5px;margin-bottom:12px}
+        .mo-t{font-size:24px;font-weight:700;margin-bottom:6px;letter-spacing:-.3px}
+        .mo-m{color:var(--muted);font-size:13px;display:flex;gap:16px;margin-bottom:16px}
+        .mo-d{color:var(--muted);font-size:14px;line-height:1.7}
+        .mo-f{margin-top:32px;padding-top:20px;border-top:1px solid #222;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+        .mo-fn{font-size:14px;font-weight:600}
+        .mo-fl{display:flex;gap:10px}
+        .mo-fa{display:inline-flex;align-items:center;gap:5px;font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s}
+        .mo-fa:hover{color:var(--accent);text-decoration:none}
+        .mo-fa svg{width:15px;height:15px;fill:currentColor}
 
         .tp{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;overflow-y:auto;-webkit-overflow-scrolling:touch}
         .tp.open{display:block}
@@ -201,7 +213,25 @@
     <footer class="footer">Йога Будни · Вячеслав Эрдниев · <a href="https://instagram.com/shat_karm" target="_blank">@shat_karm</a></footer>
 </div>
 
-<div class="mo" id="modal" onclick="xMo(event)"><button class="px" onclick="xMo()">✕</button><div class="mo-in"><div class="mo-v" id="mV"></div><div class="mo-i"><div class="mo-t" id="mT"></div><div class="mo-d" id="mD"></div></div></div></div>
+<div class="mo" id="modal">
+    <button class="px" onclick="xMo()">✕</button>
+    <div class="mo-s">
+        <div class="mo-v" id="mV"></div>
+        <div class="mo-i">
+            <div class="mo-tg" id="mTg"></div>
+            <div class="mo-t" id="mT"></div>
+            <div class="mo-m"><span id="mDur"></span><span id="mLv"></span></div>
+            <div class="mo-d" id="mD"></div>
+        </div>
+        <div class="mo-f">
+            <div class="mo-fn">Вячеслав Эрдниев</div>
+            <div class="mo-fl">
+                <a href="https://t.me/shat_karm" target="_blank" class="mo-fa"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>@shat_karm</a>
+                <a href="https://www.instagram.com/shat_karm?igsh=MWVleGZvczlxeXh2eg==" target="_blank" class="mo-fa"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@shat_karm</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="tp" id="tpop"><button class="px" onclick="xTP()">✕</button><div class="tp-s"><div class="tp-tg" id="tpTg"></div><h1 id="tpH1"></h1><h2 id="tpH2"></h2><div class="tp-b" id="tpB"></div>
 <div class="tp-f"><div class="tp-fn">Вячеслав Эрдниев</div><div class="tp-fl">
@@ -292,8 +322,8 @@ function render(){
 
 window.doSearch=()=>{searchQ=document.getElementById('searchIn').value;render()};
 
-window.openM=i=>{const p=P[i];if(!acc(p.c))return;document.getElementById('mT').textContent=p.t;document.getElementById('mD').textContent=`${p.d} · ${p.lv} — ${p.desc}`;document.getElementById('mV').innerHTML=p.vk?`<iframe src="${p.vk}" allow="autoplay;encrypted-media;fullscreen;picture-in-picture" allowfullscreen></iframe>`:`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:56px;background:#0a0a0a">${p.e}</div>`;document.getElementById('modal').classList.add('open');document.body.style.overflow='hidden';history.pushState({m:'video'},'')};
-window.xMo=e=>{if(e&&e.target!==e.currentTarget)return;document.getElementById('modal').classList.remove('open');document.getElementById('mV').innerHTML='';document.body.style.overflow=''};
+window.openM=i=>{const p=P[i];if(!acc(p.c))return;document.getElementById('mTg').textContent=CN[p.c]||p.c;document.getElementById('mT').textContent=p.t;document.getElementById('mDur').textContent='⏱ '+p.d;document.getElementById('mLv').textContent='📊 '+p.lv;document.getElementById('mD').textContent=p.desc;const vhtml=p.vk?`<iframe src="${p.vk}" allow="autoplay;encrypted-media;fullscreen;picture-in-picture;screen-wake-lock" allowfullscreen></iframe><button class="mo-fs" onclick="event.stopPropagation();document.querySelector('#mV iframe').requestFullscreen()">⛶ На весь экран</button>`:`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:56px;background:#0a0a0a">${p.e}</div>`;document.getElementById('mV').innerHTML=vhtml;document.getElementById('modal').classList.add('open');document.getElementById('modal').scrollTop=0;document.body.style.overflow='hidden';history.pushState({m:'video'},'')};
+window.xMo=e=>{if(e&&e.target&&e.target!==e.currentTarget)return;document.getElementById('modal').classList.remove('open');document.getElementById('mV').innerHTML='';document.body.style.overflow=''};
 
 window.openTP=i=>{const t=T[i];if(!acc(t.c))return;document.getElementById('tpTg').textContent=CN[t.c]||t.c;document.getElementById('tpH1').textContent=t.h1||t.t;document.getElementById('tpH2').textContent=t.h2||t.sub||'';document.getElementById('tpB').innerHTML=t.body;document.getElementById('tpop').classList.add('open');document.body.style.overflow='hidden';history.pushState({m:'text'},'')};
 window.xTP=()=>{document.getElementById('tpop').classList.remove('open');document.body.style.overflow=''};
