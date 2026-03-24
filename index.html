@@ -24,7 +24,6 @@
             --text: #e8e6e1;
             --text-muted: #7a7870;
             --radius: 14px;
-            --locked: #3a3a3a;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,7 +36,6 @@
             line-height: 1.6;
         }
 
-        /* ── Lock Screen ── */
         .lock-screen {
             display: flex;
             flex-direction: column;
@@ -50,13 +48,9 @@
         }
 
         .lock-screen.hidden { display: none; }
-
         .lock-logo { font-size: 56px; margin-bottom: 20px; filter: grayscale(30%); }
-
         .lock-title { font-size: 26px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.5px; }
-
         .lock-author { color: var(--accent); font-size: 15px; font-weight: 500; margin-bottom: 8px; }
-
         .lock-subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 36px; }
 
         .lock-form {
@@ -98,10 +92,8 @@
         }
 
         .lock-btn:hover { opacity: 0.85; }
-
         .lock-error { color: #d07070; font-size: 13px; min-height: 20px; }
 
-        /* ── Main App ── */
         .app { display: none; }
         .app.visible { display: block; }
 
@@ -146,7 +138,6 @@
 
         .logout-btn:hover { border-color: var(--accent); color: var(--text); }
 
-        /* Hero */
         .hero {
             text-align: center;
             padding: 48px 24px 32px;
@@ -172,7 +163,6 @@
             line-height: 1.7;
         }
 
-        /* Filters */
         .filters {
             display: flex;
             gap: 8px;
@@ -199,7 +189,6 @@
         .filter-btn.locked { opacity: 0.4; cursor: not-allowed; }
         .filter-btn.locked:hover { color: var(--text-muted); background: var(--surface); }
 
-        /* Grid */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -218,16 +207,9 @@
             position: relative;
         }
 
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 36px rgba(0,0,0,0.5);
-        }
-
+        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(0,0,0,0.5); }
         .card.is-locked { opacity: 0.5; pointer-events: none; }
-
-        .card.is-locked .card-lock-overlay {
-            display: flex;
-        }
+        .card.is-locked .card-lock-overlay { display: flex; }
 
         .card-lock-overlay {
             display: none;
@@ -287,20 +269,12 @@
         }
 
         .card-title { font-size: 15px; font-weight: 600; margin-bottom: 5px; line-height: 1.35; }
+        .card-meta { color: var(--text-muted); font-size: 12px; display: flex; gap: 12px; }
 
-        .card-meta {
-            color: var(--text-muted);
-            font-size: 12px;
-            display: flex;
-            gap: 12px;
-        }
-
-        /* Empty state */
         .empty { text-align: center; padding: 80px 24px; color: var(--text-muted); }
         .empty-icon { font-size: 44px; margin-bottom: 16px; }
         .empty-text { font-size: 14px; }
 
-        /* Modal */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -313,7 +287,6 @@
         }
 
         .modal-overlay.open { display: flex; }
-
         .modal { width: 100%; max-width: 800px; }
 
         .modal-video {
@@ -374,7 +347,6 @@
 </head>
 <body>
 
-<!-- Lock Screen -->
 <div class="lock-screen" id="lockScreen">
     <div class="lock-logo">🕉</div>
     <div class="lock-title">Йога Будни</div>
@@ -387,7 +359,6 @@
     </form>
 </div>
 
-<!-- Main App -->
 <div class="app" id="app">
     <header class="header">
         <div class="brand">
@@ -408,10 +379,7 @@
         <p>Хатха-йога, шаткармы, восстановление тела. Только то, что работает - проверено на себе.</p>
     </section>
 
-    <div class="filters" id="filters">
-        <!-- filters generated dynamically -->
-    </div>
-
+    <div class="filters" id="filters"></div>
     <div class="grid" id="grid"></div>
 
     <footer class="footer">
@@ -419,7 +387,6 @@
     </footer>
 </div>
 
-<!-- Modal -->
 <div class="modal-overlay" id="modal" onclick="closeModal(event)">
     <button class="modal-close" onclick="closeModal()">&times;</button>
     <div class="modal">
@@ -433,35 +400,105 @@
 
 <script>
 // ═══════════════════════════════════════════
-// НАСТРОЙКИ — УРОВНИ ДОСТУПА
+// DEVICE FINGERPRINT
 // ═══════════════════════════════════════════
 
-// Каждый уровень: пароль → какие категории открыты + название уровня
-// Категории: practice, shatkarma, theory, short
-const ACCESS_LEVELS = {
-    'telo2026': {
-        name: 'Телесные практики',
+function getDeviceFingerprint() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.textBaseline = 'top';
+    ctx.font = '14px Arial';
+    ctx.fillText('fp_yoga_budni', 2, 2);
+    const canvasData = canvas.toDataURL();
+
+    const raw = [
+        navigator.userAgent,
+        navigator.language,
+        screen.width + 'x' + screen.height,
+        screen.colorDepth,
+        new Date().getTimezoneOffset(),
+        navigator.hardwareConcurrency || 0,
+        navigator.deviceMemory || 0,
+        canvasData.slice(-50),
+        (navigator.plugins ? navigator.plugins.length : 0)
+    ].join('|');
+
+    // Simple hash
+    let hash = 0;
+    for (let i = 0; i < raw.length; i++) {
+        const c = raw.charCodeAt(i);
+        hash = ((hash << 5) - hash) + c;
+        hash |= 0;
+    }
+    return 'fp_' + Math.abs(hash).toString(36);
+}
+
+// ═══════════════════════════════════════════
+// НАСТРОЙКИ — ПОЛЬЗОВАТЕЛИ
+// ═══════════════════════════════════════════
+
+// Каждый ученик — свой код
+// deviceId заполнится автоматически при первом входе
+// maxDevices: сколько устройств может использовать (1 = привязка к одному)
+const USERS = {
+    // ── Телесные практики ──
+    'masha2026': {
+        name: 'Маша',
+        level: 'practice',
         categories: ['practice', 'short'],
+        maxDevices: 1,
+        deviceIds: []  // заполнится автоматически
     },
-    'shatkarma2026': {
-        name: 'Шаткармы',
+    'ivan2026': {
+        name: 'Иван',
+        level: 'practice',
+        categories: ['practice', 'short'],
+        maxDevices: 1,
+        deviceIds: []
+    },
+
+    // ── Шаткармы ──
+    'elena_sk': {
+        name: 'Елена',
+        level: 'shatkarma',
         categories: ['shatkarma', 'theory'],
+        maxDevices: 1,
+        deviceIds: []
     },
+
+    // ── Полный доступ ──
     'yogafull': {
-        name: 'Полный доступ',
+        name: 'Полный',
+        level: 'full',
         categories: ['practice', 'shatkarma', 'theory', 'short'],
+        maxDevices: 3,
+        deviceIds: []
+    },
+
+    // ── Админ (Айса + Слава) — неограниченный ──
+    'admin2026': {
+        name: 'Админ',
+        level: 'full',
+        categories: ['practice', 'shatkarma', 'theory', 'short'],
+        maxDevices: 99,
+        deviceIds: [],
+        isAdmin: true
     }
 };
 
-// Все категории и их лейблы
-const ALL_CATEGORIES = {
-    practice:  { label: '🧘 Практика',  icon: '🧘' },
-    shatkarma: { label: '🔥 Шаткармы',  icon: '🔥' },
-    theory:    { label: '📖 Теория',     icon: '📖' },
-    short:     { label: '⚡ Короткие',   icon: '⚡' },
+const LEVEL_NAMES = {
+    practice: 'Телесные практики',
+    shatkarma: 'Шаткармы',
+    full: 'Полный доступ'
 };
 
-// Практики
+const ALL_CATEGORIES = {
+    practice:  { label: '🧘 Практика' },
+    shatkarma: { label: '🔥 Шаткармы' },
+    theory:    { label: '📖 Теория' },
+    short:     { label: '⚡ Короткие' },
+};
+
 const PRACTICES = [
     {
         title: 'Утренний комплекс - пробуждение',
@@ -541,36 +578,71 @@ const PRACTICES = [
 // ЛОГИКА
 // ═══════════════════════════════════════════
 
-let currentAccess = null;
+let currentUser = null;
+let currentCode = null;
+const deviceFP = getDeviceFingerprint();
+
+function getBindings() {
+    try { return JSON.parse(localStorage.getItem('yb_bindings') || '{}'); }
+    catch { return {}; }
+}
+
+function saveBindings(b) {
+    localStorage.setItem('yb_bindings', JSON.stringify(b));
+}
 
 function tryLogin() {
-    const input = document.getElementById('passwordInput').value;
-    const level = ACCESS_LEVELS[input];
-    if (level) {
-        localStorage.setItem('yb_key', input);
-        currentAccess = level;
-        showApp();
-    } else {
-        document.getElementById('lockError').textContent = 'Неверный пароль';
+    const code = document.getElementById('passwordInput').value.trim();
+    const user = USERS[code];
+
+    if (!user) {
+        document.getElementById('lockError').textContent = 'Неверный код доступа';
         document.getElementById('passwordInput').value = '';
+        return false;
     }
+
+    // Check device binding
+    const bindings = getBindings();
+    const bound = bindings[code] || [];
+
+    if (bound.includes(deviceFP)) {
+        // Already bound to this device — OK
+    } else if (bound.length < user.maxDevices) {
+        // Room for another device — bind it
+        bound.push(deviceFP);
+        bindings[code] = bound;
+        saveBindings(bindings);
+    } else {
+        // Max devices reached and this isn't one of them
+        document.getElementById('lockError').textContent =
+            'Этот код уже привязан к другому устройству. Обратитесь к преподавателю.';
+        document.getElementById('passwordInput').value = '';
+        return false;
+    }
+
+    currentUser = user;
+    currentCode = code;
+    localStorage.setItem('yb_key', code);
+    showApp();
     return false;
 }
 
 function logout() {
     localStorage.removeItem('yb_key');
-    currentAccess = null;
+    currentUser = null;
+    currentCode = null;
     location.reload();
 }
 
 function hasAccess(category) {
-    return currentAccess && currentAccess.categories.includes(category);
+    return currentUser && currentUser.categories.includes(category);
 }
 
 function showApp() {
     document.getElementById('lockScreen').classList.add('hidden');
     document.getElementById('app').classList.add('visible');
-    document.getElementById('accessBadge').textContent = currentAccess.name;
+    document.getElementById('accessBadge').textContent =
+        LEVEL_NAMES[currentUser.level] || currentUser.level;
     buildFilters();
     renderCards('all');
 }
@@ -588,10 +660,9 @@ function buildFilters() {
 
 function renderCards(cat) {
     const grid = document.getElementById('grid');
-    let list = cat === 'all' ? PRACTICES : PRACTICES.filter(p => p.category === cat);
+    let list = cat === 'all' ? [...PRACTICES] : PRACTICES.filter(p => p.category === cat);
 
     if (cat === 'all') {
-        // show accessible first, locked at the end
         const accessible = list.filter(p => hasAccess(p.category));
         const locked = list.filter(p => !hasAccess(p.category));
         list = [...accessible, ...locked];
@@ -673,11 +744,18 @@ document.addEventListener('keydown', e => {
 });
 document.addEventListener('dragstart', e => e.preventDefault());
 
-// Auto-login
+// Auto-login if saved
 const savedKey = localStorage.getItem('yb_key');
-if (savedKey && ACCESS_LEVELS[savedKey]) {
-    currentAccess = ACCESS_LEVELS[savedKey];
-    showApp();
+if (savedKey && USERS[savedKey]) {
+    const bindings = getBindings();
+    const bound = bindings[savedKey] || [];
+    if (bound.includes(deviceFP)) {
+        currentUser = USERS[savedKey];
+        currentCode = savedKey;
+        showApp();
+    } else {
+        localStorage.removeItem('yb_key');
+    }
 }
 </script>
 
