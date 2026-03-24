@@ -277,9 +277,9 @@ function fp(){const c=document.createElement('canvas'),x=c.getContext('2d');x.te
 const devFP=fp();
 
 const ADMINS=['sulya2106@gmail.com'];
-const LVLNAME={practice:'Телесные практики',shatkarma:'Шаткармы',full:'Полный доступ'};
+const LVLNAME={practice:'Тело',shatkarma:'Курс Очищение',nauli:'Работа с наули',full:'Полный доступ'};
 const CATS={body:{l:'🧘 Телесные практики'},recovery:{l:'💆 Восстановление тела'},breath:{l:'💨 Дыхательные практики'},nauli:{l:'🌀 Работа с наули'},theory:{l:'📖 Теория'}};
-const LVLCATS={practice:['body','recovery'],shatkarma:['breath','nauli','theory'],full:['body','recovery','breath','nauli','theory']};
+const LVLCATS={practice:['body','breath','theory'],shatkarma:['recovery','breath','theory'],nauli:['nauli','breath','theory'],full:['body','recovery','breath','nauli','theory']};
 const CN={body:'Телесные практики',recovery:'Восстановление тела',breath:'Дыхательные практики',nauli:'Наули',theory:'Теория'};
 
 const P=[
@@ -403,7 +403,7 @@ window.doReg=()=>{const em=document.getElementById('rEmail').value.trim(),pw=doc
 window.doLogout=()=>{signOut(auth).then(()=>location.reload())};
 window.toggleAuth=()=>{const l=document.getElementById('fLogin'),r=document.getElementById('fReg');if(l.style.display==='none'){l.style.display='';r.style.display='none'}else{l.style.display='none';r.style.display=''}};
 
-window.showAdmin=async()=>{if(!admin)return;document.getElementById('admPanel').style.display='';document.getElementById('mainView').style.display='none';const snap=await getDocs(collection(db,'users')),tb=document.getElementById('utbl');tb.innerHTML='';snap.forEach(d=>{const u=d.data(),dc=(u.devices||[]).length;tb.innerHTML+=`<tr><td>${u.email||'-'}</td><td>${u.name||'-'}</td><td><select onchange="chgLvl('${d.id}',this.value)"><option value="practice"${u.level==='practice'?' selected':''}>Телесные</option><option value="shatkarma"${u.level==='shatkarma'?' selected':''}>Продвинутые</option><option value="full"${u.level==='full'?' selected':''}>Полный</option></select></td><td>${dc}/${u.maxDevices||1}</td><td>${u.active!==false?'✅':'❌'}</td><td><button class="abtn" onclick="tglUsr('${d.id}',${u.active!==false})">${u.active!==false?'Блок':'Разблок'}</button><button class="abtn" onclick="rstDev('${d.id}')">Сброс</button></td></tr>`})};
+window.showAdmin=async()=>{if(!admin)return;document.getElementById('admPanel').style.display='';document.getElementById('mainView').style.display='none';const snap=await getDocs(collection(db,'users')),tb=document.getElementById('utbl');tb.innerHTML='';snap.forEach(d=>{const u=d.data(),dc=(u.devices||[]).length;tb.innerHTML+=`<tr><td>${u.email||'-'}</td><td>${u.name||'-'}</td><td><select onchange="chgLvl('${d.id}',this.value)"><option value="practice"${u.level==='practice'?' selected':''}>Тело</option><option value="shatkarma"${u.level==='shatkarma'?' selected':''}>Очищение</option><option value="nauli"${u.level==='nauli'?' selected':''}>Наули</option><option value="full"${u.level==='full'?' selected':''}>Полный</option></select></td><td>${dc}/${u.maxDevices||1}</td><td>${u.active!==false?'✅':'❌'}</td><td><button class="abtn" onclick="tglUsr('${d.id}',${u.active!==false})">${u.active!==false?'Блок':'Разблок'}</button><button class="abtn" onclick="rstDev('${d.id}')">Сброс</button></td></tr>`})};
 window.hideAdmin=()=>{document.getElementById('admPanel').style.display='none';document.getElementById('mainView').style.display=''};
 window.chgLvl=async(id,lv)=>{await updateDoc(doc(db,'users',id),{level:lv,active:true});showAdmin()};
 window.tglUsr=async(id,on)=>{await updateDoc(doc(db,'users',id),{active:!on});showAdmin()};
