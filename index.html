@@ -83,6 +83,35 @@
         .empty{text-align:center;padding:80px 24px;color:var(--text-muted)}
         .empty-icon{font-size:44px;margin-bottom:16px}
 
+        /* Accordion inside cards */
+        .acc{border-top:1px solid #222;margin-top:8px}
+        .acc-item{border-bottom:1px solid #1a1a1a}
+        .acc-head{display:flex;justify-content:space-between;align-items:center;padding:10px 0;cursor:pointer;font-size:13px;font-weight:500;color:var(--text);transition:color .2s}
+        .acc-head:hover{color:var(--accent)}
+        .acc-arrow{color:var(--text-muted);font-size:12px;transition:transform .2s}
+        .acc-item.open .acc-arrow{transform:rotate(180deg)}
+        .acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:13px;color:var(--text-muted);line-height:1.6}
+        .acc-item.open .acc-body{max-height:500px}
+        .acc-inner{padding:0 0 12px}
+
+        /* Text-only cards */
+        .tcard{background:var(--surface);border-radius:var(--radius);overflow:hidden;transition:box-shadow .2s}
+        .tcard:hover{box-shadow:0 6px 24px rgba(0,0,0,.3)}
+        .tcard-head{display:flex;align-items:center;gap:12px;padding:16px;cursor:pointer}
+        .tcard-emoji{font-size:28px;flex-shrink:0}
+        .tcard-info{flex:1}
+        .tcard-title{font-size:15px;font-weight:600;line-height:1.3}
+        .tcard-sub{font-size:12px;color:var(--text-muted);margin-top:2px}
+        .tcard-arrow{color:var(--text-muted);font-size:14px;transition:transform .2s;flex-shrink:0}
+        .tcard.open .tcard-arrow{transform:rotate(180deg)}
+        .tcard-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+        .tcard.open .tcard-body{max-height:2000px}
+        .tcard-content{padding:0 16px 16px;font-size:14px;color:var(--text-muted);line-height:1.7}
+        .tcard-content ul{padding-left:18px;margin:8px 0}
+        .tcard-content li{margin-bottom:4px}
+        .tcard-content strong{color:var(--text)}
+        .tcard .ctag{margin-left:16px;margin-bottom:0}
+
         .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100;align-items:center;justify-content:center;padding:24px}
         .mo.open{display:flex}
         .mo-inner{width:100%;max-width:800px}
@@ -231,14 +260,36 @@ const LVLCATS = {practice:['practice','short'],shatkarma:['shatkarma','theory'],
 const CATNAME = {practice:'Практика',shatkarma:'Шаткарма',theory:'Теория',short:'Короткая'};
 
 const P = [
-    {t:'Утренний комплекс - пробуждение',c:'practice',d:'30 мин',lv:'Все уровни',desc:'Базовый утренний комплекс. Суставная разминка, основные асаны, дыхание.',vk:'',e:'🌄'},
-    {t:'Работа со спиной - вытяжения и скрутки',c:'practice',d:'40 мин',lv:'Все уровни',desc:'Безопасная работа с позвоночником. Акцент на грудной и поясничный отделы.',vk:'',e:'🧘'},
-    {t:'Полная вечерняя практика',c:'practice',d:'50 мин',lv:'Средний',desc:'Глубокая работа с телом. Силовые элементы, балансы, длинная шавасана.',vk:'',e:'🌙'},
-    {t:'Экспресс-разминка перед рабочим днём',c:'short',d:'10 мин',lv:'Все уровни',desc:'Быстрая проработка всего тела.',vk:'',e:'⚡'},
-    {t:'Шанкх пракшалана - полный разбор',c:'shatkarma',d:'45 мин',lv:'Подготовленные',desc:'Техника полного очищения кишечника. Подготовка, выполнение, выход.',vk:'',e:'🔥'},
-    {t:'Капалабхати и уддияна бандха',c:'shatkarma',d:'20 мин',lv:'Средний',desc:'Дыхательные и очистительные техники.',vk:'',e:'💨'},
-    {t:'Тратака - практика концентрации',c:'shatkarma',d:'15 мин',lv:'Все уровни',desc:'Очищение и укрепление глаз. Концентрация на пламени свечи.',vk:'',e:'🕯'},
-    {t:'Доши и питание - основы аюрведы',c:'theory',d:'25 мин',lv:'Все уровни',desc:'Как определить свою дошу. Без эзотерики, только практика.',vk:'',e:'📖'},
+    {t:'Утренний комплекс - пробуждение',c:'practice',d:'30 мин',lv:'Все уровни',desc:'Базовый утренний комплекс. Суставная разминка, основные асаны, дыхание.',vk:'',e:'🌄',details:[
+        {q:'Что понадобится',a:'Коврик, комфортная одежда. Можно без пропсов.'},
+        {q:'Противопоказания',a:'Острые боли в спине, повышенное давление, первый триместр беременности.'},
+        {q:'После практики',a:'Выпейте стакан тёплой воды. Не ешьте 20-30 минут.'}
+    ]},
+    {t:'Работа со спиной - вытяжения и скрутки',c:'practice',d:'40 мин',lv:'Все уровни',desc:'Безопасная работа с позвоночником. Акцент на грудной и поясничный отделы.',vk:'',e:'🧘',details:[
+        {q:'Для кого',a:'Для тех, кто много сидит. Офис, руль, учёба - всё это бьёт по спине.'},
+        {q:'Что прорабатываем',a:'Грудной отдел (раскрытие), поясница (укрепление), шейный отдел (мягкое вытяжение).'}
+    ]},
+    {t:'Полная вечерняя практика',c:'practice',d:'50 мин',lv:'Средний',desc:'Глубокая работа с телом. Силовые элементы, балансы, длинная шавасана.',vk:'',e:'🌙',details:[]},
+    {t:'Экспресс-разминка перед рабочим днём',c:'short',d:'10 мин',lv:'Все уровни',desc:'Быстрая проработка всего тела.',vk:'',e:'⚡',details:[]},
+    {t:'Шанкх пракшалана - полный разбор',c:'shatkarma',d:'45 мин',lv:'Подготовленные',desc:'Техника полного очищения кишечника. Подготовка, выполнение, выход.',vk:'',e:'🔥',details:[
+        {q:'Подготовка',a:'За сутки: лёгкая пища, без мяса, без алкоголя. Утром натощак. Понадобится 2-3 литра тёплой подсолённой воды.'},
+        {q:'Противопоказания',a:'Язва, гастрит в обострении, беременность, менструация, острые воспаления ЖКТ. При сомнениях - консультация врача.'},
+        {q:'После процедуры',a:'Через 30-40 минут - кичари (рис с мунг далом на гхи). Весь день - лёгкая тёплая пища. Никакого кофе, сырых овощей, холодного.'}
+    ]},
+    {t:'Капалабхати и уддияна бандха',c:'shatkarma',d:'20 мин',lv:'Средний',desc:'Дыхательные и очистительные техники.',vk:'',e:'💨',details:[
+        {q:'Капалабхати',a:'Резкие короткие выдохи через нос, вдох пассивный. Начинайте с 30 циклов, постепенно до 108.'},
+        {q:'Уддияна бандха',a:'Выполняется на задержке после выдоха. Живот втягивается под рёбра. Только натощак!'}
+    ]},
+    {t:'Тратака - практика концентрации',c:'shatkarma',d:'15 мин',lv:'Все уровни',desc:'Очищение и укрепление глаз. Концентрация на пламени свечи.',vk:'',e:'🕯',details:[]},
+    {t:'Доши и питание - основы аюрведы',c:'theory',d:'25 мин',lv:'Все уровни',desc:'Как определить свою дошу. Без эзотерики, только практика.',vk:'',e:'📖',details:[]},
+];
+
+// Text-only cards (no video, just expandable text blocks)
+const TEXTS = [
+    {t:'Как подготовиться к занятиям',c:'practice',e:'📋',sub:'Чеклист для начинающих',body:'<ul><li><strong>Коврик</strong> - нескользящий, толщина 4-6 мм</li><li><strong>Одежда</strong> - свободная, не стесняет движения</li><li><strong>Время</strong> - утром натощак или через 2-3 часа после еды</li><li><strong>Вода</strong> - стакан тёплой воды за 20 минут до практики</li><li><strong>Пространство</strong> - проветренное, тихое, комфортная температура</li></ul><p>Не ешьте тяжёлую пищу за 2-3 часа. Если голодно - банан или горсть орехов за 30 минут.</p>'},
+    {t:'Расписание групповых занятий',c:'practice',e:'🗓',sub:'Элиста, 8 мкр, д.46',body:'<p><strong>Понедельник / Среда / Пятница</strong> - 19:00</p><p>Длительность: 1.5 часа</p><p>Запись через <a href="https://instagram.com/shat_karm" target="_blank" style="color:var(--accent)">@shat_karm</a> в директ.</p><p>Первое занятие - бесплатно.</p>'},
+    {t:'Питание по аюрведе - базовые правила',c:'theory',e:'🍵',sub:'Без диет, без фанатизма',body:'<ul><li><strong>Ешьте тёплое</strong> - холодная еда гасит пищеварительный огонь (агни)</li><li><strong>Основной приём - обед</strong> - с 12 до 14, когда агни максимален</li><li><strong>Не запивайте еду</strong> - пейте за 30 мин до или через час после</li><li><strong>Специи</strong> - куркума, имбирь, кумин, кориандр помогают пищеварению</li><li><strong>Не ешьте на ходу</strong> - сядьте, ешьте осознанно, не перед экраном</li></ul><p>Это не диета. Это здравый смысл, проверенный тысячелетиями.</p>'},
+    {t:'Что такое шаткармы и зачем они нужны',c:'shatkarma',e:'🧹',sub:'6 очистительных техник йоги',body:'<p><strong>Шаткармы</strong> (шат = шесть, карма = действие) - это шесть групп очистительных техник из хатха-йоги:</p><ul><li><strong>Нети</strong> - промывание носа</li><li><strong>Дхаути</strong> - очищение пищеварительного тракта</li><li><strong>Наули</strong> - массаж внутренних органов</li><li><strong>Басти</strong> - очищение толстого кишечника</li><li><strong>Капалабхати</strong> - дыхательное очищение</li><li><strong>Тратака</strong> - очищение глаз и ума</li></ul><p>Не начинайте самостоятельно. Каждая техника требует правильного обучения и подготовки.</p>'},
 ];
 
 let uData = null, admin = false;
@@ -309,15 +360,38 @@ function buildFilters() {
 function render(cat) {
     const g = document.getElementById('grid');
     let list = cat==='all' ? [...P] : P.filter(p=>p.c===cat);
+    let tlist = cat==='all' ? [...TEXTS] : TEXTS.filter(t=>t.c===cat);
     if (cat==='all') { const a=list.filter(p=>access(p.c)),b=list.filter(p=>!access(p.c)); list=[...a,...b]; }
-    if (!list.length) { g.innerHTML='<div class="empty"><div class="empty-icon">🧘</div><div>Пока нет практик</div></div>'; return; }
-    g.innerHTML = list.map(p => {
+    tlist = tlist.filter(t=>access(t.c));
+
+    if (!list.length && !tlist.length) { g.innerHTML='<div class="empty"><div class="empty-icon">🧘</div><div>Пока нет практик</div></div>'; return; }
+
+    let html = '';
+
+    // Video cards
+    html += list.map(p => {
         const lk=!access(p.c), i=P.indexOf(p);
+        const det = (!lk && p.details && p.details.length) ? `<div class="acc">${p.details.map(d=>`<div class="acc-item" onclick="event.stopPropagation();this.classList.toggle('open')"><div class="acc-head"><span>${d.q}</span><span class="acc-arrow">▼</span></div><div class="acc-body"><div class="acc-inner">${d.a}</div></div></div>`).join('')}</div>` : '';
         return `<div class="card${lk?' locked':''}" ${lk?'':`onclick="openM(${i})"`}>
             <div class="clo"><div class="clo-i">🔒</div><div class="clo-t">Нет доступа</div></div>
             <div class="cvid">${!lk&&p.vk?`<iframe src="${p.vk}" allow="autoplay;encrypted-media;fullscreen;picture-in-picture" allowfullscreen></iframe>`:`<div class="cph">${p.e}</div>`}</div>
-            <div class="cbod"><span class="ctag">${CATNAME[p.c]||p.c}</span><div class="cttl">${p.t}</div><div class="cmeta"><span>⏱ ${p.d}</span><span>📊 ${p.lv}</span></div></div></div>`;
+            <div class="cbod"><span class="ctag">${CATNAME[p.c]||p.c}</span><div class="cttl">${p.t}</div><div class="cmeta"><span>⏱ ${p.d}</span><span>📊 ${p.lv}</span></div>${det}</div></div>`;
     }).join('');
+
+    // Text cards
+    html += tlist.map(t => {
+        return `<div class="tcard" onclick="this.classList.toggle('open')">
+            <span class="ctag">${CATNAME[t.c]||t.c}</span>
+            <div class="tcard-head">
+                <div class="tcard-emoji">${t.e}</div>
+                <div class="tcard-info"><div class="tcard-title">${t.t}</div><div class="tcard-sub">${t.sub||''}</div></div>
+                <span class="tcard-arrow">▼</span>
+            </div>
+            <div class="tcard-body"><div class="tcard-content">${t.body}</div></div>
+        </div>`;
+    }).join('');
+
+    g.innerHTML = html;
 }
 
 // Expose to global
