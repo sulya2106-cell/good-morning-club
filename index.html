@@ -277,10 +277,10 @@ function fp(){const c=document.createElement('canvas'),x=c.getContext('2d');x.te
 const devFP=fp();
 
 const ADMINS=['sulya2106@gmail.com'];
-const LVLNAME={practice:'Тело',shatkarma:'Курс Очищение',nauli:'Работа с наули',full:'Полный доступ'};
 const CATS={body:{l:'🧘 Телесные практики'},recovery:{l:'💆 Восстановление тела'},breath:{l:'💨 Дыхательные практики'},nauli:{l:'🌀 Работа с наули'},theory:{l:'📖 Теория'}};
-const LVLCATS={practice:['body','breath','theory'],shatkarma:['recovery','breath','theory'],nauli:['nauli','breath','theory'],full:['body','recovery','breath','nauli','theory']};
 const CN={body:'Телесные практики',recovery:'Восстановление тела',breath:'Дыхательные практики',nauli:'Наули',theory:'Теория'};
+// Пресеты для быстрого выбора в админке
+const PRESETS={'Тело':['body','breath','theory'],'Очищение':['recovery','breath','theory'],'Наули':['nauli','breath','theory'],'Полный':['body','recovery','breath','nauli','theory']};
 
 const P=[
     // Телесные практики
@@ -335,7 +335,7 @@ const T=[
 let uData=null,admin=false;
 
 function show(id){document.getElementById('loading').style.display='none';document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-function access(c){if(admin)return true;if(!uData)return false;return(LVLCATS[uData.level]||[]).includes(c)}
+function access(c){if(admin)return true;if(!uData)return false;const cats=uData.cats||[];return cats.includes(c)}
 
 onAuthStateChanged(auth,async u=>{
     if(!u){show('s-auth');return}
@@ -344,12 +344,14 @@ onAuthStateChanged(auth,async u=>{
     try{
         const snap=await getDoc(ref);
         if(!snap.exists()){
-            if(admin){await setDoc(ref,{email:u.email,name:'Админ',level:'full',maxDevices:99,devices:[devFP],active:true,createdAt:new Date().toISOString()});uData={level:'full',name:'Админ'}}
-            else{await setDoc(ref,{email:u.email,name:'',level:'',maxDevices:1,devices:[],active:false,createdAt:new Date().toISOString()});show('s-pending');return}
+            if(admin){await setDoc(ref,{email:u.email,name:'Админ',cats:['body','recovery','breath','nauli','theory'],maxDevices:99,devices:[devFP],active:true,createdAt:new Date().toISOString()});uData={cats:['body','recovery','breath','nauli','theory'],name:'Админ'}}
+            else{await setDoc(ref,{email:u.email,name:'',cats:[],maxDevices:1,devices:[],active:false,createdAt:new Date().toISOString()});show('s-pending');return}
         }else{
             const d=snap.data();
             if(!d.active&&!admin){show('s-blocked');return}
-            if(!d.level&&!admin){show('s-pending');return}
+            if((!d.cats||!d.cats.length)&&!d.level&&!admin){show('s-pending');return}
+            // Migrate old level-based users to cats
+            if(d.level&&!d.cats){const LVLCATS={practice:['body','breath','theory'],shatkarma:['recovery','breath','theory'],nauli:['nauli','breath','theory'],full:['body','recovery','breath','nauli','theory']};d.cats=LVLCATS[d.level]||[];await updateDoc(ref,{cats:d.cats})}
             const devs=d.devices||[];
             if(!devs.includes(devFP)){if(devs.length>=(d.maxDevices||1)&&!admin){show('s-device');return}await updateDoc(ref,{devices:arrayUnion(devFP)})}
             uData=d;
@@ -358,7 +360,7 @@ onAuthStateChanged(auth,async u=>{
     showAppUI();
 });
 
-function showAppUI(){show('s-app');document.getElementById('badge').textContent=admin?'Админ':(LVLNAME[uData?.level]||'');if(admin)document.getElementById('admBtn').style.display='';buildFilters();render('all')}
+function showAppUI(){show('s-app');const cats=uData?.cats||[];const badge=admin?'Админ':cats.length===5?'Полный доступ':cats.map(c=>({body:'Тело',recovery:'Очищение',breath:'Дыхание',nauli:'Наули',theory:'Теория'}[c]||c)).filter(x=>x!=='Дыхание'&&x!=='Теория').join(' + ')||'Базовый';document.getElementById('badge').textContent=badge;if(admin)document.getElementById('admBtn').style.display='';buildFilters();render('all')}
 
 function buildFilters(){
     const f=document.getElementById('filters');
@@ -403,9 +405,14 @@ window.doReg=()=>{const em=document.getElementById('rEmail').value.trim(),pw=doc
 window.doLogout=()=>{signOut(auth).then(()=>location.reload())};
 window.toggleAuth=()=>{const l=document.getElementById('fLogin'),r=document.getElementById('fReg');if(l.style.display==='none'){l.style.display='';r.style.display='none'}else{l.style.display='none';r.style.display=''}};
 
-window.showAdmin=async()=>{if(!admin)return;document.getElementById('admPanel').style.display='';document.getElementById('mainView').style.display='none';const snap=await getDocs(collection(db,'users')),tb=document.getElementById('utbl');tb.innerHTML='';snap.forEach(d=>{const u=d.data(),dc=(u.devices||[]).length;tb.innerHTML+=`<tr><td>${u.email||'-'}</td><td>${u.name||'-'}</td><td><select onchange="chgLvl('${d.id}',this.value)"><option value="practice"${u.level==='practice'?' selected':''}>Тело</option><option value="shatkarma"${u.level==='shatkarma'?' selected':''}>Очищение</option><option value="nauli"${u.level==='nauli'?' selected':''}>Наули</option><option value="full"${u.level==='full'?' selected':''}>Полный</option></select></td><td>${dc}/${u.maxDevices||1}</td><td>${u.active!==false?'✅':'❌'}</td><td><button class="abtn" onclick="tglUsr('${d.id}',${u.active!==false})">${u.active!==false?'Блок':'Разблок'}</button><button class="abtn" onclick="rstDev('${d.id}')">Сброс</button></td></tr>`})};
+window.showAdmin=async()=>{if(!admin)return;document.getElementById('admPanel').style.display='';document.getElementById('mainView').style.display='none';const snap=await getDocs(collection(db,'users')),tb=document.getElementById('utbl');
+tb.innerHTML='';snap.forEach(d=>{const u=d.data(),dc=(u.devices||[]).length,cats=u.cats||[];
+const cbs=Object.keys(CATS).map(c=>`<label style="display:inline-flex;align-items:center;gap:2px;font-size:11px;cursor:pointer;white-space:nowrap"><input type="checkbox" ${cats.includes(c)?'checked':''} onchange="tglCat('${d.id}','${c}',this.checked)" style="cursor:pointer;accent-color:var(--accent)">${CN[c]}</label>`).join(' ');
+const pbtns=Object.entries(PRESETS).map(([n])=>`<button class="abtn" onclick="setPre('${d.id}','${n}')" style="font-size:10px">${n}</button>`).join('');
+tb.innerHTML+=`<tr><td>${u.email||'-'}</td><td>${u.name||'-'}</td><td style="min-width:180px"><div style="display:flex;flex-wrap:wrap;gap:4px 8px">${cbs}</div><div style="margin-top:6px;display:flex;gap:3px;flex-wrap:wrap">${pbtns}</div></td><td>${dc}/${u.maxDevices||1}</td><td>${u.active!==false?'✅':'❌'}</td><td><button class="abtn" onclick="tglUsr('${d.id}',${u.active!==false})">${u.active!==false?'Блок':'Разблок'}</button><button class="abtn" onclick="rstDev('${d.id}')">Сброс</button></td></tr>`})};
 window.hideAdmin=()=>{document.getElementById('admPanel').style.display='none';document.getElementById('mainView').style.display=''};
-window.chgLvl=async(id,lv)=>{await updateDoc(doc(db,'users',id),{level:lv,active:true});showAdmin()};
+window.tglCat=async(id,cat,on)=>{const ref=doc(db,'users',id);const snap=await getDoc(ref);const d=snap.data();let cats=d.cats||[];if(on&&!cats.includes(cat))cats.push(cat);if(!on)cats=cats.filter(c=>c!==cat);await updateDoc(ref,{cats,active:true});showAdmin()};
+window.setPre=async(id,name)=>{const cats=[...PRESETS[name]];await updateDoc(doc(db,'users',id),{cats,active:true});showAdmin()};
 window.tglUsr=async(id,on)=>{await updateDoc(doc(db,'users',id),{active:!on});showAdmin()};
 window.rstDev=async(id)=>{await updateDoc(doc(db,'users',id),{devices:[]});showAdmin()};
 
