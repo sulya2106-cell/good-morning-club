@@ -16,7 +16,7 @@ export const PRACTICES = [
         d: '30 мин',
         lv: 'Все уровни',
         desc: 'Базовый утренний комплекс. Суставная разминка, основные асаны, дыхание.',
-        vk: '',
+        vk: 'https://vkvideo.ru/video_ext.php?oid=-233505984&id=456239021&hash=2c46a96117cd1729&hd=3',
         e: '🌄'
     },
     {
@@ -25,7 +25,7 @@ export const PRACTICES = [
         d: '40 мин',
         lv: 'Все уровни',
         desc: 'Безопасная работа с позвоночником. Грудной и поясничный отделы.',
-        vk: '',
+        vk: 'https://vkvideo.ru/video_ext.php?oid=-233505984&id=456239019&hash=e13e5f73c459d77b&hd=4',
         e: '🧘'
     },
     {
