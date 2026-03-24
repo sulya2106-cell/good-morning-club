@@ -6,758 +6,524 @@
     <title>Йога Будни с Вячеславом</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs, deleteDoc, arrayUnion, query, where } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCSgJXAnewN1sQv4fVjv3Wa12U5GO5v5bk",
+            authDomain: "yoga-budni.firebaseapp.com",
+            projectId: "yoga-budni",
+            storageBucket: "yoga-budni.firebasestorage.app",
+            messagingSenderId: "930284585076",
+            appId: "1:930284585076:web:63475b797592b0bbfdd121"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // ── Device fingerprint ──
+        function getDeviceFP() {
+            const c = document.createElement('canvas');
+            const ctx = c.getContext('2d');
+            ctx.textBaseline = 'top';
+            ctx.font = '14px Arial';
+            ctx.fillText('yb_fp', 2, 2);
+            const raw = [
+                navigator.userAgent, navigator.language,
+                screen.width + 'x' + screen.height, screen.colorDepth,
+                new Date().getTimezoneOffset(),
+                navigator.hardwareConcurrency || 0,
+                c.toDataURL().slice(-50)
+            ].join('|');
+            let h = 0;
+            for (let i = 0; i < raw.length; i++) { h = ((h << 5) - h) + raw.charCodeAt(i); h |= 0; }
+            return 'fp_' + Math.abs(h).toString(36);
+        }
+        const deviceFP = getDeviceFP();
+
+        // ── Globals ──
+        const ADMIN_EMAILS = ['sulya2106@gmail.com'];
+        let currentUserData = null;
+        let isAdmin = false;
+
+        const LEVEL_NAMES = { practice: 'Телесные практики', shatkarma: 'Шаткармы', full: 'Полный доступ' };
+        const ALL_CATEGORIES = {
+            practice:  { label: '🧘 Практика' },
+            shatkarma: { label: '🔥 Шаткармы' },
+            theory:    { label: '📖 Теория' },
+            short:     { label: '⚡ Короткие' },
+        };
+        const LEVEL_CATS = {
+            practice: ['practice', 'short'],
+            shatkarma: ['shatkarma', 'theory'],
+            full: ['practice', 'shatkarma', 'theory', 'short']
+        };
+
+        const PRACTICES = [
+            { title: 'Утренний комплекс - пробуждение', category: 'practice', duration: '30 мин', level: 'Все уровни', description: 'Базовый утренний комплекс. Суставная разминка, основные асаны, дыхание.', vkEmbed: '', emoji: '🌄' },
+            { title: 'Работа со спиной - вытяжения и скрутки', category: 'practice', duration: '40 мин', level: 'Все уровни', description: 'Безопасная работа с позвоночником. Акцент на грудной и поясничный отделы.', vkEmbed: '', emoji: '🧘' },
+            { title: 'Полная вечерняя практика', category: 'practice', duration: '50 мин', level: 'Средний', description: 'Глубокая работа с телом. Силовые элементы, балансы, длинная шавасана.', vkEmbed: '', emoji: '🌙' },
+            { title: 'Экспресс-разминка перед рабочим днём', category: 'short', duration: '10 мин', level: 'Все уровни', description: 'Быстрая проработка всего тела. Когда времени мало, а тело просит движения.', vkEmbed: '', emoji: '⚡' },
+            { title: 'Шанкх пракшалана - полный разбор', category: 'shatkarma', duration: '45 мин', level: 'Подготовленные', description: 'Техника полного очищения кишечника. Подготовка, выполнение, выход.', vkEmbed: '', emoji: '🔥' },
+            { title: 'Капалабхати и уддияна бандха', category: 'shatkarma', duration: '20 мин', level: 'Средний', description: 'Дыхательные и очистительные техники. Правильная отстройка, типичные ошибки.', vkEmbed: '', emoji: '💨' },
+            { title: 'Тратака - практика концентрации', category: 'shatkarma', duration: '15 мин', level: 'Все уровни', description: 'Очищение и укрепление глаз. Концентрация на пламени свечи.', vkEmbed: '', emoji: '🕯' },
+            { title: 'Доши и питание - основы аюрведы', category: 'theory', duration: '25 мин', level: 'Все уровни', description: 'Как определить свою дошу и скорректировать питание. Без эзотерики, только практика.', vkEmbed: '', emoji: '📖' },
+        ];
+
+        // ── Auth state ──
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                await handleLogin(user);
+            } else {
+                showScreen('lock');
+            }
+        });
+
+        async function handleLogin(user) {
+            const userRef = doc(db, 'users', user.uid);
+            const snap = await getDoc(userRef);
+            isAdmin = ADMIN_EMAILS.includes(user.email);
+
+            if (!snap.exists()) {
+                if (isAdmin) {
+                    await setDoc(userRef, {
+                        email: user.email,
+                        name: 'Админ',
+                        level: 'full',
+                        maxDevices: 99,
+                        devices: [deviceFP],
+                        active: true,
+                        createdAt: new Date().toISOString()
+                    });
+                    currentUserData = { level: 'full', name: 'Админ' };
+                } else {
+                    showScreen('pending');
+                    return;
+                }
+            } else {
+                const data = snap.data();
+                if (!data.active) {
+                    showScreen('blocked');
+                    return;
+                }
+
+                // Device check
+                const devices = data.devices || [];
+                const maxDev = data.maxDevices || 1;
+                if (!devices.includes(deviceFP)) {
+                    if (devices.length >= maxDev) {
+                        showScreen('device-limit');
+                        return;
+                    }
+                    await updateDoc(userRef, { devices: arrayUnion(deviceFP) });
+                }
+                currentUserData = data;
+            }
+
+            showApp();
+        }
+
+        // ── UI Functions (exposed globally) ──
+        window.doLogin = async function() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const pass = document.getElementById('loginPass').value;
+            const err = document.getElementById('loginError');
+            err.textContent = '';
+            try {
+                await signInWithEmailAndPassword(auth, email, pass);
+            } catch(e) {
+                err.textContent = e.code === 'auth/invalid-credential' ? 'Неверный email или пароль' :
+                    e.code === 'auth/too-many-requests' ? 'Слишком много попыток. Подождите.' :
+                    'Ошибка входа: ' + e.message;
+            }
+            return false;
+        };
+
+        window.doRegister = async function() {
+            const email = document.getElementById('regEmail').value.trim();
+            const pass = document.getElementById('regPass').value;
+            const pass2 = document.getElementById('regPass2').value;
+            const err = document.getElementById('regError');
+            err.textContent = '';
+            if (pass.length < 6) { err.textContent = 'Пароль минимум 6 символов'; return false; }
+            if (pass !== pass2) { err.textContent = 'Пароли не совпадают'; return false; }
+            try {
+                await createUserWithEmailAndPassword(auth, email, pass);
+            } catch(e) {
+                err.textContent = e.code === 'auth/email-already-in-use' ? 'Этот email уже зарегистрирован' :
+                    e.code === 'auth/invalid-email' ? 'Некорректный email' :
+                    'Ошибка: ' + e.message;
+            }
+            return false;
+        };
+
+        window.doLogout = async function() {
+            await signOut(auth);
+            currentUserData = null;
+            isAdmin = false;
+            location.reload();
+        };
+
+        window.showLogin = () => { document.getElementById('loginForm').style.display = ''; document.getElementById('regForm').style.display = 'none'; };
+        window.showRegister = () => { document.getElementById('loginForm').style.display = 'none'; document.getElementById('regForm').style.display = ''; };
+
+        function showScreen(name) {
+            document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+            document.getElementById('screen-' + name).style.display = '';
+        }
+
+        function hasAccess(cat) {
+            if (isAdmin) return true;
+            if (!currentUserData) return false;
+            const cats = LEVEL_CATS[currentUserData.level] || [];
+            return cats.includes(cat);
+        }
+
+        function showApp() {
+            showScreen('app');
+            const badge = document.getElementById('accessBadge');
+            badge.textContent = isAdmin ? 'Админ' : (LEVEL_NAMES[currentUserData.level] || '');
+            const adminBtn = document.getElementById('adminBtn');
+            if (isAdmin) adminBtn.style.display = '';
+            buildFilters();
+            renderCards('all');
+        }
+
+        function buildFilters() {
+            const container = document.getElementById('filters');
+            let html = '<button class="filter-btn active" data-cat="all">Все</button>';
+            for (const [cat, info] of Object.entries(ALL_CATEGORIES)) {
+                const locked = !hasAccess(cat);
+                html += `<button class="filter-btn${locked ? ' locked' : ''}" data-cat="${cat}" ${locked ? 'disabled' : ''}>${info.label}${locked ? ' 🔒' : ''}</button>`;
+            }
+            container.innerHTML = html;
+            container.querySelectorAll('.filter-btn:not(.locked)').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderCards(btn.dataset.cat);
+                });
+            });
+        }
+
+        function renderCards(cat) {
+            const grid = document.getElementById('grid');
+            let list = cat === 'all' ? [...PRACTICES] : PRACTICES.filter(p => p.category === cat);
+            if (cat === 'all') {
+                const a = list.filter(p => hasAccess(p.category));
+                const b = list.filter(p => !hasAccess(p.category));
+                list = [...a, ...b];
+            }
+            if (!list.length) {
+                grid.innerHTML = '<div class="empty"><div class="empty-icon">🧘</div><div class="empty-text">Пока нет практик</div></div>';
+                return;
+            }
+            grid.innerHTML = list.map(p => {
+                const locked = !hasAccess(p.category);
+                const idx = PRACTICES.indexOf(p);
+                return `<div class="card${locked ? ' is-locked' : ''}" ${locked ? '' : `onclick="window.openModal(${idx})"`}>
+                    <div class="card-lock-overlay"><div class="card-lock-icon">🔒</div><div class="card-lock-text">Нет доступа</div></div>
+                    <div class="card-video">${!locked && p.vkEmbed ? `<iframe src="${p.vkEmbed}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" allowfullscreen></iframe>` : `<div class="card-placeholder">${p.emoji}</div>`}</div>
+                    <div class="card-body">
+                        <span class="card-tag">${{practice:'Практика',shatkarma:'Шаткарма',theory:'Теория',short:'Короткая'}[p.category]||p.category}</span>
+                        <div class="card-title">${p.title}</div>
+                        <div class="card-meta"><span>⏱ ${p.duration}</span><span>📊 ${p.level}</span></div>
+                    </div></div>`;
+            }).join('');
+        }
+
+        window.openModal = function(idx) {
+            const p = PRACTICES[idx];
+            if (!hasAccess(p.category)) return;
+            document.getElementById('modalTitle').textContent = p.title;
+            document.getElementById('modalDesc').textContent = `${p.duration} · ${p.level} — ${p.description}`;
+            document.getElementById('modalVideo').innerHTML = p.vkEmbed
+                ? `<iframe src="${p.vkEmbed}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" allowfullscreen></iframe>`
+                : `<div style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:56px;background:#0a0a0a">${p.emoji}</div>`;
+            document.getElementById('modal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeModal = function(e) {
+            if (e && e.target !== e.currentTarget) return;
+            document.getElementById('modal').classList.remove('open');
+            document.getElementById('modalVideo').innerHTML = '';
+            document.body.style.overflow = '';
+        };
+
+        // ── Admin Panel ──
+        window.showAdmin = async function() {
+            if (!isAdmin) return;
+            document.getElementById('adminPanel').style.display = '';
+            document.getElementById('mainContent').style.display = 'none';
+            await loadUsers();
+        };
+
+        window.hideAdmin = function() {
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('mainContent').style.display = '';
+        };
+
+        async function loadUsers() {
+            const snap = await getDocs(collection(db, 'users'));
+            const tbody = document.getElementById('usersTable');
+            tbody.innerHTML = '';
+            snap.forEach(d => {
+                const u = d.data();
+                const devCount = (u.devices || []).length;
+                tbody.innerHTML += `<tr>
+                    <td>${u.email || '—'}</td>
+                    <td>${u.name || '—'}</td>
+                    <td><select onchange="window.changeLevel('${d.id}',this.value)">
+                        <option value="practice" ${u.level==='practice'?'selected':''}>Практика</option>
+                        <option value="shatkarma" ${u.level==='shatkarma'?'selected':''}>Шаткармы</option>
+                        <option value="full" ${u.level==='full'?'selected':''}>Полный</option>
+                    </select></td>
+                    <td>${devCount}/${u.maxDevices||1}</td>
+                    <td>${u.active !== false ? '✅' : '❌'}</td>
+                    <td>
+                        <button onclick="window.toggleUser('${d.id}',${u.active!==false})" class="admin-btn">${u.active!==false?'Блок':'Разблок'}</button>
+                        <button onclick="window.resetDevices('${d.id}')" class="admin-btn">Сброс</button>
+                    </td>
+                </tr>`;
+            });
+        }
+
+        window.changeLevel = async (uid, level) => {
+            await updateDoc(doc(db, 'users', uid), { level });
+            await loadUsers();
+        };
+
+        window.toggleUser = async (uid, isActive) => {
+            await updateDoc(doc(db, 'users', uid), { active: !isActive });
+            await loadUsers();
+        };
+
+        window.resetDevices = async (uid) => {
+            await updateDoc(doc(db, 'users', uid), { devices: [] });
+            await loadUsers();
+        };
+
+        window.approveUser = async function(uid, level) {
+            await updateDoc(doc(db, 'users', uid), { level, active: true, maxDevices: 1 });
+            await loadUsers();
+        };
+
+        // Keyboard
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') window.closeModal(); });
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if (e.key === 'F12') { e.preventDefault(); return; }
+            if (e.ctrlKey && 'sucp'.includes(e.key)) { e.preventDefault(); return; }
+            if (e.ctrlKey && e.shiftKey && 'IJC'.includes(e.key)) { e.preventDefault(); return; }
+        });
+        document.addEventListener('dragstart', e => e.preventDefault());
+    </script>
     <style>
-        * {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
+        *{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+        :root{--bg:#0c0c0c;--surface:#161616;--surface-hover:#1e1e1e;--accent:#a0b87a;--accent-dim:rgba(160,184,122,.12);--text:#e8e6e1;--text-muted:#7a7870;--radius:14px}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
 
-        :root {
-            --bg: #0c0c0c;
-            --surface: #161616;
-            --surface-hover: #1e1e1e;
-            --accent: #a0b87a;
-            --accent-light: #c5d9a4;
-            --accent-dim: rgba(160, 184, 122, 0.12);
-            --text: #e8e6e1;
-            --text-muted: #7a7870;
-            --radius: 14px;
-        }
+        .screen{display:none}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Lock / Auth screens */
+        .auth-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;text-align:center;background:radial-gradient(ellipse at 50% 30%,#141a10 0%,var(--bg) 70%)}
+        .lock-logo{font-size:56px;margin-bottom:20px;filter:grayscale(30%)}
+        .lock-title{font-size:26px;font-weight:600;margin-bottom:4px;letter-spacing:-.5px}
+        .lock-author{color:var(--accent);font-size:15px;font-weight:500;margin-bottom:8px}
+        .lock-subtitle{color:var(--text-muted);font-size:14px;margin-bottom:32px}
 
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            line-height: 1.6;
-        }
+        .auth-form{display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px}
+        .auth-input{background:var(--surface);border:1px solid #2a2a2a;border-radius:10px;padding:13px 16px;font-size:15px;color:var(--text);outline:none;font-family:inherit;transition:border-color .2s}
+        .auth-input:focus{border-color:var(--accent)}
+        .auth-input::placeholder{color:var(--text-muted)}
+        .auth-btn{background:var(--accent);color:var(--bg);border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s}
+        .auth-btn:hover{opacity:.85}
+        .auth-link{color:var(--accent);font-size:13px;cursor:pointer;margin-top:8px;background:none;border:none;font-family:inherit}
+        .auth-link:hover{text-decoration:underline}
+        .auth-error{color:#d07070;font-size:13px;min-height:18px}
 
-        .lock-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 24px;
-            text-align: center;
-            background: radial-gradient(ellipse at 50% 30%, #141a10 0%, var(--bg) 70%);
-        }
+        .info-box{background:var(--surface);border-radius:12px;padding:24px;max-width:400px;text-align:center}
+        .info-box h2{font-size:20px;margin-bottom:8px}
+        .info-box p{color:var(--text-muted);font-size:14px;margin-bottom:16px}
 
-        .lock-screen.hidden { display: none; }
-        .lock-logo { font-size: 56px; margin-bottom: 20px; filter: grayscale(30%); }
-        .lock-title { font-size: 26px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.5px; }
-        .lock-author { color: var(--accent); font-size: 15px; font-weight: 500; margin-bottom: 8px; }
-        .lock-subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 36px; }
+        /* App */
+        .header{padding:20px 24px;display:flex;align-items:center;justify-content:space-between;max-width:960px;margin:0 auto}
+        .brand{display:flex;align-items:center;gap:10px}
+        .brand-icon{font-size:24px}
+        .brand-name{font-size:16px;font-weight:600;letter-spacing:-.3px}
+        .brand-tag{color:var(--text-muted);font-size:13px}
+        .header-right{display:flex;align-items:center;gap:8px}
+        .access-badge{background:var(--accent-dim);color:var(--accent);font-size:11px;font-weight:600;padding:5px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px}
+        .header-btn{background:none;border:1px solid #2a2a2a;color:var(--text-muted);border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s}
+        .header-btn:hover{border-color:var(--accent);color:var(--text)}
 
-        .lock-form {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-            max-width: 300px;
-        }
+        .hero{text-align:center;padding:48px 24px 32px;max-width:600px;margin:0 auto}
+        .hero h1{font-size:38px;font-weight:700;line-height:1.15;margin-bottom:14px;letter-spacing:-1px}
+        .hero h1 span{color:var(--accent)}
+        .hero p{color:var(--text-muted);font-size:16px;max-width:460px;margin:0 auto;line-height:1.7}
 
-        .lock-input {
-            background: var(--surface);
-            border: 1px solid #2a2a2a;
-            border-radius: 10px;
-            padding: 14px 18px;
-            font-size: 16px;
-            color: var(--text);
-            outline: none;
-            transition: border-color 0.2s;
-            font-family: inherit;
-            text-align: center;
-            letter-spacing: 2px;
-        }
+        .filters{display:flex;gap:8px;padding:0 24px;max-width:960px;margin:36px auto 20px;flex-wrap:wrap}
+        .filter-btn{background:var(--surface);border:1px solid transparent;color:var(--text-muted);border-radius:100px;padding:9px 18px;font-size:13px;cursor:pointer;transition:all .2s;font-family:inherit}
+        .filter-btn:hover{color:var(--text);background:var(--surface-hover)}
+        .filter-btn.active{background:var(--accent);color:var(--bg);font-weight:500}
+        .filter-btn.locked{opacity:.4;cursor:not-allowed}
+        .filter-btn.locked:hover{color:var(--text-muted);background:var(--surface)}
 
-        .lock-input:focus { border-color: var(--accent); }
-        .lock-input::placeholder { color: var(--text-muted); letter-spacing: 0; }
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;padding:0 24px 80px;max-width:960px;margin:0 auto}
+        .card{background:var(--surface);border-radius:var(--radius);overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:pointer;position:relative}
+        .card:hover{transform:translateY(-3px);box-shadow:0 10px 36px rgba(0,0,0,.5)}
+        .card.is-locked{opacity:.5;pointer-events:none}
+        .card.is-locked .card-lock-overlay{display:flex}
+        .card-lock-overlay{display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(12,12,12,.75);z-index:5;align-items:center;justify-content:center;flex-direction:column;gap:6px}
+        .card-lock-icon{font-size:28px}
+        .card-lock-text{font-size:12px;color:var(--text-muted)}
+        .card-video{position:relative;width:100%;padding-top:56.25%;background:#0a0a0a}
+        .card-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+        .card-placeholder{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:44px;background:linear-gradient(135deg,#121410,#1a1c16)}
+        .card-body{padding:14px 16px}
+        .card-tag{display:inline-block;background:var(--accent-dim);color:var(--accent);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:3px 9px;border-radius:5px;margin-bottom:7px}
+        .card-title{font-size:15px;font-weight:600;margin-bottom:5px;line-height:1.35}
+        .card-meta{color:var(--text-muted);font-size:12px;display:flex;gap:12px}
 
-        .lock-btn {
-            background: var(--accent);
-            color: var(--bg);
-            border: none;
-            border-radius: 10px;
-            padding: 13px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            font-family: inherit;
-        }
+        .empty{text-align:center;padding:80px 24px;color:var(--text-muted)}
+        .empty-icon{font-size:44px;margin-bottom:16px}
 
-        .lock-btn:hover { opacity: 0.85; }
-        .lock-error { color: #d07070; font-size: 13px; min-height: 20px; }
+        .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.88);z-index:100;align-items:center;justify-content:center;padding:24px}
+        .modal-overlay.open{display:flex}
+        .modal{width:100%;max-width:800px}
+        .modal-video{position:relative;width:100%;padding-top:56.25%;background:#000;border-radius:10px;overflow:hidden}
+        .modal-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+        .modal-info{padding:18px 0}
+        .modal-title{font-size:19px;font-weight:600;margin-bottom:4px}
+        .modal-desc{color:var(--text-muted);font-size:14px}
+        .modal-close{position:fixed;top:20px;right:24px;background:none;border:none;color:var(--text-muted);font-size:32px;cursor:pointer;z-index:101}
+        .modal-close:hover{color:var(--text)}
 
-        .app { display: none; }
-        .app.visible { display: block; }
+        .footer{text-align:center;padding:24px;color:var(--text-muted);font-size:12px;border-top:1px solid #1a1a1a;max-width:960px;margin:0 auto}
+        .footer a{color:var(--accent);text-decoration:none}
 
-        .header {
-            padding: 20px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 960px;
-            margin: 0 auto;
-        }
+        /* Admin */
+        .admin-panel{max-width:960px;margin:0 auto;padding:24px}
+        .admin-panel h2{font-size:22px;margin-bottom:16px}
+        .admin-table{width:100%;border-collapse:collapse;font-size:13px}
+        .admin-table th{text-align:left;padding:10px 8px;border-bottom:1px solid #2a2a2a;color:var(--text-muted);font-weight:500}
+        .admin-table td{padding:10px 8px;border-bottom:1px solid #1a1a1a}
+        .admin-table select{background:var(--surface);color:var(--text);border:1px solid #2a2a2a;border-radius:6px;padding:4px 8px;font-family:inherit;font-size:12px}
+        .admin-btn{background:var(--surface);color:var(--text-muted);border:1px solid #2a2a2a;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:inherit;margin:2px}
+        .admin-btn:hover{border-color:var(--accent);color:var(--text)}
 
-        .brand { display: flex; align-items: center; gap: 10px; }
-        .brand-icon { font-size: 24px; }
-        .brand-name { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; }
-        .brand-tag { color: var(--text-muted); font-size: 13px; font-weight: 400; }
-
-        .header-right { display: flex; align-items: center; gap: 10px; }
-
-        .access-badge {
-            background: var(--accent-dim);
-            color: var(--accent);
-            font-size: 11px;
-            font-weight: 600;
-            padding: 5px 10px;
-            border-radius: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .logout-btn {
-            background: none;
-            border: 1px solid #2a2a2a;
-            color: var(--text-muted);
-            border-radius: 8px;
-            padding: 7px 14px;
-            font-size: 13px;
-            cursor: pointer;
-            font-family: inherit;
-            transition: all 0.2s;
-        }
-
-        .logout-btn:hover { border-color: var(--accent); color: var(--text); }
-
-        .hero {
-            text-align: center;
-            padding: 48px 24px 32px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 38px;
-            font-weight: 700;
-            line-height: 1.15;
-            margin-bottom: 14px;
-            letter-spacing: -1px;
-        }
-
-        .hero h1 span { color: var(--accent); }
-
-        .hero p {
-            color: var(--text-muted);
-            font-size: 16px;
-            max-width: 460px;
-            margin: 0 auto;
-            line-height: 1.7;
-        }
-
-        .filters {
-            display: flex;
-            gap: 8px;
-            padding: 0 24px;
-            max-width: 960px;
-            margin: 36px auto 20px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: var(--surface);
-            border: 1px solid transparent;
-            color: var(--text-muted);
-            border-radius: 100px;
-            padding: 9px 18px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-
-        .filter-btn:hover { color: var(--text); background: var(--surface-hover); }
-        .filter-btn.active { background: var(--accent); color: var(--bg); font-weight: 500; }
-        .filter-btn.locked { opacity: 0.4; cursor: not-allowed; }
-        .filter-btn.locked:hover { color: var(--text-muted); background: var(--surface); }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 18px;
-            padding: 0 24px 80px;
-            max-width: 960px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: var(--surface);
-            border-radius: var(--radius);
-            overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(0,0,0,0.5); }
-        .card.is-locked { opacity: 0.5; pointer-events: none; }
-        .card.is-locked .card-lock-overlay { display: flex; }
-
-        .card-lock-overlay {
-            display: none;
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(12, 12, 12, 0.75);
-            z-index: 5;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .card-lock-icon { font-size: 28px; }
-        .card-lock-text { font-size: 12px; color: var(--text-muted); }
-
-        .card-video {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%;
-            background: #0a0a0a;
-        }
-
-        .card-video iframe {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .card-placeholder {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 44px;
-            background: linear-gradient(135deg, #121410 0%, #1a1c16 100%);
-        }
-
-        .card-body { padding: 14px 16px; }
-
-        .card-tag {
-            display: inline-block;
-            background: var(--accent-dim);
-            color: var(--accent);
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 3px 9px;
-            border-radius: 5px;
-            margin-bottom: 7px;
-        }
-
-        .card-title { font-size: 15px; font-weight: 600; margin-bottom: 5px; line-height: 1.35; }
-        .card-meta { color: var(--text-muted); font-size: 12px; display: flex; gap: 12px; }
-
-        .empty { text-align: center; padding: 80px 24px; color: var(--text-muted); }
-        .empty-icon { font-size: 44px; margin-bottom: 16px; }
-        .empty-text { font-size: 14px; }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.88);
-            z-index: 100;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-        }
-
-        .modal-overlay.open { display: flex; }
-        .modal { width: 100%; max-width: 800px; }
-
-        .modal-video {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%;
-            background: #000;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .modal-video iframe {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .modal-info { padding: 18px 0; }
-        .modal-title { font-size: 19px; font-weight: 600; margin-bottom: 4px; }
-        .modal-desc { color: var(--text-muted); font-size: 14px; }
-
-        .modal-close {
-            position: fixed;
-            top: 20px; right: 24px;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 32px;
-            cursor: pointer;
-            z-index: 101;
-        }
-
-        .modal-close:hover { color: var(--text); }
-
-        .footer {
-            text-align: center;
-            padding: 24px;
-            color: var(--text-muted);
-            font-size: 12px;
-            border-top: 1px solid #1a1a1a;
-            max-width: 960px;
-            margin: 0 auto;
-        }
-
-        .footer a { color: var(--accent); text-decoration: none; }
-        .footer a:hover { text-decoration: underline; }
-
-        @media (max-width: 600px) {
-            .hero h1 { font-size: 28px; }
-            .grid { grid-template-columns: 1fr; }
-            .hero { padding: 32px 20px 20px; }
-            .header-right { gap: 6px; }
-            .access-badge { font-size: 10px; padding: 4px 8px; }
-        }
+        @media(max-width:600px){.hero h1{font-size:28px}.grid{grid-template-columns:1fr}.hero{padding:32px 20px 20px}.header-right{gap:4px}.admin-table{font-size:11px}}
     </style>
 </head>
 <body>
 
-<div class="lock-screen" id="lockScreen">
+<!-- Login/Register Screen -->
+<div class="screen auth-screen" id="screen-lock" style="display:flex">
     <div class="lock-logo">🕉</div>
     <div class="lock-title">Йога Будни</div>
     <div class="lock-author">с Вячеславом Эрдниевым</div>
-    <div class="lock-subtitle">Закрытая библиотека практик - вход по паролю</div>
-    <form class="lock-form" onsubmit="return tryLogin()">
-        <input type="password" class="lock-input" id="passwordInput" placeholder="Пароль" autocomplete="off">
-        <button type="submit" class="lock-btn">Войти</button>
-        <div class="lock-error" id="lockError"></div>
+    <div class="lock-subtitle">Закрытая библиотека практик</div>
+
+    <!-- Login Form -->
+    <form class="auth-form" id="loginForm" onsubmit="doLogin(); return false">
+        <input type="email" class="auth-input" id="loginEmail" placeholder="Email" autocomplete="email" required>
+        <input type="password" class="auth-input" id="loginPass" placeholder="Пароль" autocomplete="current-password" required>
+        <button type="submit" class="auth-btn">Войти</button>
+        <div class="auth-error" id="loginError"></div>
+        <button type="button" class="auth-link" onclick="showRegister()">Нет аккаунта? Зарегистрироваться</button>
+    </form>
+
+    <!-- Register Form -->
+    <form class="auth-form" id="regForm" style="display:none" onsubmit="doRegister(); return false">
+        <input type="email" class="auth-input" id="regEmail" placeholder="Email" autocomplete="email" required>
+        <input type="password" class="auth-input" id="regPass" placeholder="Пароль (мин. 6 символов)" autocomplete="new-password" required>
+        <input type="password" class="auth-input" id="regPass2" placeholder="Повторите пароль" autocomplete="new-password" required>
+        <button type="submit" class="auth-btn">Зарегистрироваться</button>
+        <div class="auth-error" id="regError"></div>
+        <button type="button" class="auth-link" onclick="showLogin()">Уже есть аккаунт? Войти</button>
     </form>
 </div>
 
-<div class="app" id="app">
+<!-- Pending approval -->
+<div class="screen auth-screen" id="screen-pending">
+    <div class="info-box">
+        <h2>⏳ Ожидание доступа</h2>
+        <p>Ваш аккаунт зарегистрирован. Доступ будет открыт преподавателем.</p>
+        <button class="auth-btn" onclick="doLogout()" style="margin-top:8px">Выйти</button>
+    </div>
+</div>
+
+<!-- Blocked -->
+<div class="screen auth-screen" id="screen-blocked">
+    <div class="info-box">
+        <h2>🚫 Доступ заблокирован</h2>
+        <p>Обратитесь к преподавателю.</p>
+        <button class="auth-btn" onclick="doLogout()" style="margin-top:8px">Выйти</button>
+    </div>
+</div>
+
+<!-- Device limit -->
+<div class="screen auth-screen" id="screen-device-limit">
+    <div class="info-box">
+        <h2>📱 Лимит устройств</h2>
+        <p>Ваш аккаунт уже привязан к другому устройству. Обратитесь к преподавателю для сброса.</p>
+        <button class="auth-btn" onclick="doLogout()" style="margin-top:8px">Выйти</button>
+    </div>
+</div>
+
+<!-- Main App -->
+<div class="screen" id="screen-app">
     <header class="header">
         <div class="brand">
             <span class="brand-icon">🕉</span>
-            <div>
-                <div class="brand-name">Йога Будни</div>
-                <div class="brand-tag">Вячеслав Эрдниев</div>
-            </div>
+            <div><div class="brand-name">Йога Будни</div><div class="brand-tag">Вячеслав Эрдниев</div></div>
         </div>
         <div class="header-right">
             <span class="access-badge" id="accessBadge"></span>
-            <button class="logout-btn" onclick="logout()">Выйти</button>
+            <button class="header-btn" id="adminBtn" style="display:none" onclick="showAdmin()">👑 Админ</button>
+            <button class="header-btn" onclick="doLogout()">Выйти</button>
         </div>
     </header>
 
-    <section class="hero">
-        <h1>Практика <span>без лишнего</span></h1>
-        <p>Хатха-йога, шаткармы, восстановление тела. Только то, что работает - проверено на себе.</p>
-    </section>
+    <div id="mainContent">
+        <section class="hero">
+            <h1>Практика <span>без лишнего</span></h1>
+            <p>Хатха-йога, шаткармы, восстановление тела. Только то, что работает - проверено на себе.</p>
+        </section>
+        <div class="filters" id="filters"></div>
+        <div class="grid" id="grid"></div>
+    </div>
 
-    <div class="filters" id="filters"></div>
-    <div class="grid" id="grid"></div>
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+            <h2>👑 Управление учениками</h2>
+            <button class="header-btn" onclick="hideAdmin()">← Назад</button>
+        </div>
+        <table class="admin-table">
+            <thead><tr><th>Email</th><th>Имя</th><th>Уровень</th><th>Устройства</th><th>Статус</th><th>Действия</th></tr></thead>
+            <tbody id="usersTable"></tbody>
+        </table>
+    </div>
 
     <footer class="footer">
         Йога Будни · Вячеслав Эрдниев · <a href="https://instagram.com/shat_karm" target="_blank">@shat_karm</a>
     </footer>
 </div>
 
+<!-- Modal -->
 <div class="modal-overlay" id="modal" onclick="closeModal(event)">
     <button class="modal-close" onclick="closeModal()">&times;</button>
     <div class="modal">
         <div class="modal-video" id="modalVideo"></div>
-        <div class="modal-info">
-            <div class="modal-title" id="modalTitle"></div>
-            <div class="modal-desc" id="modalDesc"></div>
-        </div>
+        <div class="modal-info"><div class="modal-title" id="modalTitle"></div><div class="modal-desc" id="modalDesc"></div></div>
     </div>
 </div>
-
-<script>
-// ═══════════════════════════════════════════
-// DEVICE FINGERPRINT
-// ═══════════════════════════════════════════
-
-function getDeviceFingerprint() {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.textBaseline = 'top';
-    ctx.font = '14px Arial';
-    ctx.fillText('fp_yoga_budni', 2, 2);
-    const canvasData = canvas.toDataURL();
-
-    const raw = [
-        navigator.userAgent,
-        navigator.language,
-        screen.width + 'x' + screen.height,
-        screen.colorDepth,
-        new Date().getTimezoneOffset(),
-        navigator.hardwareConcurrency || 0,
-        navigator.deviceMemory || 0,
-        canvasData.slice(-50),
-        (navigator.plugins ? navigator.plugins.length : 0)
-    ].join('|');
-
-    // Simple hash
-    let hash = 0;
-    for (let i = 0; i < raw.length; i++) {
-        const c = raw.charCodeAt(i);
-        hash = ((hash << 5) - hash) + c;
-        hash |= 0;
-    }
-    return 'fp_' + Math.abs(hash).toString(36);
-}
-
-// ═══════════════════════════════════════════
-// НАСТРОЙКИ — ПОЛЬЗОВАТЕЛИ
-// ═══════════════════════════════════════════
-
-// Каждый ученик — свой код
-// deviceId заполнится автоматически при первом входе
-// maxDevices: сколько устройств может использовать (1 = привязка к одному)
-const USERS = {
-    // ── Телесные практики ──
-    'masha2026': {
-        name: 'Маша',
-        level: 'practice',
-        categories: ['practice', 'short'],
-        maxDevices: 1,
-        deviceIds: []  // заполнится автоматически
-    },
-    'ivan2026': {
-        name: 'Иван',
-        level: 'practice',
-        categories: ['practice', 'short'],
-        maxDevices: 1,
-        deviceIds: []
-    },
-
-    // ── Шаткармы ──
-    'elena_sk': {
-        name: 'Елена',
-        level: 'shatkarma',
-        categories: ['shatkarma', 'theory'],
-        maxDevices: 1,
-        deviceIds: []
-    },
-
-    // ── Полный доступ ──
-    'yogafull': {
-        name: 'Полный',
-        level: 'full',
-        categories: ['practice', 'shatkarma', 'theory', 'short'],
-        maxDevices: 3,
-        deviceIds: []
-    },
-
-    // ── Админ (Айса + Слава) — неограниченный ──
-    'admin2026': {
-        name: 'Админ',
-        level: 'full',
-        categories: ['practice', 'shatkarma', 'theory', 'short'],
-        maxDevices: 99,
-        deviceIds: [],
-        isAdmin: true
-    }
-};
-
-const LEVEL_NAMES = {
-    practice: 'Телесные практики',
-    shatkarma: 'Шаткармы',
-    full: 'Полный доступ'
-};
-
-const ALL_CATEGORIES = {
-    practice:  { label: '🧘 Практика' },
-    shatkarma: { label: '🔥 Шаткармы' },
-    theory:    { label: '📖 Теория' },
-    short:     { label: '⚡ Короткие' },
-};
-
-const PRACTICES = [
-    {
-        title: 'Утренний комплекс - пробуждение',
-        category: 'practice',
-        duration: '30 мин',
-        level: 'Все уровни',
-        description: 'Базовый утренний комплекс. Суставная разминка, основные асаны, дыхание.',
-        vkEmbed: '',
-        emoji: '🌄'
-    },
-    {
-        title: 'Работа со спиной - вытяжения и скрутки',
-        category: 'practice',
-        duration: '40 мин',
-        level: 'Все уровни',
-        description: 'Безопасная работа с позвоночником. Акцент на грудной и поясничный отделы.',
-        vkEmbed: '',
-        emoji: '🧘'
-    },
-    {
-        title: 'Полная вечерняя практика',
-        category: 'practice',
-        duration: '50 мин',
-        level: 'Средний',
-        description: 'Глубокая работа с телом. Силовые элементы, балансы, длинная шавасана.',
-        vkEmbed: '',
-        emoji: '🌙'
-    },
-    {
-        title: 'Экспресс-разминка перед рабочим днём',
-        category: 'short',
-        duration: '10 мин',
-        level: 'Все уровни',
-        description: 'Быстрая проработка всего тела. Когда времени мало, а тело просит движения.',
-        vkEmbed: '',
-        emoji: '⚡'
-    },
-    {
-        title: 'Шанкх пракшалана - полный разбор',
-        category: 'shatkarma',
-        duration: '45 мин',
-        level: 'Подготовленные',
-        description: 'Техника полного очищения кишечника. Подготовка, выполнение, выход.',
-        vkEmbed: '',
-        emoji: '🔥'
-    },
-    {
-        title: 'Капалабхати и уддияна бандха',
-        category: 'shatkarma',
-        duration: '20 мин',
-        level: 'Средний',
-        description: 'Дыхательные и очистительные техники. Правильная отстройка, типичные ошибки.',
-        vkEmbed: '',
-        emoji: '💨'
-    },
-    {
-        title: 'Тратака - практика концентрации',
-        category: 'shatkarma',
-        duration: '15 мин',
-        level: 'Все уровни',
-        description: 'Очищение и укрепление глаз. Концентрация на пламени свечи.',
-        vkEmbed: '',
-        emoji: '🕯'
-    },
-    {
-        title: 'Доши и питание - основы аюрведы',
-        category: 'theory',
-        duration: '25 мин',
-        level: 'Все уровни',
-        description: 'Как определить свою дошу и скорректировать питание. Без эзотерики, только практика.',
-        vkEmbed: '',
-        emoji: '📖'
-    }
-];
-
-// ═══════════════════════════════════════════
-// ЛОГИКА
-// ═══════════════════════════════════════════
-
-let currentUser = null;
-let currentCode = null;
-const deviceFP = getDeviceFingerprint();
-
-function getBindings() {
-    try { return JSON.parse(localStorage.getItem('yb_bindings') || '{}'); }
-    catch { return {}; }
-}
-
-function saveBindings(b) {
-    localStorage.setItem('yb_bindings', JSON.stringify(b));
-}
-
-function tryLogin() {
-    const code = document.getElementById('passwordInput').value.trim();
-    const user = USERS[code];
-
-    if (!user) {
-        document.getElementById('lockError').textContent = 'Неверный код доступа';
-        document.getElementById('passwordInput').value = '';
-        return false;
-    }
-
-    // Check device binding
-    const bindings = getBindings();
-    const bound = bindings[code] || [];
-
-    if (bound.includes(deviceFP)) {
-        // Already bound to this device — OK
-    } else if (bound.length < user.maxDevices) {
-        // Room for another device — bind it
-        bound.push(deviceFP);
-        bindings[code] = bound;
-        saveBindings(bindings);
-    } else {
-        // Max devices reached and this isn't one of them
-        document.getElementById('lockError').textContent =
-            'Этот код уже привязан к другому устройству. Обратитесь к преподавателю.';
-        document.getElementById('passwordInput').value = '';
-        return false;
-    }
-
-    currentUser = user;
-    currentCode = code;
-    localStorage.setItem('yb_key', code);
-    showApp();
-    return false;
-}
-
-function logout() {
-    localStorage.removeItem('yb_key');
-    currentUser = null;
-    currentCode = null;
-    location.reload();
-}
-
-function hasAccess(category) {
-    return currentUser && currentUser.categories.includes(category);
-}
-
-function showApp() {
-    document.getElementById('lockScreen').classList.add('hidden');
-    document.getElementById('app').classList.add('visible');
-    document.getElementById('accessBadge').textContent =
-        LEVEL_NAMES[currentUser.level] || currentUser.level;
-    buildFilters();
-    renderCards('all');
-}
-
-function buildFilters() {
-    const container = document.getElementById('filters');
-    let html = '<button class="filter-btn active" data-cat="all">Все</button>';
-    for (const [cat, info] of Object.entries(ALL_CATEGORIES)) {
-        const locked = !hasAccess(cat);
-        html += `<button class="filter-btn${locked ? ' locked' : ''}" data-cat="${cat}" ${locked ? 'disabled' : ''}>${info.label}${locked ? ' 🔒' : ''}</button>`;
-    }
-    container.innerHTML = html;
-    setupFilters();
-}
-
-function renderCards(cat) {
-    const grid = document.getElementById('grid');
-    let list = cat === 'all' ? [...PRACTICES] : PRACTICES.filter(p => p.category === cat);
-
-    if (cat === 'all') {
-        const accessible = list.filter(p => hasAccess(p.category));
-        const locked = list.filter(p => !hasAccess(p.category));
-        list = [...accessible, ...locked];
-    }
-
-    if (list.length === 0) {
-        grid.innerHTML = '<div class="empty"><div class="empty-icon">🧘</div><div class="empty-text">Пока нет практик в этой категории</div></div>';
-        return;
-    }
-
-    grid.innerHTML = list.map((p) => {
-        const locked = !hasAccess(p.category);
-        const idx = PRACTICES.indexOf(p);
-        return `
-        <div class="card${locked ? ' is-locked' : ''}" ${locked ? '' : `onclick="openModal(${idx})"`}>
-            <div class="card-lock-overlay">
-                <div class="card-lock-icon">🔒</div>
-                <div class="card-lock-text">Нет доступа</div>
-            </div>
-            <div class="card-video">
-                ${!locked && p.vkEmbed
-                    ? `<iframe src="${p.vkEmbed}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" allowfullscreen></iframe>`
-                    : `<div class="card-placeholder">${p.emoji || '🧘'}</div>`
-                }
-            </div>
-            <div class="card-body">
-                <span class="card-tag">${getCatLabel(p.category)}</span>
-                <div class="card-title">${p.title}</div>
-                <div class="card-meta">
-                    <span>⏱ ${p.duration}</span>
-                    <span>📊 ${p.level}</span>
-                </div>
-            </div>
-        </div>`;
-    }).join('');
-}
-
-function getCatLabel(cat) {
-    return { practice: 'Практика', shatkarma: 'Шаткарма', theory: 'Теория', short: 'Короткая' }[cat] || cat;
-}
-
-function setupFilters() {
-    document.querySelectorAll('.filter-btn:not(.locked)').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderCards(btn.dataset.cat);
-        });
-    });
-}
-
-function openModal(idx) {
-    const p = PRACTICES[idx];
-    if (!hasAccess(p.category)) return;
-    document.getElementById('modalTitle').textContent = p.title;
-    document.getElementById('modalDesc').textContent = `${p.duration} · ${p.level} — ${p.description}`;
-    document.getElementById('modalVideo').innerHTML = p.vkEmbed
-        ? `<iframe src="${p.vkEmbed}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" allowfullscreen></iframe>`
-        : `<div style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:56px;background:#0a0a0a">${p.emoji || '🧘'}</div>`;
-    document.getElementById('modal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeModal(e) {
-    if (e && e.target !== e.currentTarget) return;
-    document.getElementById('modal').classList.remove('open');
-    document.getElementById('modalVideo').innerHTML = '';
-    document.body.style.overflow = '';
-}
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-// Anti-copy
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('keydown', e => {
-    if (e.key === 'F12') { e.preventDefault(); return; }
-    if (e.ctrlKey && (e.key === 's' || e.key === 'u' || e.key === 'c' || e.key === 'p')) { e.preventDefault(); return; }
-    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) { e.preventDefault(); return; }
-});
-document.addEventListener('dragstart', e => e.preventDefault());
-
-// Auto-login if saved
-const savedKey = localStorage.getItem('yb_key');
-if (savedKey && USERS[savedKey]) {
-    const bindings = getBindings();
-    const bound = bindings[savedKey] || [];
-    if (bound.includes(deviceFP)) {
-        currentUser = USERS[savedKey];
-        currentCode = savedKey;
-        showApp();
-    } else {
-        localStorage.removeItem('yb_key');
-    }
-}
-</script>
 
 </body>
 </html>
