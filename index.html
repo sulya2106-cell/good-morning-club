@@ -7,6 +7,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Anti-copy protection */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
         :root {
             --bg: #0f0f0f;
             --surface: #1a1a1a;
@@ -571,6 +579,20 @@ function closeModal(e) {
 }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── Anti-copy protection ──
+// Block right-click
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+// Block common keyboard shortcuts (Ctrl+S, Ctrl+U, Ctrl+C, Ctrl+Shift+I, F12)
+document.addEventListener('keydown', e => {
+    if (e.key === 'F12') { e.preventDefault(); return; }
+    if (e.ctrlKey && (e.key === 's' || e.key === 'u' || e.key === 'c' || e.key === 'p')) { e.preventDefault(); return; }
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) { e.preventDefault(); return; }
+});
+
+// Block drag
+document.addEventListener('dragstart', e => e.preventDefault());
 
 // Auto-login if remembered
 if (localStorage.getItem('gmc_auth') === 'true') {
