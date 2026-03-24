@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Good Morning Club — Айса</title>
+    <title>Йога Будни с Вячеславом</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -16,14 +16,15 @@
         }
 
         :root {
-            --bg: #0f0f0f;
-            --surface: #1a1a1a;
-            --surface-hover: #242424;
-            --accent: #c4a87c;
-            --accent-light: #e8d5b5;
-            --text: #f0ede8;
-            --text-muted: #8a8680;
-            --radius: 16px;
+            --bg: #0c0c0c;
+            --surface: #161616;
+            --surface-hover: #1e1e1e;
+            --accent: #a0b87a;
+            --accent-light: #c5d9a4;
+            --accent-dim: rgba(160, 184, 122, 0.12);
+            --text: #e8e6e1;
+            --text-muted: #7a7870;
+            --radius: 14px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -45,25 +46,35 @@
             min-height: 100vh;
             padding: 24px;
             text-align: center;
+            background: radial-gradient(ellipse at 50% 30%, #141a10 0%, var(--bg) 70%);
         }
 
         .lock-screen.hidden { display: none; }
 
         .lock-logo {
-            font-size: 48px;
-            margin-bottom: 24px;
+            font-size: 56px;
+            margin-bottom: 20px;
+            filter: grayscale(30%);
         }
 
         .lock-title {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 600;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
+
+        .lock-author {
+            color: var(--accent);
+            font-size: 15px;
+            font-weight: 500;
             margin-bottom: 8px;
         }
 
         .lock-subtitle {
             color: var(--text-muted);
-            font-size: 15px;
-            margin-bottom: 40px;
+            font-size: 14px;
+            margin-bottom: 36px;
         }
 
         .lock-form {
@@ -71,13 +82,13 @@
             flex-direction: column;
             gap: 12px;
             width: 100%;
-            max-width: 320px;
+            max-width: 300px;
         }
 
         .lock-input {
             background: var(--surface);
-            border: 1px solid #333;
-            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
             padding: 14px 18px;
             font-size: 16px;
             color: var(--text);
@@ -95,8 +106,8 @@
             background: var(--accent);
             color: var(--bg);
             border: none;
-            border-radius: 12px;
-            padding: 14px;
+            border-radius: 10px;
+            padding: 13px;
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
@@ -104,10 +115,10 @@
             font-family: inherit;
         }
 
-        .lock-btn:hover { opacity: 0.9; }
+        .lock-btn:hover { opacity: 0.85; }
 
         .lock-error {
-            color: #e07070;
+            color: #d07070;
             font-size: 13px;
             min-height: 20px;
         }
@@ -129,22 +140,29 @@
         .brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .brand-icon { font-size: 28px; }
+        .brand-icon { font-size: 24px; }
 
         .brand-name {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        .brand-tag {
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 400;
         }
 
         .logout-btn {
             background: none;
-            border: 1px solid #333;
+            border: 1px solid #2a2a2a;
             color: var(--text-muted);
             border-radius: 8px;
-            padding: 8px 14px;
+            padding: 7px 14px;
             font-size: 13px;
             cursor: pointer;
             font-family: inherit;
@@ -156,25 +174,27 @@
         /* Hero */
         .hero {
             text-align: center;
-            padding: 60px 24px 40px;
-            max-width: 640px;
+            padding: 48px 24px 32px;
+            max-width: 600px;
             margin: 0 auto;
         }
 
         .hero h1 {
-            font-size: 42px;
+            font-size: 38px;
             font-weight: 700;
             line-height: 1.15;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
+            letter-spacing: -1px;
         }
 
         .hero h1 span { color: var(--accent); }
 
         .hero p {
             color: var(--text-muted);
-            font-size: 17px;
-            max-width: 480px;
+            font-size: 16px;
+            max-width: 460px;
             margin: 0 auto;
+            line-height: 1.7;
         }
 
         /* Filters */
@@ -183,7 +203,7 @@
             gap: 8px;
             padding: 0 24px;
             max-width: 960px;
-            margin: 40px auto 24px;
+            margin: 36px auto 20px;
             flex-wrap: wrap;
         }
 
@@ -192,8 +212,8 @@
             border: 1px solid transparent;
             color: var(--text-muted);
             border-radius: 100px;
-            padding: 10px 20px;
-            font-size: 14px;
+            padding: 9px 18px;
+            font-size: 13px;
             cursor: pointer;
             transition: all 0.2s;
             font-family: inherit;
@@ -206,7 +226,7 @@
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            gap: 18px;
             padding: 0 24px 80px;
             max-width: 960px;
             margin: 0 auto;
@@ -221,15 +241,15 @@
         }
 
         .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 36px rgba(0,0,0,0.5);
         }
 
         .card-video {
             position: relative;
             width: 100%;
             padding-top: 56.25%;
-            background: #111;
+            background: #0a0a0a;
         }
 
         .card-video iframe {
@@ -248,35 +268,35 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 48px;
-            background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+            font-size: 44px;
+            background: linear-gradient(135deg, #121410 0%, #1a1c16 100%);
         }
 
-        .card-body { padding: 16px; }
+        .card-body { padding: 14px 16px; }
 
         .card-tag {
             display: inline-block;
-            background: rgba(196, 168, 124, 0.15);
+            background: var(--accent-dim);
             color: var(--accent);
             font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            margin-bottom: 8px;
+            padding: 3px 9px;
+            border-radius: 5px;
+            margin-bottom: 7px;
         }
 
         .card-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
-            margin-bottom: 6px;
-            line-height: 1.3;
+            margin-bottom: 5px;
+            line-height: 1.35;
         }
 
         .card-meta {
             color: var(--text-muted);
-            font-size: 13px;
+            font-size: 12px;
             display: flex;
             gap: 12px;
         }
@@ -288,15 +308,15 @@
             color: var(--text-muted);
         }
 
-        .empty-icon { font-size: 48px; margin-bottom: 16px; }
-        .empty-text { font-size: 15px; }
+        .empty-icon { font-size: 44px; margin-bottom: 16px; }
+        .empty-text { font-size: 14px; }
 
         /* Modal / Video Player */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.88);
             z-index: 100;
             align-items: center;
             justify-content: center;
@@ -315,7 +335,7 @@
             width: 100%;
             padding-top: 56.25%;
             background: #000;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
         }
 
@@ -327,8 +347,8 @@
             border: none;
         }
 
-        .modal-info { padding: 20px 0; }
-        .modal-title { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+        .modal-info { padding: 18px 0; }
+        .modal-title { font-size: 19px; font-weight: 600; margin-bottom: 4px; }
         .modal-desc { color: var(--text-muted); font-size: 14px; }
 
         .modal-close {
@@ -349,17 +369,24 @@
             text-align: center;
             padding: 24px;
             color: var(--text-muted);
-            font-size: 13px;
-            border-top: 1px solid #1f1f1f;
+            font-size: 12px;
+            border-top: 1px solid #1a1a1a;
             max-width: 960px;
             margin: 0 auto;
         }
 
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .footer a:hover { text-decoration: underline; }
+
         /* Responsive */
         @media (max-width: 600px) {
-            .hero h1 { font-size: 30px; }
+            .hero h1 { font-size: 28px; }
             .grid { grid-template-columns: 1fr; }
-            .hero { padding: 40px 20px 24px; }
+            .hero { padding: 32px 20px 20px; }
         }
     </style>
 </head>
@@ -367,9 +394,10 @@
 
 <!-- Lock Screen -->
 <div class="lock-screen" id="lockScreen">
-    <div class="lock-logo">🧘‍♀️</div>
-    <div class="lock-title">Good Morning Club</div>
-    <div class="lock-subtitle">Закрытый клуб — вход по паролю</div>
+    <div class="lock-logo">🕉</div>
+    <div class="lock-title">Йога Будни</div>
+    <div class="lock-author">с Вячеславом Эрдниевым</div>
+    <div class="lock-subtitle">Закрытая библиотека практик - вход по паролю</div>
     <form class="lock-form" onsubmit="return tryLogin()">
         <input type="password" class="lock-input" id="passwordInput" placeholder="Пароль" autocomplete="off">
         <button type="submit" class="lock-btn">Войти</button>
@@ -381,29 +409,32 @@
 <div class="app" id="app">
     <header class="header">
         <div class="brand">
-            <span class="brand-icon">🧘‍♀️</span>
-            <span class="brand-name">Good Morning Club</span>
+            <span class="brand-icon">🕉</span>
+            <div>
+                <div class="brand-name">Йога Будни</div>
+                <div class="brand-tag">Вячеслав Эрдниев</div>
+            </div>
         </div>
         <button class="logout-btn" onclick="logout()">Выйти</button>
     </header>
 
     <section class="hero">
-        <h1>Твоя <span>утренняя практика</span></h1>
-        <p>Безопасная хатха-йога — грамотные отстройки, физиология, без эзотерики. Практикуй в своём темпе.</p>
+        <h1>Практика <span>без лишнего</span></h1>
+        <p>Хатха-йога, шаткармы, восстановление тела. Только то, что работает - проверено на себе.</p>
     </section>
 
     <div class="filters" id="filters">
         <button class="filter-btn active" data-cat="all">Все</button>
-        <button class="filter-btn" data-cat="morning">🌅 Утренние</button>
-        <button class="filter-btn" data-cat="evening">🌙 Вечерние</button>
+        <button class="filter-btn" data-cat="practice">🧘 Практика</button>
+        <button class="filter-btn" data-cat="shatkarma">🔥 Шаткармы</button>
+        <button class="filter-btn" data-cat="theory">📖 Теория</button>
         <button class="filter-btn" data-cat="short">⚡ Короткие</button>
-        <button class="filter-btn" data-cat="full">🕐 Полные</button>
     </div>
 
     <div class="grid" id="grid"></div>
 
     <footer class="footer">
-        Good Morning Club · Айса · Хатха-йога онлайн
+        Йога Будни · Вячеслав Эрдниев · <a href="https://instagram.com/shat_karm" target="_blank">@shat_karm</a>
     </footer>
 </div>
 
@@ -421,81 +452,95 @@
 
 <script>
 // ═══════════════════════════════════════════
-// НАСТРОЙКИ — меняй здесь!
+// НАСТРОЙКИ
 // ═══════════════════════════════════════════
 
-// Пароль для входа (поменяй на свой)
-const PASSWORD = 'goodmorning';
+const PASSWORD = 'yogabudni';
 
-// Практики — добавляй сюда новые видео
-// vkEmbed: ссылка из VK → "Код для встраивания" (скопируй src из iframe)
-// Категории: morning, evening, short, full
+// Категории: practice, shatkarma, theory, short
 const PRACTICES = [
-    // ── ПРИМЕР (удали и добавь свои) ──
     {
-        title: 'Утренний комплекс — мягкий старт',
-        category: 'morning',
-        duration: '25 мин',
-        level: 'Начинающие',
-        description: 'Мягкая утренняя практика для пробуждения тела. Акцент на дыхание и плавные движения.',
-        vkEmbed: '',  // ← сюда вставь VK embed ссылку
-        emoji: '🌅'
+        title: 'Утренний комплекс - пробуждение',
+        category: 'practice',
+        duration: '30 мин',
+        level: 'Все уровни',
+        description: 'Базовый утренний комплекс. Суставная разминка, основные асаны, дыхание.',
+        vkEmbed: '',
+        emoji: '🌄'
     },
     {
-        title: 'Полная утренняя практика',
-        category: 'morning',
+        title: 'Шанкх пракшалана - полный разбор',
+        category: 'shatkarma',
         duration: '45 мин',
-        level: 'Средний',
-        description: 'Развёрнутая практика с разминкой, основным блоком и шавасаной.',
-        vkEmbed: '',
-        emoji: '☀️'
-    },
-    {
-        title: 'Вечернее расслабление',
-        category: 'evening',
-        duration: '20 мин',
-        level: 'Все уровни',
-        description: 'Мягкие растяжки и дыхательные техники перед сном.',
-        vkEmbed: '',
-        emoji: '🌙'
-    },
-    {
-        title: 'Экспресс-разминка',
-        category: 'short',
-        duration: '10 мин',
-        level: 'Все уровни',
-        description: 'Быстрая разминка для тех, кто торопится. Всё тело за 10 минут.',
-        vkEmbed: '',
-        emoji: '⚡'
-    },
-    {
-        title: 'Полная практика — сила и баланс',
-        category: 'full',
-        duration: '60 мин',
-        level: 'Средний',
-        description: 'Глубокая работа с балансовыми асанами и силовыми элементами.',
+        level: 'Подготовленные',
+        description: 'Техника полного очищения кишечника. Подготовка, выполнение, выход.',
         vkEmbed: '',
         emoji: '🔥'
     },
     {
-        title: 'Утро для спины',
-        category: 'morning',
-        duration: '30 мин',
-        level: 'Все уровни',
-        description: 'Прорабатываем спину — вытяжения, скрутки, укрепление.',
+        title: 'Капалабхати и уддияна бандха',
+        category: 'shatkarma',
+        duration: '20 мин',
+        level: 'Средний',
+        description: 'Дыхательные и очистительные техники. Правильная отстройка, типичные ошибки.',
         vkEmbed: '',
-        emoji: '🌿'
+        emoji: '💨'
+    },
+    {
+        title: 'Работа со спиной - вытяжения и скрутки',
+        category: 'practice',
+        duration: '40 мин',
+        level: 'Все уровни',
+        description: 'Безопасная работа с позвоночником. Акцент на грудной и поясничный отделы.',
+        vkEmbed: '',
+        emoji: '🧘'
+    },
+    {
+        title: 'Тратака - практика концентрации',
+        category: 'shatkarma',
+        duration: '15 мин',
+        level: 'Все уровни',
+        description: 'Очищение и укрепление глаз. Концентрация на пламени свечи.',
+        vkEmbed: '',
+        emoji: '🕯'
+    },
+    {
+        title: 'Экспресс-разминка перед рабочим днём',
+        category: 'short',
+        duration: '10 мин',
+        level: 'Все уровни',
+        description: 'Быстрая проработка всего тела. Когда времени мало, а тело просит движения.',
+        vkEmbed: '',
+        emoji: '⚡'
+    },
+    {
+        title: 'Доши и питание - основы аюрведы',
+        category: 'theory',
+        duration: '25 мин',
+        level: 'Все уровни',
+        description: 'Как определить свою дошу и скорректировать питание. Без эзотерики, только практика.',
+        vkEmbed: '',
+        emoji: '📖'
+    },
+    {
+        title: 'Полная вечерняя практика',
+        category: 'practice',
+        duration: '50 мин',
+        level: 'Средний',
+        description: 'Глубокая работа с телом. Силовые элементы, балансы, длинная шавасана.',
+        vkEmbed: '',
+        emoji: '🌙'
     }
 ];
 
 // ═══════════════════════════════════════════
-// ЛОГИКА (не трогай, если не нужно)
+// ЛОГИКА
 // ═══════════════════════════════════════════
 
 function tryLogin() {
     const input = document.getElementById('passwordInput').value;
     if (input === PASSWORD) {
-        localStorage.setItem('gmc_auth', 'true');
+        localStorage.setItem('yb_auth', 'true');
         showApp();
     } else {
         document.getElementById('lockError').textContent = 'Неверный пароль';
@@ -505,7 +550,7 @@ function tryLogin() {
 }
 
 function logout() {
-    localStorage.removeItem('gmc_auth');
+    localStorage.removeItem('yb_auth');
     location.reload();
 }
 
@@ -546,7 +591,7 @@ function renderCards(cat) {
 }
 
 function getCatLabel(cat) {
-    return { morning: 'Утренняя', evening: 'Вечерняя', short: 'Короткая', full: 'Полная' }[cat] || cat;
+    return { practice: 'Практика', shatkarma: 'Шаткарма', theory: 'Теория', short: 'Короткая' }[cat] || cat;
 }
 
 function setupFilters() {
@@ -561,13 +606,12 @@ function setupFilters() {
 
 function openModal(idx) {
     const p = PRACTICES[idx];
-    const modal = document.getElementById('modal');
     document.getElementById('modalTitle').textContent = p.title;
     document.getElementById('modalDesc').textContent = `${p.duration} · ${p.level} — ${p.description}`;
     document.getElementById('modalVideo').innerHTML = p.vkEmbed
         ? `<iframe src="${p.vkEmbed}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" allowfullscreen></iframe>`
-        : `<div style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:64px;background:#111">${p.emoji || '🧘'}</div>`;
-    modal.classList.add('open');
+        : `<div style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:56px;background:#0a0a0a">${p.emoji || '🧘'}</div>`;
+    document.getElementById('modal').classList.add('open');
     document.body.style.overflow = 'hidden';
 }
 
@@ -581,21 +625,15 @@ function closeModal(e) {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 // ── Anti-copy protection ──
-// Block right-click
 document.addEventListener('contextmenu', e => e.preventDefault());
-
-// Block common keyboard shortcuts (Ctrl+S, Ctrl+U, Ctrl+C, Ctrl+Shift+I, F12)
 document.addEventListener('keydown', e => {
     if (e.key === 'F12') { e.preventDefault(); return; }
     if (e.ctrlKey && (e.key === 's' || e.key === 'u' || e.key === 'c' || e.key === 'p')) { e.preventDefault(); return; }
     if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) { e.preventDefault(); return; }
 });
-
-// Block drag
 document.addEventListener('dragstart', e => e.preventDefault());
 
-// Auto-login if remembered
-if (localStorage.getItem('gmc_auth') === 'true') {
+if (localStorage.getItem('yb_auth') === 'true') {
     showApp();
 }
 </script>
