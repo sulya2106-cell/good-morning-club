@@ -108,7 +108,12 @@
         .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;overflow-y:auto;-webkit-overflow-scrolling:touch}
         .mo.open{display:block}
         .mo-s{max-width:900px;margin:0 auto;padding:60px 24px 80px}
-        .mo-v{position:relative;width:100%;padding-top:56.25%;background:#000;border-radius:12px;overflow:hidden}
+        .mo-v{position:relative;width:100%;padding-top:56.25%;background:#000;border-radius:12px;overflow:hidden;transition:all .3s}
+        .mo.fs .mo-s{padding:0;max-width:100%}
+        .mo.fs .mo-v{border-radius:0;padding-top:56.25vw}
+        .mo.fs .mo-i,.mo.fs .mo-f{display:none}
+        .mo-fs-btn{position:absolute;bottom:12px;right:12px;z-index:4;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:8px;padding:6px 10px;font-size:18px;cursor:pointer;backdrop-filter:blur(4px);line-height:1;transition:background .2s}
+        .mo-fs-btn:hover{background:rgba(0,0,0,.8)}
         .mo-v iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
         .mo-i{padding:20px 0}
         .mo-tg{display:inline-block;background:var(--ad);color:var(--accent);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:4px 10px;border-radius:5px;margin-bottom:12px}
@@ -475,8 +480,9 @@ function render(){
 window.doSearch=()=>{searchQ=document.getElementById('searchIn').value;render()};
 
 function mkWm(){const em=auth.currentUser?.email||'';const ts=new Date().toLocaleDateString('ru');const txt=em+' · '+ts;let h='<div class="wm"><div class="wm-inner">';for(let i=0;i<80;i++)h+='<span class="wm-t">'+txt+'</span>';h+='</div></div>';return h}
-window.openM=i=>{const p=P[i];if(!acc(p.c))return;document.getElementById('mTg').textContent=CN[p.c]||p.c;document.getElementById('mT').textContent=p.t;document.getElementById('mDur').textContent='⏱ '+p.d;document.getElementById('mLv').textContent='📊 '+p.lv;document.getElementById('mD').textContent=p.desc;const wm=mkWm();const vhtml=p.vk?`<iframe src="${p.vk}" allow="autoplay;encrypted-media;fullscreen;picture-in-picture;screen-wake-lock" allowfullscreen></iframe>${wm}`:`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:56px;background:#0a0a0a">${p.e}</div>`;document.getElementById('mV').innerHTML=vhtml;document.getElementById('modal').classList.add('open');document.getElementById('modal').scrollTop=0;document.body.style.overflow='hidden';history.pushState({m:'video'},'')};
-window.xMo=e=>{if(e&&e.target&&e.target!==e.currentTarget)return;document.getElementById('modal').classList.remove('open');document.getElementById('mV').innerHTML='';document.body.style.overflow=''};
+window.openM=i=>{const p=P[i];if(!acc(p.c))return;document.getElementById('mTg').textContent=CN[p.c]||p.c;document.getElementById('mT').textContent=p.t;document.getElementById('mDur').textContent='⏱ '+p.d;document.getElementById('mLv').textContent='📊 '+p.lv;document.getElementById('mD').textContent=p.desc;const wm=mkWm();const fsBtn='<button class="mo-fs-btn" onclick="togFs()" title="Развернуть">⛶</button>';const vhtml=p.vk?`<iframe src="${p.vk}" allow="autoplay;encrypted-media;screen-wake-lock"></iframe>${wm}${fsBtn}`:`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:56px;background:#0a0a0a">${p.e}</div>`;document.getElementById('mV').innerHTML=vhtml;document.getElementById('modal').classList.add('open');document.getElementById('modal').scrollTop=0;document.body.style.overflow='hidden';history.pushState({m:'video'},'')};
+window.togFs=()=>{document.getElementById('modal').classList.toggle('fs')};
+window.xMo=e=>{if(e&&e.target&&e.target!==e.currentTarget)return;document.getElementById('modal').classList.remove('open','fs');document.getElementById('mV').innerHTML='';document.body.style.overflow=''};
 
 window.openTP=i=>{const t=T[i];if(!acc(t.c))return;document.getElementById('tpTg').textContent=CN[t.c]||t.c;document.getElementById('tpH1').textContent=t.h1||t.t;document.getElementById('tpH2').textContent=t.h2||t.sub||'';document.getElementById('tpB').innerHTML=t.body;document.getElementById('tpop').classList.add('open');document.body.style.overflow='hidden';history.pushState({m:'text'},'')};
 window.xTP=()=>{document.getElementById('tpop').classList.remove('open');document.body.style.overflow=''};
@@ -552,6 +558,9 @@ window.rstDev=async(id)=>{await updateDoc(doc(db,'users',id),{devices:[]});showA
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){xMo();xTP()}if(e.key==='F12'){e.preventDefault();return}if(e.ctrlKey&&'sucp'.includes(e.key))e.preventDefault();if(e.ctrlKey&&e.shiftKey&&'IJC'.includes(e.key))e.preventDefault()});
 document.addEventListener('contextmenu',e=>e.preventDefault());
 document.addEventListener('dragstart',e=>e.preventDefault());
+
+// Block iframe fullscreen requests (keep watermark visible)
+document.addEventListener('fullscreenchange',()=>{if(document.fullscreenElement)document.exitFullscreen().catch(()=>{})});
 
 // Block Screen Capture API
 if(navigator.mediaDevices&&navigator.mediaDevices.getDisplayMedia){
