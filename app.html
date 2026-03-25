@@ -151,6 +151,34 @@
         .atb{background:var(--surface);color:var(--muted);border:1px solid #2a2a2a;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:inherit;margin:2px}
         .atb:hover{border-color:var(--accent);color:var(--text)}
 
+        /* Onboarding */
+        .ob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:200;align-items:center;justify-content:center;padding:24px}
+        .ob-overlay.open{display:flex}
+        .ob-box{background:var(--surface);border:1px solid #2a2a2a;border-radius:20px;max-width:420px;width:100%;overflow:hidden;position:relative}
+        .ob-slide{display:none;padding:40px 32px;text-align:center;min-height:340px;flex-direction:column;align-items:center;justify-content:center}
+        .ob-slide.active{display:flex}
+        .ob-icon{font-size:56px;margin-bottom:20px;filter:grayscale(20%)}
+        .ob-title{font-size:22px;font-weight:700;margin-bottom:10px;letter-spacing:-.3px}
+        .ob-text{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:20px}
+        .ob-cats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px}
+        .ob-cat{background:var(--ad);color:var(--accent);font-size:13px;font-weight:500;padding:7px 14px;border-radius:8px}
+        .ob-rec{background:var(--sh);border:1px solid #2a2a2a;border-radius:12px;padding:14px 18px;text-align:left;width:100%;cursor:pointer;transition:border-color .2s;margin-bottom:8px}
+        .ob-rec:hover{border-color:var(--accent)}
+        .ob-rec-t{font-size:14px;font-weight:600;margin-bottom:2px}
+        .ob-rec-s{font-size:12px;color:var(--muted)}
+        .ob-links{display:flex;gap:16px;justify-content:center;margin-top:8px}
+        .ob-link{display:inline-flex;align-items:center;gap:6px;background:var(--sh);border:1px solid #2a2a2a;border-radius:10px;padding:10px 18px;font-size:13px;color:var(--text);text-decoration:none;transition:border-color .2s}
+        .ob-link:hover{border-color:var(--accent);text-decoration:none}
+        .ob-link svg{width:18px;height:18px;fill:currentColor}
+        .ob-nav{display:flex;justify-content:space-between;align-items:center;padding:16px 32px;border-top:1px solid #222}
+        .ob-dots{display:flex;gap:8px}
+        .ob-dot{width:8px;height:8px;border-radius:50%;background:#333;transition:background .2s}
+        .ob-dot.on{background:var(--accent)}
+        .ob-btn{background:var(--accent);color:var(--bg);border:none;border-radius:10px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s}
+        .ob-btn:hover{opacity:.85}
+        .ob-skip{background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;font-family:inherit}
+        .ob-skip:hover{color:var(--text)}
+
         @media(max-width:600px){
             .hero h1{font-size:28px}.grid{grid-template-columns:1fr}.hero{padding:32px 20px 20px}
             .abt-c{flex-direction:column;align-items:center;text-align:center;padding:24px}.abt-l{justify-content:center}
@@ -221,6 +249,41 @@
         <table class="at"><thead><tr><th>Email</th><th>Имя</th><th>Доступ</th><th>Устр.</th><th></th><th>Действия</th></tr></thead><tbody id="utbl"></tbody></table>
     </div>
     <footer class="footer">Йога Будни · Вячеслав Эрдниев · <a href="https://instagram.com/shat_karm" target="_blank">@shat_karm</a></footer>
+</div>
+
+<div class="ob-overlay" id="onboard">
+    <div class="ob-box">
+        <div class="ob-slide active" id="ob-1">
+            <div class="ob-icon">🕉</div>
+            <div class="ob-title">Добро пожаловать!</div>
+            <div class="ob-text">Рады видеть вас в Йога Будни. Вот что вам доступно:</div>
+            <div class="ob-cats" id="ob-cats"></div>
+        </div>
+        <div class="ob-slide" id="ob-2">
+            <div class="ob-icon">🎯</div>
+            <div class="ob-title">С чего начать?</div>
+            <div class="ob-text">Рекомендуем начать с этой практики:</div>
+            <div class="ob-rec" id="ob-rec" onclick="obGoToRec()">
+                <div class="ob-rec-t" id="ob-rec-t"></div>
+                <div class="ob-rec-s" id="ob-rec-s"></div>
+            </div>
+            <div class="ob-text" style="margin-top:8px;font-size:12px">Нажмите, чтобы открыть</div>
+        </div>
+        <div class="ob-slide" id="ob-3">
+            <div class="ob-icon">💬</div>
+            <div class="ob-title">Есть вопросы?</div>
+            <div class="ob-text">Пишите напрямую Вячеславу - он всегда на связи и рад помочь с практикой.</div>
+            <div class="ob-links">
+                <a href="https://t.me/shat_karm" target="_blank" class="ob-link"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>@shat_karm</a>
+                <a href="https://instagram.com/shat_karm" target="_blank" class="ob-link"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@shat_karm</a>
+            </div>
+        </div>
+        <div class="ob-nav">
+            <button class="ob-skip" onclick="obClose()">Пропустить</button>
+            <div class="ob-dots"><div class="ob-dot on"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
+            <button class="ob-btn" id="ob-next" onclick="obNext()">Далее</button>
+        </div>
+    </div>
 </div>
 
 <div class="mo" id="modal">
@@ -306,7 +369,53 @@ async function showUI(){
         try{const snap=await getDocs(collection(db,'users'));let pend=0;snap.forEach(d=>{const u=d.data();if(!u.active&&(!u.cats||!u.cats.length))pend++});
         const n=document.getElementById('notif');if(pend>0){n.textContent=pend;n.style.display=''}else{n.style.display='none'}}catch(e){}}
     buildF();render();
+    // Onboarding — show once
+    if(!admin && !uData?.welcomeSeen){
+        showOnboard();
+    }
 }
+
+let obStep=0;
+const obRecIdx=0; // index of recommended first practice in PRACTICES
+function showOnboard(){
+    const cats=uData?.cats||[];
+    const container=document.getElementById('ob-cats');
+    container.innerHTML=cats.map(c=>`<span class="ob-cat">${CATS[c]?.l||c}</span>`).join('');
+    // Find first accessible practice for recommendation
+    const firstP=P.find(p=>cats.includes(p.c));
+    if(firstP){
+        document.getElementById('ob-rec-t').textContent=firstP.t;
+        document.getElementById('ob-rec-s').textContent=firstP.d+' · '+firstP.lv;
+    }
+    obStep=0;
+    updOb();
+    document.getElementById('onboard').classList.add('open');
+    document.body.style.overflow='hidden';
+}
+function updOb(){
+    document.querySelectorAll('.ob-slide').forEach((s,i)=>s.classList.toggle('active',i===obStep));
+    document.querySelectorAll('.ob-dot').forEach((d,i)=>d.classList.toggle('on',i===obStep));
+    document.getElementById('ob-next').textContent=obStep===2?'Начать практику':'Далее';
+}
+window.obNext=()=>{
+    if(obStep<2){obStep++;updOb()}
+    else{obClose()}
+};
+window.obClose=async()=>{
+    document.getElementById('onboard').classList.remove('open');
+    document.body.style.overflow='';
+    // Mark as seen in Firestore
+    try{
+        const u=auth.currentUser;
+        if(u){await updateDoc(doc(db,'users',u.uid),{welcomeSeen:true})}
+    }catch(e){console.error(e)}
+};
+window.obGoToRec=()=>{
+    obClose();
+    const cats=uData?.cats||[];
+    const idx=P.findIndex(p=>cats.includes(p.c));
+    if(idx>=0)openM(idx);
+};
 
 function buildF(){
     const f=document.getElementById('filters');
