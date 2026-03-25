@@ -151,6 +151,11 @@
         .atb{background:var(--surface);color:var(--muted);border:1px solid #2a2a2a;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:inherit;margin:2px}
         .atb:hover{border-color:var(--accent);color:var(--text)}
 
+        /* Watermark */
+        .wm{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden;opacity:.07}
+        .wm-inner{display:flex;flex-wrap:wrap;gap:60px;transform:rotate(-25deg) scale(1.5);transform-origin:center;padding:40px;position:absolute;inset:-50%}
+        .wm-t{font-size:14px;font-weight:600;color:#fff;white-space:nowrap;letter-spacing:1px;text-shadow:0 0 4px rgba(0,0,0,.5)}
+
         /* Onboarding */
         .ob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:200;align-items:center;justify-content:center;padding:24px}
         .ob-overlay.open{display:flex}
@@ -469,7 +474,8 @@ function render(){
 
 window.doSearch=()=>{searchQ=document.getElementById('searchIn').value;render()};
 
-window.openM=i=>{const p=P[i];if(!acc(p.c))return;document.getElementById('mTg').textContent=CN[p.c]||p.c;document.getElementById('mT').textContent=p.t;document.getElementById('mDur').textContent='⏱ '+p.d;document.getElementById('mLv').textContent='📊 '+p.lv;document.getElementById('mD').textContent=p.desc;const vhtml=p.vk?`<iframe src="${p.vk}" allow="autoplay;encrypted-media;fullscreen;picture-in-picture;screen-wake-lock" allowfullscreen></iframe>`:`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:56px;background:#0a0a0a">${p.e}</div>`;document.getElementById('mV').innerHTML=vhtml;document.getElementById('modal').classList.add('open');document.getElementById('modal').scrollTop=0;document.body.style.overflow='hidden';history.pushState({m:'video'},'')};
+function mkWm(){const em=auth.currentUser?.email||'';const ts=new Date().toLocaleDateString('ru');const txt=em+' · '+ts;let h='<div class="wm"><div class="wm-inner">';for(let i=0;i<80;i++)h+='<span class="wm-t">'+txt+'</span>';h+='</div></div>';return h}
+window.openM=i=>{const p=P[i];if(!acc(p.c))return;document.getElementById('mTg').textContent=CN[p.c]||p.c;document.getElementById('mT').textContent=p.t;document.getElementById('mDur').textContent='⏱ '+p.d;document.getElementById('mLv').textContent='📊 '+p.lv;document.getElementById('mD').textContent=p.desc;const wm=mkWm();const vhtml=p.vk?`<iframe src="${p.vk}" allow="autoplay;encrypted-media;fullscreen;picture-in-picture;screen-wake-lock" allowfullscreen></iframe>${wm}`:`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:56px;background:#0a0a0a">${p.e}</div>`;document.getElementById('mV').innerHTML=vhtml;document.getElementById('modal').classList.add('open');document.getElementById('modal').scrollTop=0;document.body.style.overflow='hidden';history.pushState({m:'video'},'')};
 window.xMo=e=>{if(e&&e.target&&e.target!==e.currentTarget)return;document.getElementById('modal').classList.remove('open');document.getElementById('mV').innerHTML='';document.body.style.overflow=''};
 
 window.openTP=i=>{const t=T[i];if(!acc(t.c))return;document.getElementById('tpTg').textContent=CN[t.c]||t.c;document.getElementById('tpH1').textContent=t.h1||t.t;document.getElementById('tpH2').textContent=t.h2||t.sub||'';document.getElementById('tpB').innerHTML=t.body;document.getElementById('tpop').classList.add('open');document.body.style.overflow='hidden';history.pushState({m:'text'},'')};
@@ -546,6 +552,31 @@ window.rstDev=async(id)=>{await updateDoc(doc(db,'users',id),{devices:[]});showA
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){xMo();xTP()}if(e.key==='F12'){e.preventDefault();return}if(e.ctrlKey&&'sucp'.includes(e.key))e.preventDefault();if(e.ctrlKey&&e.shiftKey&&'IJC'.includes(e.key))e.preventDefault()});
 document.addEventListener('contextmenu',e=>e.preventDefault());
 document.addEventListener('dragstart',e=>e.preventDefault());
+
+// Block Screen Capture API
+if(navigator.mediaDevices&&navigator.mediaDevices.getDisplayMedia){
+    navigator.mediaDevices.getDisplayMedia=()=>Promise.reject(new Error('Screen capture is disabled'));
+}
+
+// Pause video when tab loses focus (screen recording deterrent)
+document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){
+        const iframes=document.querySelectorAll('.mo-v iframe, .cvid iframe');
+        iframes.forEach(f=>{try{f.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}','*')}catch(e){}});
+    }
+});
+
+// Block PrintScreen key
+document.addEventListener('keyup',e=>{
+    if(e.key==='PrintScreen'){
+        navigator.clipboard.writeText('').catch(()=>{});
+        alert('Запись экрана запрещена');
+    }
+});
+document.addEventListener('keydown',e=>{
+    // Block Ctrl+Shift+S (screenshot tools), Win+Shift+S
+    if((e.ctrlKey||e.metaKey)&&e.shiftKey&&(e.key==='s'||e.key==='S'))e.preventDefault();
+});
 </script>
 </body>
 </html>
