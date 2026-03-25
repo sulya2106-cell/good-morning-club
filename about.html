@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О преподавателе - Вячеслав Эрдниев</title>
+    <link rel="icon" href="icon-192.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;margin:0;padding:0;box-sizing:border-box}
+        :root{--bg:#0c0c0c;--surface:#161616;--sh:#1e1e1e;--accent:#a0b87a;--ad:rgba(160,184,122,.12);--text:#e8e6e1;--muted:#7a7870;--r:14px}
+        body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;display:flex;flex-direction:column}
+        a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+
+        .hd{padding:20px 24px;display:flex;align-items:center;justify-content:space-between;max-width:960px;margin:0 auto;width:100%}
+        .br{display:flex;align-items:center;gap:10px}.bi{font-size:24px}.bn{font-size:16px;font-weight:600;letter-spacing:-.3px}.bt{color:var(--muted);font-size:13px}
+        .hb{background:none;border:1px solid #2a2a2a;color:var(--muted);border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center}
+        .hb:hover{border-color:var(--accent);color:var(--text);text-decoration:none}
+
+        .abt{max-width:800px;margin:40px auto;padding:0 24px;flex:1}
+        .abt-c{background:var(--surface);border-radius:var(--r);padding:40px;display:flex;gap:36px;align-items:flex-start}
+        .abt-av{font-size:72px;flex-shrink:0}.abt-b{flex:1}.abt-n{font-size:28px;font-weight:700;margin-bottom:4px;letter-spacing:-0.5px}
+        .abt-r{color:var(--accent);font-size:15px;font-weight:500;margin-bottom:20px}
+        .abt-t{color:var(--text);font-size:15px;line-height:1.8;margin-bottom:24px}
+        .abt-sch{background:var(--sh);border-radius:10px;padding:16px 20px;margin-bottom:24px;border:1px solid #2a2a2a}
+        .abt-sch-t{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:6px}
+        .abt-sch-v{font-size:15px;color:var(--text);display:flex;align-items:center;gap:8px}
+        .abt-l{display:flex;gap:12px;flex-wrap:wrap}
+        .abt-a{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:var(--sh);border:1px solid #2a2a2a;border-radius:12px;color:var(--muted);transition:all .2s}
+        .abt-a:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+        .abt-a svg{width:20px;height:20px;fill:currentColor}
+
+        .footer{text-align:center;padding:24px;color:var(--muted);font-size:12px;border-top:1px solid #1a1a1a;max-width:960px;margin:0 auto;width:100%}
+
+        @media(max-width:600px){
+            .abt-c{flex-direction:column;align-items:center;text-align:center;padding:32px 24px}
+            .abt-sch-v{justify-content:center}
+            .abt-l{justify-content:center}
+        }
+    </style>
+</head>
+<body>
+    <header class="hd">
+        <div class="br"><span class="bi">🕉</span><div><div class="bn">Йога Будни</div><div class="bt">Вячеслав Эрдниев</div></div></div>
+        <a href="app.html" class="hb">← Назад</a>
+    </header>
+
+    <div class="abt">
+        <div class="abt-c">
+            <div class="abt-av">🧘‍♂️</div>
+            <div class="abt-b">
+                <div class="abt-n">Вячеслав Эрдниев</div>
+                <div class="abt-r">Преподаватель хатха-йоги и шаткарм</div>
+                
+                <div class="abt-t">Бывший инженер-сейсмолог. Ушёл из Москвы в йогу не ради тренда - просто в какой-то момент тело и голова потребовали другого. Практикую и преподаю больше 10 лет. Был в Ришикеше, Варанаси, Дхарамсале. Специализируюсь на шаткармах и восстановлении тела. Без эзотерики - только то, что проверил на себе.</div>
+                
+                <div class="abt-sch">
+                    <div class="abt-sch-t">Расписание занятий</div>
+                    <div class="abt-sch-v"><span>📍</span> ПН/СР/ПТ 19:00, Элиста, 8 мкр, д.46</div>
+                </div>
+
+                <div class="abt-l">
+                    <a href="https://www.instagram.com/shat_karm" target="_blank" class="abt-a" title="Instagram">
+                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    </a>
+                    <a href="https://t.me/shat_karm" target="_blank" class="abt-a" title="Telegram">
+                        <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                    </a>
+                    <a href="https://yogaenthusiasts.ru/shatkarm" target="_blank" class="abt-a" title="Сайт">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">Йога Будни · Вячеслав Эрдниев · <a href="https://instagram.com/shat_karm" target="_blank">@shat_karm</a></footer>
+</body>
+</html>
