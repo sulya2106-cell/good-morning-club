@@ -3,370 +3,511 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Йога Будни с Вячеславом</title>
-    <meta name="description" content="Закрытая библиотека практик. Хатха-йога, шаткармы, восстановление тела. Вячеслав Эрдниев.">
+    <title>Йога Будни с Вячеславом Эрдниевым</title>
+    <meta name="description" content="Хатха-йога, шаткармы, восстановление тела. Только то, что работает — проверено на себе.">
     <meta property="og:title" content="Йога Будни с Вячеславом">
-    <meta property="og:description" content="Хатха-йога, шаткармы, восстановление тела. Только то, что работает.">
+    <meta property="og:description" content="Хатха-йога, шаткармы, восстановление тела. Только то, что работает — проверено на себе.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sulya2106-cell.github.io/good-morning-club/">
     <link rel="icon" href="icon-192.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#a0b87a">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Йога Будни">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        *{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;margin:0;padding:0;box-sizing:border-box}
-        :root{--bg:#0c0c0c;--surface:#161616;--sh:#1e1e1e;--accent:#a0b87a;--ad:rgba(160,184,122,.12);--text:#e8e6e1;--muted:#7a7870;--r:14px}
-        body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
-        a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+        :root {
+            --bg: #0c0c0c;
+            --surface: #161616;
+            --sh: #1e1e1e;
+            --accent: #a0b87a;
+            --ad: rgba(160, 184, 122, 0.12);
+            --text: #e8e6e1;
+            --muted: #7a7870;
+            --r: 14px;
+        }
 
-        #loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:radial-gradient(ellipse at 50% 30%,#141a10 0%,var(--bg) 70%)}
-        .spin{width:36px;height:36px;border:3px solid #2a2a2a;border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite;margin-bottom:16px}
-        @keyframes sp{to{transform:rotate(360deg)}}
-        #loading p{color:var(--muted);font-size:14px}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-        .screen{display:none}.screen.active{display:flex}.app-screen.active{display:block}
-        .as{flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;text-align:center;background:radial-gradient(ellipse at 50% 30%,#141a10 0%,var(--bg) 70%)}
-        .ll{font-size:56px;margin-bottom:20px;filter:grayscale(30%)}.lt{font-size:26px;font-weight:600;margin-bottom:4px;letter-spacing:-.5px}
-        .la{color:var(--accent);font-size:15px;font-weight:500;margin-bottom:8px}.ls{color:var(--muted);font-size:14px;margin-bottom:32px}
-        .af{display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px}
-        .ai{background:var(--surface);border:1px solid #2a2a2a;border-radius:10px;padding:13px 16px;font-size:15px;color:var(--text);outline:none;font-family:inherit;transition:border-color .2s}
-        .ai:focus{border-color:var(--accent)}.ai::placeholder{color:var(--muted)}
-        .ab{background:var(--accent);color:var(--bg);border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s}
-        .ab:hover{opacity:.85}.ab:disabled{opacity:.5;cursor:wait}
-        .al{color:var(--accent);font-size:13px;cursor:pointer;margin-top:8px;background:none;border:none;font-family:inherit}.al:hover{text-decoration:underline}
-        .ae{color:#d07070;font-size:13px;min-height:18px}
-        .ib{background:var(--surface);border-radius:12px;padding:24px;max-width:400px;text-align:center}.ib h2{font-size:20px;margin-bottom:8px}.ib p{color:var(--muted);font-size:14px;margin-bottom:16px}
+        html {
+            scroll-behavior: smooth;
+        }
 
-        .hd{padding:20px 24px;display:flex;align-items:center;justify-content:space-between;max-width:960px;margin:0 auto}
-        .br{display:flex;align-items:center;gap:10px}.bi{font-size:24px}.bn{font-size:16px;font-weight:600;letter-spacing:-.3px}.bt{color:var(--muted);font-size:13px}
-        .hr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-        .badge{background:var(--ad);color:var(--accent);font-size:11px;font-weight:600;padding:5px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px}
-        .hb{background:none;border:1px solid #2a2a2a;color:var(--muted);border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s}
-        .hb:hover{border-color:var(--accent);color:var(--text)}
-        .hb .notif{background:#d07070;color:#fff;font-size:9px;padding:1px 5px;border-radius:10px;margin-left:4px}
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-        .hero{text-align:center;padding:48px 24px 32px;max-width:600px;margin:0 auto}
-        .hero h1{font-size:38px;font-weight:700;line-height:1.15;margin-bottom:14px;letter-spacing:-1px}
-        .hero h1 span{color:var(--accent)}
-        .hero p{color:var(--muted);font-size:16px;max-width:460px;margin:0 auto;line-height:1.7}
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
 
-        .abt{max-width:960px;margin:0 auto 40px;padding:0 24px}
-        .abt-c{background:var(--surface);border-radius:var(--r);padding:32px;display:flex;gap:28px;align-items:flex-start}
-        .abt-av{font-size:64px;flex-shrink:0}.abt-b{flex:1}.abt-n{font-size:22px;font-weight:700;margin-bottom:2px}
-        .abt-r{color:var(--accent);font-size:14px;font-weight:500;margin-bottom:12px}
-        .abt-t{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:16px}
-        .abt-l{display:flex;gap:12px;flex-wrap:wrap}
-        .abt-a{display:inline-flex;align-items:center;gap:6px;background:var(--sh);border:1px solid #2a2a2a;border-radius:8px;padding:8px 14px;font-size:13px;color:var(--muted);text-decoration:none;transition:all .2s}
-        .abt-a:hover{border-color:var(--accent);color:var(--text);text-decoration:none}
-        .abt-a svg{width:16px;height:16px;fill:currentColor}
+        a:hover {
+            opacity: 0.8;
+        }
 
-        /* Search */
-        .search-wrap{max-width:960px;margin:0 auto;padding:0 24px}
-        .search-input{width:100%;background:var(--surface);border:1px solid #2a2a2a;border-radius:10px;padding:12px 16px 12px 40px;font-size:14px;color:var(--text);outline:none;font-family:inherit;transition:border-color .2s;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%237a7870' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:14px center}
-        .search-input:focus{border-color:var(--accent)}
-        .search-input::placeholder{color:var(--muted)}
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
 
-        /* Filters - horizontal scroll on mobile */
-        .filters{display:flex;gap:8px;padding:12px 24px 0;max-width:960px;margin:0 auto;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-        .filters::-webkit-scrollbar{display:none}
-        .fb{background:var(--surface);border:1px solid transparent;color:var(--muted);border-radius:100px;padding:9px 18px;font-size:13px;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;flex-shrink:0}
-        .fb:hover{color:var(--text);background:var(--sh)}
-        .fb.on{background:var(--accent);color:var(--bg);font-weight:500}
-        .fb.lk{opacity:.4;cursor:not-allowed}.fb.lk:hover{color:var(--muted);background:var(--surface)}
+        /* Header */
+        header {
+            padding: 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;padding:20px 24px 80px;max-width:960px;margin:0 auto}
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text);
+        }
 
-        .card{background:var(--surface);border-radius:var(--r);overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:pointer;position:relative}
-        .card:hover{transform:translateY(-3px);box-shadow:0 10px 36px rgba(0,0,0,.5)}
-        .card.locked{opacity:.5;pointer-events:none}.card.locked .clo{display:flex}
-        .clo{display:none;position:absolute;inset:0;background:rgba(12,12,12,.75);z-index:5;align-items:center;justify-content:center;flex-direction:column;gap:6px}
-        .clo-i{font-size:28px}.clo-t{font-size:12px;color:var(--muted)}
-        .cvid{position:relative;width:100%;padding-top:56.25%;background:#0a0a0a}
-        .cvid iframe{position:absolute;inset:0;width:100%;height:100%;border:none;pointer-events:none}
-        .cph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:44px;background:linear-gradient(135deg,#121410,#1a1c16)}
-        .cplay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;cursor:pointer;background:rgba(0,0,0,.3);transition:background .2s}
-        .cplay:hover{background:rgba(0,0,0,.15)}
-        .cplay-btn{width:52px;height:52px;background:rgba(0,0,0,.6);border-radius:50%;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,.2)}
-        .cplay-btn::after{content:'';display:block;width:0;height:0;border-style:solid;border-width:10px 0 10px 18px;border-color:transparent transparent transparent #fff;margin-left:3px}
-        .cbod{padding:14px 16px}
-        .ctag{display:inline-block;background:var(--ad);color:var(--accent);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:3px 9px;border-radius:5px;margin-bottom:7px}
-        .cttl{font-size:15px;font-weight:600;margin-bottom:5px;line-height:1.35}
-        .cmeta{color:var(--muted);font-size:12px;display:flex;gap:12px}
-        .empty{text-align:center;padding:80px 24px;color:var(--muted)}
+        .logo-icon {
+            font-size: 28px;
+            filter: grayscale(30%);
+        }
 
-        .tcard{background:var(--surface);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s}
-        .tcard:hover{transform:translateY(-3px);box-shadow:0 10px 36px rgba(0,0,0,.5)}
-        .tcard-in{display:flex;align-items:center;gap:14px;padding:18px 16px}
-        .tcard-e{font-size:32px;flex-shrink:0}.tcard-i{flex:1}.tcard-t{font-size:15px;font-weight:600;line-height:1.3}
-        .tcard-s{font-size:12px;color:var(--muted);margin-top:3px}.tcard-ar{color:var(--muted);font-size:18px;flex-shrink:0}
+        .logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
 
-        .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;overflow-y:auto;-webkit-overflow-scrolling:touch}
-        .mo.open{display:block}
-        .mo-s{max-width:900px;margin:0 auto;padding:60px 24px 80px}
-        .mo-v{position:relative;width:100%;padding-top:56.25%;background:#000;border-radius:12px;overflow:hidden}
-        .mo-v iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
-        .mo-i{padding:20px 0}
-        .mo-tg{display:inline-block;background:var(--ad);color:var(--accent);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:4px 10px;border-radius:5px;margin-bottom:12px}
-        .mo-t{font-size:24px;font-weight:700;margin-bottom:6px;letter-spacing:-.3px}
-        .mo-m{color:var(--muted);font-size:13px;display:flex;gap:16px;margin-bottom:16px}
-        .mo-d{color:var(--muted);font-size:14px;line-height:1.7}
-        .mo-f{margin-top:32px;padding-top:20px;border-top:1px solid #222;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-        .mo-fn{font-size:14px;font-weight:600}
-        .mo-fl{display:flex;gap:10px}
-        .mo-fa{display:inline-flex;align-items:center;gap:5px;font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s}
-        .mo-fa:hover{color:var(--accent);text-decoration:none}
-        .mo-fa svg{width:15px;height:15px;fill:currentColor}
+        .logo-sub {
+            font-size: 13px;
+            color: var(--muted);
+            font-weight: 400;
+        }
 
-        .tp{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;overflow-y:auto;-webkit-overflow-scrolling:touch}
-        .tp.open{display:block}
-        .tp-s{max-width:720px;margin:0 auto;padding:60px 28px 80px;min-height:100vh}
-        .tp-tg{display:inline-block;background:var(--ad);color:var(--accent);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:4px 10px;border-radius:5px;margin-bottom:16px}
-        .tp h1{font-size:28px;font-weight:700;line-height:1.2;margin-bottom:8px;letter-spacing:-.5px}
-        .tp h2{font-size:18px;font-weight:500;color:var(--muted);margin-bottom:24px;line-height:1.4}
-        .tp-b{font-size:15px;line-height:1.8;color:var(--text)}.tp-b p{margin-bottom:16px}.tp-b ul{padding-left:20px;margin-bottom:16px}.tp-b li{margin-bottom:6px}
-        .tp-b strong{color:#c5d9a4;font-weight:600}
-        .tp-f{margin-top:40px;padding-top:24px;border-top:1px solid #222;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-        .tp-fn{font-size:14px;font-weight:600}
-        .tp-fl{display:flex;gap:10px}
-        .tp-fa{display:inline-flex;align-items:center;gap:5px;font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s}
-        .tp-fa:hover{color:var(--accent);text-decoration:none}
-        .tp-fa svg{width:15px;height:15px;fill:currentColor}
+        .nav-link {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text);
+        }
 
-        .px{position:fixed;top:16px;right:20px;background:rgba(30,30,30,.8);border:1px solid #333;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:22px;cursor:pointer;z-index:101;backdrop-filter:blur(8px)}
-        .px:hover{color:var(--text);border-color:var(--accent)}
+        /* Hero */
+        .hero {
+            padding: 80px 0 100px;
+            text-align: center;
+            background: radial-gradient(ellipse at 50% 0%, #1c2415 0%, var(--bg) 60%);
+        }
 
-        .footer{text-align:center;padding:24px;color:var(--muted);font-size:12px;border-top:1px solid #1a1a1a;max-width:960px;margin:0 auto}
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
 
-        .adm{max-width:960px;margin:0 auto;padding:24px}
-        .adm h2{font-size:22px;margin-bottom:16px}
-        .at{width:100%;border-collapse:collapse;font-size:13px}
-        .at th{text-align:left;padding:10px 8px;border-bottom:1px solid #2a2a2a;color:var(--muted);font-weight:500}
-        .at td{padding:10px 8px;border-bottom:1px solid #1a1a1a;vertical-align:middle}
-        .at select{background:var(--surface);color:var(--text);border:1px solid #2a2a2a;border-radius:6px;padding:4px 8px;font-family:inherit;font-size:12px}
-        .atb{background:var(--surface);color:var(--muted);border:1px solid #2a2a2a;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:inherit;margin:2px}
-        .atb:hover{border-color:var(--accent);color:var(--text)}
+        .hero h1 span {
+            color: var(--accent);
+        }
 
-        @media(max-width:600px){
-            .hero h1{font-size:28px}.grid{grid-template-columns:1fr}.hero{padding:32px 20px 20px}
-            .abt-c{flex-direction:column;align-items:center;text-align:center;padding:24px}.abt-l{justify-content:center}
-            .tp-s{padding:50px 20px 60px}.tp h1{font-size:24px}.at{font-size:11px}
+        .hero p {
+            font-size: 18px;
+            color: var(--muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent);
+            color: var(--bg);
+            font-size: 16px;
+            font-weight: 600;
+            padding: 16px 32px;
+            border-radius: 12px;
+            transition: transform 0.2s, opacity 0.2s;
+            box-shadow: 0 4px 20px rgba(160, 184, 122, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+            text-decoration: none;
+        }
+
+        /* Section Global */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* About */
+        .about-wrap {
+            display: flex;
+            gap: 40px;
+            background: var(--surface);
+            padding: 40px;
+            border-radius: var(--r);
+            border: 1px solid #2a2a2a;
+            align-items: flex-start;
+        }
+
+        .about-avatar {
+            font-size: 100px;
+            background: var(--sh);
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid #2a2a2a;
+        }
+
+        .about-content h2 {
+            font-size: 28px;
+            margin-bottom: 4px;
+        }
+
+        .about-role {
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .about-bio {
+            color: var(--muted);
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+
+        .about-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .link-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text);
+            border: 1px solid #2a2a2a;
+            transition: border-color 0.2s;
+        }
+
+        .link-item:hover {
+            border-color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Courses/Directions */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .course-card {
+            background: var(--surface);
+            border: 1px solid #2a2a2a;
+            border-radius: var(--r);
+            padding: 32px 24px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .course-icon {
+            font-size: 32px;
+            margin-bottom: 20px;
+            background: var(--sh);
+            width: 64px;
+            height: 64px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+        }
+
+        .course-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .course-desc {
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* Approach */
+        .approach-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .app-card {
+            background: var(--surface);
+            padding: 32px 24px;
+            border-radius: var(--r);
+            text-align: center;
+            border: 1px solid #2a2a2a;
+        }
+
+        .app-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        .app-desc {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* Schedule */
+        .schedule {
+            background: linear-gradient(135deg, var(--surface) 0%, #1a2016 100%);
+            border-radius: var(--r);
+            padding: 60px 40px;
+            text-align: center;
+            border: 1px solid #2a2a2a;
+        }
+
+        .schedule h2 {
+            font-size: 32px;
+            margin-bottom: 32px;
+        }
+
+        .sch-item {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        .sch-item span {
+            color: var(--muted);
+            display: block;
+            font-size: 15px;
+            margin-top: 4px;
+        }
+
+        .sch-cta {
+            margin-top: 32px;
+            font-size: 16px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #2a2a2a;
+            padding: 40px 0;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-text {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            color: var(--text);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 42px; }
+            .hero p { font-size: 16px; padding: 0 16px; }
+            .about-wrap { flex-direction: column; align-items: center; text-align: center; padding: 32px 20px; }
+            .about-links { justify-content: center; }
+            .approach-cards { grid-template-columns: 1fr; }
+            .schedule { padding: 40px 20px; }
+            .footer-content { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
 <body>
 
-<div id="loading"><div class="spin"></div><p>Загрузка...</p></div>
+    <div class="container">
+        <header>
+            <a href="#" class="logo">
+                <span class="logo-icon">🕉</span>
+                <div>
+                    <div class="logo-text">Йога Будни</div>
+                    <div class="logo-sub">Вячеслав Эрдниев</div>
+                </div>
+            </a>
+            <a href="app.html" class="nav-link">Библиотека</a>
+        </header>
+    </div>
 
-<div class="screen as" id="s-auth">
-    <div class="ll">🕉</div><div class="lt">Йога Будни</div><div class="la">с Вячеславом Эрдниевым</div><div class="ls">Закрытая библиотека практик</div>
-    <form class="af" id="fL" onsubmit="return doLogin()">
-        <input type="email" class="ai" id="iE" placeholder="Email" autocomplete="email" required>
-        <input type="password" class="ai" id="iP" placeholder="Пароль" autocomplete="current-password" required>
-        <button type="submit" class="ab" id="bL">Войти</button>
-        <div class="ae" id="eL"></div>
-        <button type="button" class="al" onclick="togA()">Нет аккаунта? Зарегистрироваться</button>
-        <button type="button" class="al" onclick="rstPw()" style="margin-top:0;font-size:12px;color:var(--muted)">Забыли пароль?</button>
-    </form>
-    <form class="af" id="fR" style="display:none" onsubmit="return doReg()">
-        <input type="email" class="ai" id="rE" placeholder="Email" autocomplete="email" required>
-        <input type="password" class="ai" id="rP" placeholder="Пароль (мин. 6 символов)" autocomplete="new-password" required>
-        <input type="password" class="ai" id="rP2" placeholder="Повторите пароль" autocomplete="new-password" required>
-        <button type="submit" class="ab" id="bR">Зарегистрироваться</button>
-        <div class="ae" id="eR"></div>
-        <button type="button" class="al" onclick="togA()">Уже есть аккаунт? Войти</button>
-    </form>
-</div>
-
-<div class="screen as" id="s-pending"><div class="ib"><h2>⏳ Ожидание доступа</h2><p>Ваш аккаунт зарегистрирован. Доступ будет открыт преподавателем.</p><button class="ab" onclick="doLogout()">Выйти</button></div></div>
-<div class="screen as" id="s-blocked"><div class="ib"><h2>🚫 Доступ заблокирован</h2><p>Обратитесь к преподавателю.</p><button class="ab" onclick="doLogout()">Выйти</button></div></div>
-<div class="screen as" id="s-device"><div class="ib"><h2>📱 Лимит устройств</h2><p>Аккаунт привязан к другому устройству. Обратитесь к преподавателю для сброса.</p><button class="ab" onclick="doLogout()">Выйти</button></div></div>
-
-<div class="screen app-screen" id="s-app">
-    <header class="hd">
-        <div class="br"><span class="bi">🕉</span><div><div class="bn">Йога Будни</div><div class="bt">Вячеслав Эрдниев</div></div></div>
-        <div class="hr">
-            <span class="badge" id="badge"></span>
-            <button class="hb" id="admB" style="display:none" onclick="showAdm()">👑 Админ<span class="notif" id="notif" style="display:none"></span></button>
-            <button class="hb" onclick="doLogout()">Выйти</button>
+    <section class="hero">
+        <div class="container">
+            <h1>Йога Будни<br><span>с Вячеславом Эрдниевым</span></h1>
+            <p>Хатха-йога, шаткармы, восстановление тела. Только то, что работает — проверено на себе.</p>
+            <a href="app.html" class="btn">Войти в библиотеку</a>
         </div>
-    </header>
-    <div id="mainV">
-        <section class="hero"><h1>Практика <span>без лишнего</span></h1><p>Хатха-йога, шаткармы, восстановление тела. Только то, что работает - проверено на себе.</p></section>
-        <div class="abt"><div class="abt-c">
-            <div class="abt-av">🧘‍♂️</div>
-            <div class="abt-b">
-                <div class="abt-n">Вячеслав Эрдниев</div>
-                <div class="abt-r">Преподаватель хатха-йоги и шаткарм</div>
-                <div class="abt-t">Бывший инженер-сейсмолог. Ушёл из Москвы в йогу не ради тренда - просто в какой-то момент тело и голова потребовали другого. Практикую и преподаю больше 10 лет. Был в Ришикеше, Варанаси, Дхарамсале. Специализируюсь на шаткармах и восстановлении тела. Без эзотерики - только то, что проверил на себе.</div>
-                <div class="abt-l">
-                    <a href="https://www.instagram.com/shat_karm?igsh=MWVleGZvczlxeXh2eg==" target="_blank" class="abt-a"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@shat_karm</a>
-                    <a href="https://t.me/shat_karm" target="_blank" class="abt-a"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>@shat_karm</a>
-                    <a href="https://yogaenthusiasts.ru/shatkarm" target="_blank" class="abt-a"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>Сайт</a>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <div class="about-wrap">
+                <div class="about-avatar">🧘‍♂️</div>
+                <div class="about-content">
+                    <h2>Вячеслав Эрдниев</h2>
+                    <div class="about-role">Преподаватель хатха-йоги и шаткарм</div>
+                    <p class="about-bio">Бывший инженер-сейсмолог. Ушёл из Москвы в йогу не ради тренда — просто в какой-то момент тело и голова потребовали другого. Практикую и преподаю больше 10 лет. Был в Ришикеше, Варанаси, Дхарамсале. Специализируюсь на шаткармах и восстановлении тела. Без эзотерики — только то, что проверил на себе.</p>
+                    <div class="about-links">
+                        <a href="https://instagram.com/shat_karm" target="_blank" class="link-item">Instagram @shat_karm</a>
+                        <a href="https://t.me/shat_karm" target="_blank" class="link-item">Telegram @shat_karm</a>
+                        <a href="https://yogaenthusiasts.ru/shatkarm" target="_blank" class="link-item">Website</a>
+                    </div>
                 </div>
             </div>
-        </div></div>
-        <div class="search-wrap"><input type="text" class="search-input" id="searchIn" placeholder="Поиск по практикам..." oninput="doSearch()"></div>
-        <div class="filters" id="filters"></div>
-        <div class="grid" id="grid"></div>
-    </div>
-    <div class="adm" id="admP" style="display:none">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h2>👑 Управление учениками</h2><button class="hb" onclick="hideAdm()">← Назад</button></div>
-        <table class="at"><thead><tr><th>Email</th><th>Имя</th><th>Доступ</th><th>Устр.</th><th></th><th>Действия</th></tr></thead><tbody id="utbl"></tbody></table>
-    </div>
-    <footer class="footer">Йога Будни · Вячеслав Эрдниев · <a href="https://instagram.com/shat_karm" target="_blank">@shat_karm</a></footer>
-</div>
-
-<div class="mo" id="modal">
-    <button class="px" onclick="xMo()">✕</button>
-    <div class="mo-s">
-        <div class="mo-v" id="mV"></div>
-        <div class="mo-i">
-            <div class="mo-tg" id="mTg"></div>
-            <div class="mo-t" id="mT"></div>
-            <div class="mo-m"><span id="mDur"></span><span id="mLv"></span></div>
-            <div class="mo-d" id="mD"></div>
         </div>
-        <div class="mo-f">
-            <div class="mo-fn">Вячеслав Эрдниев</div>
-            <div class="mo-fl">
-                <a href="https://t.me/shat_karm" target="_blank" class="mo-fa"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>@shat_karm</a>
-                <a href="https://www.instagram.com/shat_karm?igsh=MWVleGZvczlxeXh2eg==" target="_blank" class="mo-fa"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@shat_karm</a>
+    </section>
+
+    <section id="directions">
+        <div class="container">
+            <h2 class="section-title">Направления</h2>
+            <div class="grid-cards">
+                <div class="course-card">
+                    <div class="course-icon">🧘</div>
+                    <h3 class="course-title">Телесные практики</h3>
+                    <p class="course-desc">Утренние комплексы, работа со спиной, вечерние практики. Безопасная хатха-йога с грамотными отстройками.</p>
+                </div>
+                <div class="course-card">
+                    <div class="course-icon">💆</div>
+                    <h3 class="course-title">Восстановление тела</h3>
+                    <p class="course-desc">Шанкх пракшалана, куньджала крия, тратака. Шаткармы — очищение по древним текстам, адаптированное под современного человека.</p>
+                </div>
+                <div class="course-card">
+                    <div class="course-icon">💨</div>
+                    <h3 class="course-title">Дыхательные практики</h3>
+                    <p class="course-desc">Капалабхати, уддияна бандха, полное йогическое дыхание. Пранаяма как инструмент управления энергией.</p>
+                </div>
+                <div class="course-card">
+                    <div class="course-icon">🌀</div>
+                    <h3 class="course-title">Работа с наули</h3>
+                    <p class="course-desc">От нуля до практики. Пошаговое освоение одной из самых мощных техник хатха-йоги.</p>
+                </div>
+                <div class="course-card">
+                    <div class="course-icon">📖</div>
+                    <h3 class="course-title">Теория</h3>
+                    <p class="course-desc">Аюрведа, шаткармы, питание. Понимание того, что и зачем мы делаем.</p>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<div class="tp" id="tpop"><button class="px" onclick="xTP()">✕</button><div class="tp-s"><div class="tp-tg" id="tpTg"></div><h1 id="tpH1"></h1><h2 id="tpH2"></h2><div class="tp-b" id="tpB"></div>
-<div class="tp-f"><div class="tp-fn">Вячеслав Эрдниев</div><div class="tp-fl">
-<a href="https://t.me/shat_karm" target="_blank" class="tp-fa"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>@shat_karm</a>
-<a href="https://www.instagram.com/shat_karm?igsh=MWVleGZvczlxeXh2eg==" target="_blank" class="tp-fa"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@shat_karm</a>
-</div></div></div></div>
+    <section id="approach">
+        <div class="container">
+            <h2 class="section-title">Подход</h2>
+            <div class="approach-cards">
+                <div class="app-card">
+                    <div class="app-title">Без эзотерики</div>
+                    <div class="app-desc">Только физиология, анатомия и личный опыт. Никаких чакр, аур и магии.</div>
+                </div>
+                <div class="app-card">
+                    <div class="app-title">Безопасность</div>
+                    <div class="app-desc">Грамотные отстройки каждой асаны. Работаем с телом, а не против него.</div>
+                </div>
+                <div class="app-card">
+                    <div class="app-title">Практика</div>
+                    <div class="app-desc">Теория — только для понимания. Главное — делать.</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
-import { PRACTICES as P, TEXTS as T } from './content.js';
+    <section id="schedule">
+        <div class="container">
+            <div class="schedule">
+                <h2>Расписание</h2>
+                <div class="sch-item">
+                    <strong>Групповые занятия</strong>
+                    <span>ПН / СР / ПТ в 19:00<br>Элиста, 8 мкр, д.46</span>
+                </div>
+                <div class="sch-item" style="margin-top: 24px;">
+                    <strong>Онлайн формат</strong>
+                    <span>Индивидуальные занятия по записи</span>
+                </div>
+                <div class="sch-cta">
+                    Запись: <a href="https://t.me/shat_karm" target="_blank">@shat_karm</a> в Instagram или Telegram
+                </div>
+            </div>
+        </div>
+    </section>
 
-const app=initializeApp({apiKey:"AIzaSyCSgJXAnewN1sQv4fVjv3Wa12U5GO5v5bk",authDomain:"yoga-budni.firebaseapp.com",projectId:"yoga-budni",storageBucket:"yoga-budni.firebasestorage.app",messagingSenderId:"930284585076",appId:"1:930284585076:web:63475b797592b0bbfdd121"});
-const auth=getAuth(app),db=getFirestore(app);
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    &copy; 2026 Йога Будни &middot; Вячеслав Эрдниев
+                </div>
+                <div class="footer-links">
+                    <a href="https://t.me/shat_karm" target="_blank">Telegram</a>
+                    <a href="https://instagram.com/shat_karm" target="_blank">Instagram</a>
+                    <a href="app.html">Библиотека практик</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-function fp(){const c=document.createElement('canvas'),x=c.getContext('2d');x.textBaseline='top';x.font='14px Arial';x.fillText('yb',2,2);const r=[navigator.userAgent,navigator.language,screen.width+'x'+screen.height,screen.colorDepth,new Date().getTimezoneOffset(),navigator.hardwareConcurrency||0,c.toDataURL().slice(-50)].join('|');let h=0;for(let i=0;i<r.length;i++){h=((h<<5)-h)+r.charCodeAt(i);h|=0}return'fp_'+Math.abs(h).toString(36)}
-const devFP=fp();
-
-const ADMINS=['sulya2106@gmail.com'];
-const TG_BOT='8706822293:AAGF6HlnV9GIZwczAIg3Yv_FObQH7_eLGVg';
-const TG_CHAT='469446876';
-function tgNotify(text){fetch(`https://api.telegram.org/bot${TG_BOT}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:TG_CHAT,text,parse_mode:'HTML'})}).catch(()=>{})}
-const CATS={body:{l:'🧘 Телесные практики'},recovery:{l:'💆 Восстановление тела'},breath:{l:'💨 Дыхательные практики'},nauli:{l:'🌀 Работа с наули'},theory:{l:'📖 Теория'}};
-const CN={body:'Телесные практики',recovery:'Восстановление тела',breath:'Дыхательные практики',nauli:'Наули',theory:'Теория'};
-const PRESETS={'Тело':['body','breath','theory'],'Очищение':['recovery','breath','theory'],'Наули':['nauli','breath','theory'],'Полный':['body','recovery','breath','nauli','theory']};
-
-let uData=null,admin=false,curCat='all',searchQ='';
-
-function show(id){document.getElementById('loading').style.display='none';document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-function acc(c){if(admin)return true;if(!uData)return false;return(uData.cats||[]).includes(c)}
-
-onAuthStateChanged(auth,async u=>{
-    if(!u){show('s-auth');return}
-    admin=ADMINS.includes(u.email);
-    const ref=doc(db,'users',u.uid);
-    try{
-        const snap=await getDoc(ref);
-        if(!snap.exists()){
-            if(admin){await setDoc(ref,{email:u.email,name:'Админ',cats:['body','recovery','breath','nauli','theory'],maxDevices:99,devices:[devFP],active:true,createdAt:new Date().toISOString()});uData={cats:['body','recovery','breath','nauli','theory'],name:'Админ'}}
-            else{await setDoc(ref,{email:u.email,name:'',cats:[],maxDevices:2,devices:[],active:false,createdAt:new Date().toISOString()});tgNotify(`🆕 <b>Новая регистрация</b>\n\n📧 ${u.email}\n⏳ Ожидает одобрения\n\n👉 <a href="https://sulya2106-cell.github.io/good-morning-club/">Открыть админку</a>`);show('s-pending');return}
-        }else{
-            const d=snap.data();
-            if(!d.active&&!admin){show('s-blocked');return}
-            if((!d.cats||!d.cats.length)&&!d.level&&!admin){show('s-pending');return}
-            if(d.level&&!d.cats){const LC={practice:['body','breath','theory'],shatkarma:['recovery','breath','theory'],nauli:['nauli','breath','theory'],full:['body','recovery','breath','nauli','theory']};d.cats=LC[d.level]||[];await updateDoc(ref,{cats:d.cats})}
-            const devs=d.devices||[];
-            if(!devs.includes(devFP)){if(devs.length>=(d.maxDevices||2)&&!admin){show('s-device');return}await updateDoc(ref,{devices:arrayUnion(devFP)})}
-            uData=d;
-        }
-    }catch(e){console.error(e);show('s-auth');return}
-    showUI();
-});
-
-async function showUI(){
-    show('s-app');
-    const cats=uData?.cats||[];
-    const b=admin?'Админ':cats.length===5?'Полный доступ':cats.map(c=>({body:'Тело',recovery:'Очищение',breath:'Дыхание',nauli:'Наули',theory:'Теория'}[c]||c)).filter(x=>x!=='Дыхание'&&x!=='Теория').join(' + ')||'Базовый';
-    document.getElementById('badge').textContent=b;
-    if(admin){document.getElementById('admB').style.display='';
-        // Count pending users
-        try{const snap=await getDocs(collection(db,'users'));let pend=0;snap.forEach(d=>{const u=d.data();if(!u.active&&(!u.cats||!u.cats.length))pend++});
-        const n=document.getElementById('notif');if(pend>0){n.textContent=pend;n.style.display=''}else{n.style.display='none'}}catch(e){}}
-    buildF();render();
-}
-
-function buildF(){
-    const f=document.getElementById('filters');
-    let h='<button class="fb on" data-c="all">Все</button>';
-    for(const[c,i]of Object.entries(CATS)){const lk=!acc(c);h+=`<button class="fb${lk?' lk':''}" data-c="${c}" ${lk?'disabled':''}>${i.l}${lk?' 🔒':''}</button>`}
-    f.innerHTML=h;
-    f.querySelectorAll('.fb:not(.lk)').forEach(b=>b.onclick=()=>{f.querySelectorAll('.fb').forEach(x=>x.classList.remove('on'));b.classList.add('on');curCat=b.dataset.c;render()});
-}
-
-function render(){
-    const g=document.getElementById('grid');
-    const q=searchQ.toLowerCase();
-    let list=curCat==='all'?[...P]:P.filter(p=>p.c===curCat);
-    let tlist=curCat==='all'?[...T]:T.filter(t=>t.c===curCat);
-    if(q){list=list.filter(p=>p.t.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q));tlist=tlist.filter(t=>t.t.toLowerCase().includes(q)||(t.sub||'').toLowerCase().includes(q))}
-    if(curCat==='all'){const a=list.filter(p=>acc(p.c)),b=list.filter(p=>!acc(p.c));list=[...a,...b]}
-    tlist=tlist.filter(t=>acc(t.c));
-    if(!list.length&&!tlist.length){g.innerHTML=q?'<div class="empty"><div style="font-size:44px;margin-bottom:16px">🔍</div><div>Ничего не найдено</div></div>':'<div class="empty"><div style="font-size:44px;margin-bottom:16px">🧘</div><div>Пока нет практик</div></div>';return}
-    let html=list.map(p=>{const lk=!acc(p.c),i=P.indexOf(p);const thumb=!lk&&p.vk?`<iframe src="${p.vk}" loading="lazy"></iframe><div class="cplay"><div class="cplay-btn"></div></div>`:`<div class="cph">${p.e}</div>`;return`<div class="card${lk?' locked':''}" ${lk?'':`onclick="openM(${i})"`}><div class="clo"><div class="clo-i">🔒</div><div class="clo-t">Нет доступа</div></div><div class="cvid">${thumb}</div><div class="cbod"><span class="ctag">${CN[p.c]||p.c}</span><div class="cttl">${p.t}</div><div class="cmeta"><span>⏱ ${p.d}</span><span>📊 ${p.lv}</span></div></div></div>`}).join('');
-    html+=tlist.map(t=>`<div class="tcard" onclick="openTP(${T.indexOf(t)})"><span class="ctag" style="margin:14px 0 0 16px">${CN[t.c]||t.c}</span><div class="tcard-in"><div class="tcard-e">${t.e}</div><div class="tcard-i"><div class="tcard-t">${t.t}</div><div class="tcard-s">${t.sub||''}</div></div><span class="tcard-ar">→</span></div></div>`).join('');
-    g.innerHTML=html;
-}
-
-window.doSearch=()=>{searchQ=document.getElementById('searchIn').value;render()};
-
-window.openM=i=>{const p=P[i];if(!acc(p.c))return;document.getElementById('mTg').textContent=CN[p.c]||p.c;document.getElementById('mT').textContent=p.t;document.getElementById('mDur').textContent='⏱ '+p.d;document.getElementById('mLv').textContent='📊 '+p.lv;document.getElementById('mD').textContent=p.desc;const vhtml=p.vk?`<iframe src="${p.vk}" allow="autoplay;encrypted-media;fullscreen;picture-in-picture;screen-wake-lock" allowfullscreen></iframe>`:`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:56px;background:#0a0a0a">${p.e}</div>`;document.getElementById('mV').innerHTML=vhtml;document.getElementById('modal').classList.add('open');document.getElementById('modal').scrollTop=0;document.body.style.overflow='hidden';history.pushState({m:'video'},'')};
-window.xMo=e=>{if(e&&e.target&&e.target!==e.currentTarget)return;document.getElementById('modal').classList.remove('open');document.getElementById('mV').innerHTML='';document.body.style.overflow=''};
-
-window.openTP=i=>{const t=T[i];if(!acc(t.c))return;document.getElementById('tpTg').textContent=CN[t.c]||t.c;document.getElementById('tpH1').textContent=t.h1||t.t;document.getElementById('tpH2').textContent=t.h2||t.sub||'';document.getElementById('tpB').innerHTML=t.body;document.getElementById('tpop').classList.add('open');document.body.style.overflow='hidden';history.pushState({m:'text'},'')};
-window.xTP=()=>{document.getElementById('tpop').classList.remove('open');document.body.style.overflow=''};
-
-// Back button closes modals
-window.addEventListener('popstate',()=>{
-    if(document.getElementById('modal').classList.contains('open'))xMo();
-    if(document.getElementById('tpop').classList.contains('open'))xTP();
-});
-
-// Swipe down to close text popup
-let touchY=0;
-document.getElementById('tpop').addEventListener('touchstart',e=>{touchY=e.touches[0].clientY},{passive:true});
-document.getElementById('tpop').addEventListener('touchend',e=>{const dy=e.changedTouches[0].clientY-touchY;if(dy>100&&document.getElementById('tpop').scrollTop<10)xTP()},{passive:true});
-
-window.doLogin=()=>{const em=document.getElementById('iE').value.trim(),pw=document.getElementById('iP').value,er=document.getElementById('eL'),btn=document.getElementById('bL');er.textContent='';er.style.color='';btn.disabled=true;btn.textContent='Вхожу...';signInWithEmailAndPassword(auth,em,pw).catch(e=>{er.textContent=e.code==='auth/invalid-credential'?'Неверный email или пароль':e.code==='auth/too-many-requests'?'Слишком много попыток':e.message;btn.disabled=false;btn.textContent='Войти'});return false};
-window.doReg=()=>{const em=document.getElementById('rE').value.trim(),pw=document.getElementById('rP').value,pw2=document.getElementById('rP2').value,er=document.getElementById('eR'),btn=document.getElementById('bR');er.textContent='';if(pw.length<6){er.textContent='Пароль минимум 6 символов';return false}if(pw!==pw2){er.textContent='Пароли не совпадают';return false}btn.disabled=true;btn.textContent='Регистрация...';createUserWithEmailAndPassword(auth,em,pw).catch(e=>{er.textContent=e.code==='auth/email-already-in-use'?'Email уже зарегистрирован':e.code==='auth/invalid-email'?'Некорректный email':e.message;btn.disabled=false;btn.textContent='Зарегистрироваться'});return false};
-window.doLogout=()=>{signOut(auth).then(()=>location.reload())};
-window.togA=()=>{const l=document.getElementById('fL'),r=document.getElementById('fR');if(l.style.display==='none'){l.style.display='';r.style.display='none'}else{l.style.display='none';r.style.display=''}};
-window.rstPw=async()=>{const em=document.getElementById('iE').value.trim();const er=document.getElementById('eL');if(!em){er.textContent='Введите email, затем нажмите "Забыли пароль?"';return}try{await sendPasswordResetEmail(auth,em);er.style.color='var(--accent)';er.textContent='Ссылка для сброса отправлена на '+em}catch(e){er.textContent=e.code==='auth/user-not-found'?'Такой email не зарегистрирован':e.message}};
-
-window.showAdm=async()=>{if(!admin)return;document.getElementById('admP').style.display='';document.getElementById('mainV').style.display='none';const snap=await getDocs(collection(db,'users')),tb=document.getElementById('utbl');
-tb.innerHTML='';snap.forEach(d=>{const u=d.data(),dc=(u.devices||[]).length,cats=u.cats||[];
-const cbs=Object.keys(CATS).map(c=>`<label style="display:inline-flex;align-items:center;gap:2px;font-size:11px;cursor:pointer;white-space:nowrap"><input type="checkbox" ${cats.includes(c)?'checked':''} onchange="tglCat('${d.id}','${c}',this.checked)" style="cursor:pointer;accent-color:var(--accent)">${CN[c]}</label>`).join(' ');
-const pb=Object.entries(PRESETS).map(([n])=>`<button class="atb" onclick="setPre('${d.id}','${n}')" style="font-size:10px">${n}</button>`).join('');
-tb.innerHTML+=`<tr><td>${u.email||'-'}</td><td>${u.name||'-'}</td><td style="min-width:180px"><div style="display:flex;flex-wrap:wrap;gap:4px 8px">${cbs}</div><div style="margin-top:6px;display:flex;gap:3px;flex-wrap:wrap">${pb}</div></td><td>${dc}/${u.maxDevices||2}</td><td>${u.active!==false?'✅':'❌'}</td><td><button class="atb" onclick="tglUsr('${d.id}',${u.active!==false})">${u.active!==false?'Блок':'Разблок'}</button><button class="atb" onclick="rstDev('${d.id}')">Сброс</button></td></tr>`})};
-window.hideAdm=()=>{document.getElementById('admP').style.display='none';document.getElementById('mainV').style.display=''};
-window.tglCat=async(id,cat,on)=>{const ref=doc(db,'users',id);const snap=await getDoc(ref);const d=snap.data();let cats=d.cats||[];if(on&&!cats.includes(cat))cats.push(cat);if(!on)cats=cats.filter(c=>c!==cat);await updateDoc(ref,{cats,active:true});showAdm()};
-window.setPre=async(id,name)=>{await updateDoc(doc(db,'users',id),{cats:[...PRESETS[name]],active:true});showAdm()};
-window.tglUsr=async(id,on)=>{await updateDoc(doc(db,'users',id),{active:!on});showAdm()};
-window.rstDev=async(id)=>{await updateDoc(doc(db,'users',id),{devices:[]});showAdm()};
-
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){xMo();xTP()}if(e.key==='F12'){e.preventDefault();return}if(e.ctrlKey&&'sucp'.includes(e.key))e.preventDefault();if(e.ctrlKey&&e.shiftKey&&'IJC'.includes(e.key))e.preventDefault()});
-document.addEventListener('contextmenu',e=>e.preventDefault());
-document.addEventListener('dragstart',e=>e.preventDefault());
-</script>
 </body>
 </html>
