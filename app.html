@@ -317,9 +317,9 @@ const TG_BOT='8706822293:AAGF6HlnV9GIZwczAIg3Yv_FObQH7_eLGVg';
 const TG_CHAT='469446876';
 function tgNotify(text){fetch(`https://api.telegram.org/bot${TG_BOT}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:TG_CHAT,text,parse_mode:'HTML'})}).catch(()=>{})}
 const CAT_DAYS = {body: 30, recovery: 14, breath: 30, nauli: 30, theory: 30};
-const CATS={body:{l:'🧘 Телесные практики'},recovery:{l:'💆 Восстановление тела'},breath:{l:'💨 Дыхательные практики'},nauli:{l:'🌀 Работа с наули'},theory:{l:'📖 Теория'}};
-const CN={body:'Телесные практики',recovery:'Восстановление тела',breath:'Дыхательные практики',nauli:'Наули',theory:'Теория'};
-const PRESETS={'Тело':['body','breath','theory'],'Очищение':['recovery','breath','theory'],'Наули':['nauli','breath','theory'],'Полный':['body','recovery','breath','nauli','theory']};
+const CATS={body:{l:'🧘 Телесные практики'},recovery:{l:'💆 Восстановление тела'},breath:{l:'💨 Дыхательные практики'},nauli:{l:'🌀 Внутренний огонь'},theory:{l:'📖 Теория'}};
+const CN={body:'Телесные практики',recovery:'Восстановление тела',breath:'Дыхательные практики',nauli:'Внутренний огонь',theory:'Теория'};
+const PRESETS={'Тело':['body','breath','theory'],'Очищение':['recovery','breath','theory'],'Внутренний огонь':['nauli','breath','theory'],'Полный':['body','recovery','breath','nauli','theory']};
 
 let uData=null,admin=false,curCat='all',searchQ='';
 
@@ -373,7 +373,7 @@ async function showUI(){
                 if(d >= 0 && d < minDays) minDays = d;
             }
         }
-        const pkgName = activeCats.length===5 ? 'Полный доступ' : activeCats.map(c=>({body:'Тело',recovery:'Очищение',breath:'Дыхание',nauli:'Наули',theory:'Теория'}[c]||c)).filter(x=>x!=='Дыхание'&&x!=='Теория').join(' + ') || 'Нет доступа';
+        const pkgName = activeCats.length===5 ? 'Полный доступ' : activeCats.map(c=>({body:'Тело',recovery:'Очищение',breath:'Дыхание',nauli:'Внутренний огонь',theory:'Теория'}[c]||c)).filter(x=>x!=='Дыхание'&&x!=='Теория').join(' + ') || 'Нет доступа';
         if(minDays !== Infinity && minDays >= 0){
             const d10 = minDays % 10;
             const d100 = minDays % 100;
@@ -459,7 +459,7 @@ function render(){
     let html=list.map(p=>{
     const lk=!acc(p.c), i=P.indexOf(p);
     const thumb=!lk&&p.vk ? `<iframe src="${p.vk}" loading="lazy"></iframe><div class="cplay"><div class="cplay-btn"></div></div>` : `<div class="cph">${p.e}</div>`;
-    const pkg = p.c==="body"?"Тело":p.c==="recovery"?"Очищение":p.c==="nauli"?"Наули":"Полный";
+    const pkg = p.c==="body"?"Тело":p.c==="recovery"?"Очищение":p.c==="nauli"?"Внутренний огонь":"Полный";
     const cloHtml = lk ? `<div class="clo" onclick="alert('Эта практика доступна в пакете \'' + pkg + '\'. Напишите @shat_karm для доступа.')"><div class="clo-i">🔒</div><div class="clo-t" style="text-align:center;font-size:13px;padding:0 10px;line-height:1.4">Доступно в пакете ${pkg}<br><a href="https://t.me/shat_karm" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent);text-decoration:none;margin-top:6px;display:inline-block;">Напишите @shat_karm для доступа</a></div></div>` : '';
     return `<div class="card${lk?' locked':''}" ${lk?'':`onclick="openM(${i})"`}>${lk?cloHtml:''} <div class="cvid">${thumb}</div><div class="cbod"><span class="ctag">${CN[p.c]||p.c}</span><div class="cttl">${p.t}</div><div class="cmeta"><span>⏱ ${p.d}</span><span>📊 ${p.lv}</span></div></div></div>`;
 }).join('');
