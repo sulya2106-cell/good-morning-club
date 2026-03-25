@@ -240,6 +240,7 @@
         <div style="text-align:center;margin-bottom:40px"><a href="about.html" class="hb" style="display:inline-flex;padding:10px 20px;font-weight:500">О преподавателе →</a></div>
         <div class="search-wrap"><input type="text" class="search-input" id="searchIn" placeholder="Поиск по практикам..." oninput="doSearch()"></div>
         <div class="filters" id="filters"></div>
+        <div id="course-banner" style="max-width:960px; margin: 0 auto;"></div>
         <div class="grid" id="grid"></div>
     </div>
     <div class="adm" id="admP" style="display:none">
@@ -459,7 +460,16 @@ function buildF(){
 
 function render(){
     const g=document.getElementById('grid');
+    const cb=document.getElementById('course-banner');
     const q=searchQ.toLowerCase();
+    
+    if (cb) {
+        if (curCat === 'recovery' && !q) {
+            cb.innerHTML = '<a href="course-cleanse.html" style="display:block; background:var(--ad); border:1px solid var(--accent); color:var(--accent); border-radius:12px; padding:16px 20px; text-decoration:none; margin: 24px 24px -4px; font-weight:600; text-align:center; transition: opacity 0.2s;">📋 Смотреть полную программу курса «Перезагрузка тела» →</a>';
+        } else {
+            cb.innerHTML = '';
+        }
+    }
     let list=curCat==='all'?[...P]:P.filter(p=>p.c===curCat);
     let tlist=curCat==='all'?[...T]:T.filter(t=>t.c===curCat);
     if(q){list=list.filter(p=>p.t.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q));tlist=tlist.filter(t=>t.t.toLowerCase().includes(q)||(t.sub||'').toLowerCase().includes(q))}
