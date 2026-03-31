@@ -32,10 +32,21 @@
 
         .footer{text-align:center;padding:24px;color:var(--muted);font-size:12px;border-top:1px solid #1a1a1a;max-width:960px;margin:0 auto;width:100%}
 
+        .dirs{margin-top:60px}
+        .dirs-t{font-size:28px;font-weight:700;margin-bottom:24px;letter-spacing:-0.5px}
+        .d-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+        .d-card{background:var(--surface);border-radius:var(--r);padding:28px 24px;border:1px solid #2a2a2a;transition:transform .2s,border-color .2s}
+        .d-card:hover{transform:translateY(-4px);border-color:var(--accent)}
+        .d-icon{font-size:32px;margin-bottom:16px;background:var(--sh);width:60px;height:60px;display:inline-flex;align-items:center;justify-content:center;border-radius:14px}
+        .d-ti{font-size:18px;font-weight:600;margin-bottom:12px;color:var(--text)}
+        .d-tx{color:var(--muted);font-size:14px;line-height:1.6}
+
+        @media(max-width:900px){.d-grid{grid-template-columns:repeat(2,1fr)}}
         @media(max-width:600px){
             .abt-c{flex-direction:column;align-items:center;text-align:center;padding:32px 24px}
             .abt-sch-v{justify-content:center}
             .abt-l{justify-content:center}
+            .d-grid{grid-template-columns:1fr}
         }
     </style>
 </head>
@@ -52,7 +63,7 @@
                 <div class="abt-n">Вячеслав Эрдниев</div>
                 <div class="abt-r">Преподаватель хатха-йоги и шаткарм</div>
                 
-                <div class="abt-t">Бывший инженер-сейсмолог. Ушёл из Москвы в йогу не ради тренда - просто в какой-то момент тело и голова потребовали другого. Практикую и преподаю больше 10 лет. Был в Ришикеше, Варанаси, Дхарамсале. Специализируюсь на шаткармах и восстановлении тела. Без эзотерики - только то, что проверил на себе.</div>
+                <div class="abt-t">Учился в S-VYASA University, Бангалор - единственный в Индии университет, где йога подкреплена наукой, а не верой.<br><br>Объясняю каждое движение: зачем и почему мы это делаем и какую пользу оно приносит. Подбираю практику под человека, а не человека под практику. Шаткармы, дыхание, работа с телом изнутри.</div>
                 
                 <div class="abt-sch">
                     <div class="abt-sch-t">Расписание занятий</div>
@@ -69,6 +80,38 @@
                     <a href="https://yogaenthusiasts.ru/shatkarm" target="_blank" class="abt-a" title="Сайт">
                         <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                     </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Направления работы -->
+        <div class="dirs">
+            <div class="dirs-t">Направления</div>
+            <div class="d-grid">
+                <div class="d-card">
+                    <div class="d-icon">🧘</div>
+                    <div class="d-ti">Хатха-йога</div>
+                    <div class="d-tx">Работа с телом через асаны и дыхание. Грамотные отстройки каждого движения. Персональные онлайн и групповые в Элисте (ПН/СР/ПТ 19:00, 8 мкр, 46А).</div>
+                </div>
+                <div class="d-card">
+                    <div class="d-icon">🔥</div>
+                    <div class="d-ti">Курсы очищения и восстановления</div>
+                    <div class="d-tx">Программы от 14 до 30 дней. Дыхание, вакуум, шаткармы — пошагово, с поддержкой в чате и живыми созвонами. Два направления: «Восстановление тела» и «Внутренний огонь».</div>
+                </div>
+                <div class="d-card">
+                    <div class="d-icon">💪</div>
+                    <div class="d-ti">Персональный тренинг</div>
+                    <div class="d-tx">Индивидуальные тренировки в зале + дистанционные программы. Смотрю на движения, нахожу слабые места, составляю план.</div>
+                </div>
+                <div class="d-card">
+                    <div class="d-icon">⚡</div>
+                    <div class="d-ti">Похудение</div>
+                    <div class="d-tx">Индивидуальная программа: разбираем питание, подбираем техники, работаем с телом. Без голодовок и марафонов — через практику и понимание, как работает тело.</div>
+                </div>
+                <div class="d-card">
+                    <div class="d-icon">🎤</div>
+                    <div class="d-ti">Мастер-классы</div>
+                    <div class="d-tx">Провожу для организаций, спортивных секций и частных групп. Оффлайн и онлайн. Йога, восстановление, работа с телом — формат под запрос.</div>
                 </div>
             </div>
         </div>
