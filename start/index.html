@@ -36,7 +36,7 @@
         /* CTA section */
         .cta-section{padding:60px 0}
         .cta-title{font-size:24px;font-weight:700;text-align:center;margin-bottom:32px;letter-spacing:-.3px}
-        .cta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+        .cta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
         .cta-card{background:var(--surface);border:1px solid #2a2a2a;border-radius:var(--r);padding:28px 24px;text-align:center;transition:transform .2s,border-color .2s}
         .cta-card:hover{transform:translateY(-3px);border-color:var(--accent)}
         .cta-icon{font-size:32px;margin-bottom:16px}
@@ -98,6 +98,18 @@
         <div class="cta-section">
             <div class="cta-title">Понравилось? Вот что дальше</div>
             <div class="cta-grid">
+                <!-- Лид-магнит -->
+                <div class="cta-card" style="background:var(--accent);color:var(--bg);border-color:var(--accent);grid-column: 1 / -1">
+                    <div class="cta-icon" style="filter:brightness(0)">📲</div>
+                    <div class="cta-card-title" style="color:var(--bg)">Хочешь ещё 3 бесплатных видео?</div>
+                    <div class="cta-card-desc" style="color:rgba(12,12,12,.7)">Напиши «хочу» — пришлём лично</div>
+                    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+                        <a href="https://vk.com/id773511982" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:var(--bg);color:var(--text);padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none">VK</a>
+                        <a href="https://instagram.com/shat_karm" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:var(--bg);color:var(--text);padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none">Instagram</a>
+                        <a href="https://t.me/shat_karm" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:var(--bg);color:var(--text);padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none">Telegram</a>
+                    </div>
+                </div>
+
                 <!-- Подпишись -->
                 <div class="cta-card">
                     <div class="cta-icon">📲</div>
