@@ -770,14 +770,15 @@ const COURSES = {
                 card.style.alignItems = 'stretch';
                 
                 card.innerHTML = `
-                    <div style="display:flex; align-items:center; gap:16px;">
+                    <div style="display:flex; align-items:center; gap:16px; cursor:pointer;">
                         <div class="day-icon">${day.icon}</div>
-                        <div class="day-content">
+                        <div class="day-content" style="flex:1">
                             <div class="day-title">${day.title}</div>
                             <div class="day-desc">${day.desc}</div>
                         </div>
-                        <div class="day-status">
+                        <div style="display:flex;align-items:center;gap:8px">
                             <div class="status-badge" style="background:var(--accent);color:var(--bg);">✅ Открыто</div>
+                            <span id="nutr_arrow_${idx}" style="color:var(--muted);font-size:20px;transition:transform .3s">▼</span>
                         </div>
                     </div>
                     <div class="text-content nutrition-content" id="nutr_${idx}" style="display:none; margin-top:16px; border-top:1px solid rgba(160,184,122,.2); padding-top:16px;">
@@ -787,7 +788,10 @@ const COURSES = {
                 
                 card.onclick = () => {
                     const el = document.getElementById(`nutr_${idx}`);
-                    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+                    const arrow = document.getElementById(`nutr_arrow_${idx}`);
+                    const isHidden = el.style.display === 'none';
+                    el.style.display = isHidden ? 'block' : 'none';
+                    arrow.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0)';
                 };
                 list.appendChild(card);
                 return;
