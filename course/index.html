@@ -234,27 +234,73 @@ let STUDENTS = {
     'DEMO01': { name: 'Демо-ученик', start: '2026-04-15', course: 'recovery', days: 14 },
 };
 
-const COURSE_DAYS = [
-    { day: 1, phase: 1, title: 'Введение', icon: '🎬', desc: 'Что будет происходить и зачем' },
-    { day: 2, phase: 1, title: 'Дыхательные практики', icon: '🫁', desc: 'Подготовка дыхательной системы' },
-    { day: 3, phase: 1, title: 'Вакуумные техники', icon: '🌀', desc: 'Брюшные техники, массаж органов' },
-    { day: 4, phase: 1, title: 'Медитация на свечу', icon: '🕯', desc: 'Концентрация и очищение глаз' },
-    { day: 5, phase: 1, title: 'Закрепление', icon: '📋', desc: 'Повторение всех техник' },
-    { day: 6, phase: 2, title: 'Очищение желудка. Теория', icon: '💧', desc: 'Подготовка, что нужно' },
-    { day: 7, phase: 2, title: 'Очищение желудка. Практика', icon: '💧', desc: 'Выполнение под руководством' },
-    { day: 8, phase: 2, title: 'Рефлексия', icon: '📝', desc: 'Как прошло, разбор ошибок' },
-    { day: 9, phase: 2, title: 'Питание. Подготовка', icon: '🍽', desc: 'Диета перед основной практикой' },
-    { day: 10, phase: 2, title: 'Питание. Детали', icon: '🍽', desc: 'Что можно, что нельзя' },
-    { day: 11, phase: 3, title: 'День тишины', icon: '🍽', desc: 'Лёгкая пища, подготовка воды и соли' },
-    { day: 12, phase: 3, title: 'ОСНОВНАЯ ПРАКТИКА', icon: '🔥', desc: 'Живой созвон, выполняем вместе!' },
-    { day: 13, phase: 3, title: 'Восстановление', icon: '🌿', desc: 'Покой, лёгкая пища' },
-    { day: 14, phase: 3, title: 'Завершение', icon: '🌿', desc: 'Итоги, как продолжать' }
-];
-
-const PHASES = {
-    1: 'Phase 1 — Подготовка (дни 1-5)',
-    2: 'Phase 2 — Практика (дни 6-10)',
-    3: 'Phase 3 — Главная практика (дни 11-14)'
+// Программы курсов
+const COURSES = {
+    recovery: {
+        name: 'Восстановление тела',
+        days: [
+            { day: 1, phase: 1, title: 'Введение', icon: '🎬', desc: 'Что будет происходить и зачем' },
+            { day: 2, phase: 1, title: 'Дыхательные практики', icon: '🫁', desc: 'Подготовка дыхательной системы' },
+            { day: 3, phase: 1, title: 'Вакуумные техники', icon: '🌀', desc: 'Брюшные техники, массаж органов' },
+            { day: 4, phase: 1, title: 'Медитация на свечу', icon: '🕯', desc: 'Концентрация и очищение глаз' },
+            { day: 5, phase: 1, title: 'Закрепление', icon: '📋', desc: 'Повторение всех техник' },
+            { day: 6, phase: 2, title: 'Очищение желудка. Теория', icon: '💧', desc: 'Подготовка, что нужно' },
+            { day: 7, phase: 2, title: 'Очищение желудка. Практика', icon: '💧', desc: 'Выполнение под руководством' },
+            { day: 8, phase: 2, title: 'Рефлексия', icon: '📝', desc: 'Как прошло, разбор ошибок' },
+            { day: 9, phase: 2, title: 'Питание. Подготовка', icon: '🍽', desc: 'Диета перед основной практикой' },
+            { day: 10, phase: 2, title: 'Питание. Детали', icon: '🍽', desc: 'Что можно, что нельзя' },
+            { day: 11, phase: 3, title: 'День тишины', icon: '🍽', desc: 'Лёгкая пища, подготовка воды и соли' },
+            { day: 12, phase: 3, title: 'ОСНОВНАЯ ПРАКТИКА', icon: '🔥', desc: 'Живой созвон, выполняем вместе!' },
+            { day: 13, phase: 3, title: 'Восстановление', icon: '🌿', desc: 'Покой, лёгкая пища' },
+            { day: 14, phase: 3, title: 'Завершение', icon: '🌿', desc: 'Итоги, как продолжать' }
+        ],
+        phases: {
+            1: 'Фаза 1 — Подготовка (дни 1-5)',
+            2: 'Фаза 2 — Практика (дни 6-10)',
+            3: 'Фаза 3 — Главная практика (дни 11-14)'
+        }
+    },
+    fire: {
+        name: 'Внутренний огонь',
+        days: [
+            { day: 1, phase: 1, title: 'Вводная лекция', icon: '🎬', desc: 'Что такое курс, как устроен, чего ожидать' },
+            { day: 2, phase: 1, title: 'Комплекс 1: Глубокий вакуум', icon: '🌀', desc: 'Основа курса. Натощак, минимальные паузы' },
+            { day: 3, phase: 1, title: 'Практика комплекса 1', icon: '📋', desc: 'Закрепление. При большом животе — лёжа' },
+            { day: 4, phase: 1, title: 'Питание', icon: '🍽', desc: 'Убираем мучное из рациона' },
+            { day: 5, phase: 1, title: 'Практика + вопросы', icon: '📋', desc: 'Повторение, разбор ошибок' },
+            { day: 6, phase: 1, title: 'Созвон #1', icon: '📞', desc: 'Разбор вопросов, корректировка техники' },
+            { day: 7, phase: 1, title: 'Закрепление вакуума', icon: '🌀', desc: 'Ежедневная практика, формирование привычки' },
+            { day: 8, phase: 2, title: 'Дыхание огня. Лекция', icon: '🔥', desc: 'Интенсивное дыхание — теория и подготовка' },
+            { day: 9, phase: 2, title: 'Комплекс 2: Вакуум + дыхание', icon: '🔥', desc: 'Объединение техник. Цель: 60 повторений' },
+            { day: 10, phase: 2, title: 'Домашнее задание', icon: '📹', desc: 'Снять видео дыхания для разбора' },
+            { day: 11, phase: 2, title: 'Практика комплекса 2', icon: '🔥', desc: 'Закрепление, добавляем зелень в рацион' },
+            { day: 12, phase: 2, title: 'Питание', icon: '🍽', desc: 'Убираем жареное на подсолнечном масле' },
+            { day: 13, phase: 2, title: 'Практика + вопросы', icon: '📋', desc: 'Повторение обоих комплексов' },
+            { day: 14, phase: 2, title: 'Созвон #2', icon: '📞', desc: 'Разбор видео, корректировка техники' },
+            { day: 15, phase: 3, title: 'Изоляция мышц. Лекция', icon: '💪', desc: 'Теория изоляции мышц живота' },
+            { day: 16, phase: 3, title: 'Комплекс 3: Изоляция', icon: '💪', desc: 'Вакуум + дыхание + начало изоляции' },
+            { day: 17, phase: 3, title: 'Практика комплекса 3', icon: '💪', desc: 'Закрепление, ежедневная практика' },
+            { day: 18, phase: 3, title: 'Практика + вопросы', icon: '📋', desc: 'Все три комплекса подряд' },
+            { day: 19, phase: 3, title: 'Практика', icon: '💪', desc: 'Самостоятельная работа' },
+            { day: 20, phase: 3, title: 'Практика', icon: '💪', desc: 'Закрепление изоляции' },
+            { day: 21, phase: 3, title: 'Созвон #3', icon: '📞', desc: 'Промежуточные результаты' },
+            { day: 22, phase: 4, title: 'Круговое вращение. Лекция', icon: '🌊', desc: 'Финальная техника — теория' },
+            { day: 23, phase: 4, title: 'Комплекс 4: Вращение', icon: '🌊', desc: 'Полная техника — круговое вращение' },
+            { day: 24, phase: 4, title: 'Практика комплекса 4', icon: '🌊', desc: 'Закрепление вращения' },
+            { day: 25, phase: 4, title: 'Все комплексы', icon: '📋', desc: 'Практика всех 4 комплексов подряд' },
+            { day: 26, phase: 4, title: 'Практика', icon: '🌊', desc: 'Ежедневная работа' },
+            { day: 27, phase: 4, title: 'Практика', icon: '🌊', desc: 'Закрепление' },
+            { day: 28, phase: 4, title: 'Практика + вопросы', icon: '📋', desc: 'Финальный разбор' },
+            { day: 29, phase: 4, title: 'Итоги', icon: '📊', desc: 'Оценка прогресса, что изменилось' },
+            { day: 30, phase: 4, title: 'Завершение', icon: '🎓', desc: 'Как продолжать, график практик' }
+        ],
+        phases: {
+            1: 'Фаза 1 — Основы вакуума (дни 1-7)',
+            2: 'Фаза 2 — Дыхание огня (дни 8-14)',
+            3: 'Фаза 3 — Изоляция мышц (дни 15-21)',
+            4: 'Фаза 4 — Круговое вращение (дни 22-30)'
+        }
+    }
 };
 </script>
 
@@ -397,18 +443,25 @@ const PHASES = {
         document.getElementById('access_code').value = '';
     }
 
+    let currentCourse = null;
+
     function showCourse(code) {
         document.getElementById('login_screen').style.display = 'none';
         document.getElementById('course_screen').style.display = 'block';
         
         const student = STUDENTS[code];
+        const courseType = student.course || 'recovery';
+        currentCourse = COURSES[courseType] || COURSES.recovery;
+        
         document.getElementById('welcome_msg').textContent = `Привет, ${student.name}!`;
+        document.querySelector('#course_screen > .header > div > div[style]').textContent = `Курс «${currentCourse.name}»`;
         
         const currentDayNum = Math.max(1, getDaysDiff(student.start));
-        const activeDay = Math.min(currentDayNum, student.days);
+        const totalDays = currentCourse.days.length;
+        const activeDay = Math.min(currentDayNum, totalDays);
         
-        document.getElementById('progress_text').textContent = `День ${activeDay} из ${student.days}`;
-        document.getElementById('progress_bar').style.width = `${(activeDay / student.days) * 100}%`;
+        document.getElementById('progress_text').textContent = `День ${activeDay} из ${totalDays}`;
+        document.getElementById('progress_bar').style.width = `${(activeDay / totalDays) * 100}%`;
 
         renderDays(currentDayNum);
     }
@@ -419,12 +472,12 @@ const PHASES = {
         
         let currentPhase = 0;
 
-        COURSE_DAYS.forEach(day => {
+        currentCourse.days.forEach(day => {
             if (day.phase !== currentPhase) {
                 currentPhase = day.phase;
                 const ph = document.createElement('div');
                 ph.className = 'phase-header';
-                ph.textContent = PHASES[currentPhase];
+                ph.textContent = currentCourse.phases[currentPhase];
                 list.appendChild(ph);
             }
 
