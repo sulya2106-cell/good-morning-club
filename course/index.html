@@ -614,7 +614,7 @@ const COURSES = {
             Видео будет добавлено
         </div>
         
-        <div class="text-content">
+        <div class="text-content" id="modal_content">
             <p>Здесь будет текстовое описание практики, задания на день и дополнительные материалы.</p>
         </div>
     </div>
@@ -830,7 +830,7 @@ const COURSES = {
         document.getElementById('modal_title').textContent = `День ${day.day}: ${day.title}`;
         document.getElementById('modal_desc').textContent = day.desc;
         
-        const contentDiv = document.querySelector('.text-content');
+        const contentDiv = document.getElementById('modal_content');
         if (day.content) {
             contentDiv.innerHTML = day.content;
         } else {
