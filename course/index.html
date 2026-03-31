@@ -363,13 +363,20 @@ const COURSES = {
 <!-- Welcome Modal -->
 <div id="welcome_modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 200; overflow-y: auto;">
     <div class="modal-content" style="max-width: 600px; margin: 10vh auto; text-align: center;">
-        <h2 style="margin-bottom: 24px;">🕉 Добро пожаловать на курс «Восстановление тела»!</h2>
-        <div style="color: var(--text); margin-bottom: 24px; text-align: left; line-height: 1.8;">
-            <p style="margin-bottom:16px">Приветствую! 👋</p>
-            <p style="margin-bottom:16px">В данном курсе вы ознакомитесь с <strong style="color:var(--accent)">основными очистительными техниками</strong>.</p>
-            <p style="margin-bottom:16px">Практики будут подаваться <strong>порционно</strong> — с каждым новым днём добавляется одна практика к предыдущей.</p>
-            <p style="margin-bottom:16px">Все вопросы пишите преподавателю — <strong>разъясню, подскажу</strong>.</p>
-            <p>Удачи 🍀</p>
+        <h2 style="margin-bottom: 24px;" id="welcome_title">🕉 Добро пожаловать!</h2>
+        <div style="color: var(--text); margin-bottom: 24px; text-align: left; line-height: 1.9; font-size: 15px;">
+            <p style="margin-bottom:16px" id="welcome_greeting">Здравствуйте!</p>
+            <p style="margin-bottom:16px">Это ваш <strong style="color:var(--accent)">индивидуальный курс по очищению и восстановлению</strong>.</p>
+            <p style="margin-bottom:16px">Все основные практики будут даны в течение <strong>1 недели</strong> — каждый день небольшая видео-лекция и пояснение к ней текстом. Доступ к курсу остаётся на 2 недели. Вы можете обращаться к записям, если вдруг что-то забыли.</p>
+            <p style="margin-bottom:20px">Данные практики <strong>не имеют аналогов</strong> в современной медицине нашей страны, поэтому большая просьба <em>внимательно</em> изучать лекции и, если появляются вопросы, <strong>обязательно их задавать</strong> ❗</p>
+            <div style="background:var(--sh);padding:16px;border-radius:10px;margin-bottom:20px;border-left:3px solid var(--accent)">
+                <p style="margin-bottom:10px"><strong>Как это работает:</strong></p>
+                <p style="margin-bottom:4px">1 день — 1 практика</p>
+                <p style="margin-bottom:4px">2 день — 1 выученная практика + 1 новая</p>
+                <p style="margin-bottom:4px">3 день — 1 + 1 + 1 новая</p>
+                <p>и так до 4-го дня.</p>
+            </div>
+            <p>Далее вам откроются детали по диете, которую нужно будет держать <strong>2 дня до основной практики</strong> (кишечник) и <strong>от 2 до 7 дней после</strong>.</p>
         </div>
         <button class="btn" onclick="closeWelcomeModal()">Начать курс</button>
     </div>
@@ -508,6 +515,7 @@ const COURSES = {
         // Show welcome popup if first time
         const welcomeKey = 'yb_welcome_shown_' + code;
         if (!localStorage.getItem(welcomeKey)) {
+            document.getElementById('welcome_greeting').textContent = student.name + ', здравствуйте!';
             document.getElementById('welcome_modal').style.display = 'block';
             document.body.style.overflow = 'hidden';
             localStorage.setItem(welcomeKey, '1');
