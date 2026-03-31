@@ -352,13 +352,40 @@ const PHASES = {
         }
     }
 
+    // Генерация уникального ID устройства
+    function getDeviceId() {
+        let id = localStorage.getItem('yb_device_id');
+        if (!id) {
+            id = 'dev_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('yb_device_id', id);
+        }
+        return id;
+    }
+
     function login() {
         const code = document.getElementById('access_code').value.trim().toUpperCase();
         if (STUDENTS[code]) {
-            localStorage.setItem('course_code', code);
-            document.getElementById('error_msg').style.display = 'none';
-            showCourse(code);
+            const deviceId = getDeviceId();
+            const savedDevice = localStorage.getItem('yb_bound_' + code);
+            
+            if (!savedDevice) {
+                // Первый вход — привязываем устройство
+                localStorage.setItem('yb_bound_' + code, deviceId);
+                localStorage.setItem('course_code', code);
+                document.getElementById('error_msg').style.display = 'none';
+                showCourse(code);
+            } else if (savedDevice === deviceId) {
+                // Тоже устройство — пропускаем
+                localStorage.setItem('course_code', code);
+                document.getElementById('error_msg').style.display = 'none';
+                showCourse(code);
+            } else {
+                // Другое устройство — блокируем
+                document.getElementById('error_msg').textContent = 'Этот код уже используется на другом устройстве. Обратитесь к преподавателю.';
+                document.getElementById('error_msg').style.display = 'block';
+            }
         } else {
+            document.getElementById('error_msg').textContent = 'Неверный код доступа';
             document.getElementById('error_msg').style.display = 'block';
         }
     }
