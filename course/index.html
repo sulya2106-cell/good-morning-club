@@ -337,7 +337,7 @@ const PHASES = {
                     STUDENTS[parts[0].toUpperCase()] = {
                         name: parts[1],
                         course: parts[2] || 'recovery',
-                        start: parts[3],
+                        start: parts[3].includes('.') ? parts[3].split('.').reverse().join('-') : parts[3],
                         days: parseInt(parts[4]) || 14
                     };
                 }
