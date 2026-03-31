@@ -623,7 +623,7 @@ const COURSES = {
             <p>Здесь будет текстовое описание практики, задания на день и дополнительные материалы.</p>
         </div>
         
-        <div class="video-placeholder">
+        <div class="video-placeholder" id="modal_video">
             Видео будет добавлено
         </div>
     </div>
@@ -845,6 +845,10 @@ const COURSES = {
         } else {
             contentDiv.innerHTML = '<p>Здесь будет текстовое описание практики, задания на день и дополнительные материалы.</p>';
         }
+        
+        // Скрыть видео для дней без видео
+        const noVideo = [0, 5, 7, 8, 9];
+        document.getElementById('modal_video').style.display = noVideo.includes(day.day) ? 'none' : 'flex';
         
         window.scrollTo(0,0);
     }
