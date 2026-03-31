@@ -750,7 +750,7 @@ const COURSES = {
         let currentPhase = null;
 
         currentCourse.days.forEach((day, idx) => {
-            if (day.phase !== currentPhase) {
+            if (false && day.phase !== currentPhase) {
                 currentPhase = day.phase;
                 const ph = document.createElement('div');
                 ph.className = 'phase-header';
