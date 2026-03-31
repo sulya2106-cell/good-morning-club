@@ -226,10 +226,12 @@
 <body>
 
 <script>
-// <!-- ⚠️ КОДЫ УЧЕНИКОВ — Слава добавляет здесь -->
-const STUDENTS = {
+// ⚠️ КОДЫ УЧЕНИКОВ — загружаются из Google Таблицы
+// Слава добавляет учеников прямо в таблице, не нужно трогать код!
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSiNO-ftQRfL7RPE1K-Fp8BMeY6iqxw5tZJGogEHS_NbV_UTwTYc5YPtTB3bj-rwX14Xn9C1XbrSGeT/pub?output=csv';
+
+let STUDENTS = {
     'DEMO01': { name: 'Демо-ученик', start: '2026-04-15', course: 'recovery', days: 14 },
-    // 'КОД': { name: 'Имя', start: 'ГГГГ-ММ-ДД', course: 'recovery', days: 14 },
 };
 
 const COURSE_DAYS = [
@@ -323,7 +325,27 @@ const PHASES = {
         return diffDays + 1; // В день старта = 1
     }
 
-    function init() {
+    async function init() {
+        // Загрузить учеников из Google Sheets
+        try {
+            const resp = await fetch(SHEET_URL);
+            const csv = await resp.text();
+            const lines = csv.split('\n').slice(1);
+            lines.forEach(line => {
+                const parts = line.split(',').map(s => s.trim());
+                if (parts.length >= 5 && parts[0]) {
+                    STUDENTS[parts[0].toUpperCase()] = {
+                        name: parts[1],
+                        course: parts[2] || 'recovery',
+                        start: parts[3],
+                        days: parseInt(parts[4]) || 14
+                    };
+                }
+            });
+        } catch(e) {
+            console.log('Google Sheets недоступен, используем базовые данные');
+        }
+        // Проверить сохранённый логин
         const code = localStorage.getItem('course_code');
         if (code && STUDENTS[code]) {
             showCourse(code);
