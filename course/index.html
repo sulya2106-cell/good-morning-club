@@ -300,6 +300,24 @@ const COURSES = {
             3: 'Фаза 3 — Изоляция мышц (дни 15-21)',
             4: 'Фаза 4 — Круговое вращение (дни 22-30)'
         }
+    },
+    hatha: {
+        name: 'Хатха-йога',
+        openAll: true, // Все материалы открыты сразу
+        days: [
+            { day: 1, phase: 1, title: 'Утренний комплекс — пробуждение', icon: '🌄', desc: 'Базовый утренний комплекс. Суставная разминка, основные асаны, дыхание.', type: 'video' },
+            { day: 2, phase: 1, title: 'Работа со спиной — вытяжения и скрутки', icon: '🧘', desc: 'Безопасная работа с позвоночником. Грудной и поясничный отделы.', type: 'video' },
+            { day: 3, phase: 1, title: 'Полная вечерняя практика', icon: '🌙', desc: 'Глубокая работа с телом. Силовые элементы, балансы, длинная шавасана.', type: 'video' },
+            { day: 4, phase: 1, title: 'Экспресс-разминка', icon: '⚡', desc: 'Быстрая проработка всего тела. Когда времени мало.', type: 'video' },
+            { day: 5, phase: 2, title: 'Как подготовиться к занятиям', icon: '📋', desc: 'Коврик, одежда, пространство, питание до и после практики.', type: 'text' },
+            { day: 6, phase: 2, title: 'Расписание групповых', icon: '🗓', desc: 'Элиста, 8 мкр, 46А. ПН/СР/ПТ 19:00. Первое занятие — приходите попробовать.', type: 'text' },
+            { day: 7, phase: 2, title: 'Что такое хатха-йога', icon: '📖', desc: 'Не фитнес, не гимнастика. Работа с телом через осознанное движение и дыхание.', type: 'text' },
+            { day: 8, phase: 2, title: 'Как правильно дышать', icon: '🌬', desc: 'Три типа дыхания, полное дыхание, правила. Основа всей практики.', type: 'text' }
+        ],
+        phases: {
+            1: '🎬 Видео-практики',
+            2: '📖 Материалы'
+        }
     }
 };
 </script>
@@ -456,8 +474,16 @@ const COURSES = {
         document.getElementById('welcome_msg').textContent = `Привет, ${student.name}!`;
         document.querySelector('#course_screen > .header > div > div[style]').textContent = `Курс «${currentCourse.name}»`;
         
-        const currentDayNum = Math.max(1, getDaysDiff(student.start));
         const totalDays = currentCourse.days.length;
+        
+        if (currentCourse.openAll) {
+            document.getElementById('progress_text').textContent = `${totalDays} материалов`;
+            document.getElementById('progress_bar').style.width = '100%';
+            renderDays(totalDays);
+            return;
+        }
+        
+        const currentDayNum = Math.max(1, getDaysDiff(student.start));
         const activeDay = Math.min(currentDayNum, totalDays);
         
         document.getElementById('progress_text').textContent = `День ${activeDay} из ${totalDays}`;
@@ -481,7 +507,7 @@ const COURSES = {
                 list.appendChild(ph);
             }
 
-            const isOpen = day.day <= currentDayNum;
+            const isOpen = currentCourse.openAll || day.day <= currentDayNum;
             const card = document.createElement('div');
             card.className = `day-card ${isOpen ? 'open' : 'locked'}`;
             
