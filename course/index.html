@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Курс «Восстановление тела»</title>
+    <meta name="theme-color" content="#a0b87a">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0c0c0c;
+            --surface: #161616;
+            --sh: #1e1e1e;
+            --accent: #a0b87a;
+            --text: #e8e6e1;
+            --muted: #7a7870;
+            --r: 14px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Login Screen */
+        #login_screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+        }
+        
+        .login-box {
+            background: var(--surface);
+            padding: 40px;
+            border-radius: var(--r);
+            border: 1px solid #2a2a2a;
+            width: 100%;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #2a2a2a;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 16px;
+            margin-bottom: 16px;
+            text-align: center;
+            outline: none;
+            text-transform: uppercase;
+        }
+        input:focus { border-color: var(--accent); }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent);
+            color: var(--bg);
+            font-size: 16px;
+            font-weight: 600;
+            padding: 16px 32px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.9; }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid var(--muted);
+            margin-top: 16px;
+        }
+
+        /* Course Screen */
+        #course_screen { display: none; }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .progress-container {
+            background: var(--surface);
+            border-radius: 8px;
+            height: 8px;
+            margin-bottom: 32px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            background: var(--accent);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .phase-header {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--muted);
+            margin: 32px 0 16px;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 8px;
+        }
+
+        .day-card {
+            background: var(--surface);
+            border: 1px solid #2a2a2a;
+            border-radius: var(--r);
+            padding: 20px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        
+        .day-card.open {
+            cursor: pointer;
+        }
+        .day-card.open:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .day-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: transparent;
+        }
+
+        .day-icon {
+            font-size: 24px;
+            background: var(--sh);
+            width: 48px; height: 48px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 12px;
+        }
+
+        .day-content { flex: 1; }
+        .day-title { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
+        .day-desc { color: var(--muted); font-size: 14px; }
+        
+        .day-status {
+            font-size: 12px;
+            color: var(--muted);
+            text-align: right;
+        }
+        .status-badge {
+            background: var(--sh);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        /* Modal */
+        #modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg);
+            z-index: 100;
+            overflow-y: auto;
+        }
+        .modal-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        .video-placeholder {
+            background: var(--surface);
+            border: 1px dashed #2a2a2a;
+            border-radius: var(--r);
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            margin: 24px 0;
+            /* 📹 ВИДЕО — вставить ссылку на VK Video вместо этого блока */
+        }
+
+        .text-content {
+            color: var(--text);
+            margin-bottom: 40px;
+        }
+
+        /* VK Comments */
+        .chat-section {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid #2a2a2a;
+            text-align: center;
+        }
+        .vk-placeholder {
+            background: var(--surface);
+            padding: 40px;
+            border-radius: var(--r);
+            color: var(--muted);
+            border: 1px dashed #2a2a2a;
+        }
+
+        #error_msg { color: #ff5555; margin-bottom: 16px; display: none; }
+    </style>
+</head>
+<body>
+
+<script>
+// <!-- ⚠️ КОДЫ УЧЕНИКОВ — Слава добавляет здесь -->
+const STUDENTS = {
+    'DEMO01': { name: 'Демо-ученик', start: '2026-04-15', course: 'recovery', days: 14 },
+    // 'КОД': { name: 'Имя', start: 'ГГГГ-ММ-ДД', course: 'recovery', days: 14 },
+};
+
+const COURSE_DAYS = [
+    { day: 1, phase: 1, title: 'Введение', icon: '🎬', desc: 'Что будет происходить и зачем' },
+    { day: 2, phase: 1, title: 'Дыхательные практики', icon: '🫁', desc: 'Подготовка дыхательной системы' },
+    { day: 3, phase: 1, title: 'Вакуумные техники', icon: '🌀', desc: 'Брюшные техники, массаж органов' },
+    { day: 4, phase: 1, title: 'Медитация на свечу', icon: '🕯', desc: 'Концентрация и очищение глаз' },
+    { day: 5, phase: 1, title: 'Закрепление', icon: '📋', desc: 'Повторение всех техник' },
+    { day: 6, phase: 2, title: 'Очищение желудка. Теория', icon: '💧', desc: 'Подготовка, что нужно' },
+    { day: 7, phase: 2, title: 'Очищение желудка. Практика', icon: '💧', desc: 'Выполнение под руководством' },
+    { day: 8, phase: 2, title: 'Рефлексия', icon: '📝', desc: 'Как прошло, разбор ошибок' },
+    { day: 9, phase: 2, title: 'Питание. Подготовка', icon: '🍽', desc: 'Диета перед основной практикой' },
+    { day: 10, phase: 2, title: 'Питание. Детали', icon: '🍽', desc: 'Что можно, что нельзя' },
+    { day: 11, phase: 3, title: 'День тишины', icon: '🍽', desc: 'Лёгкая пища, подготовка воды и соли' },
+    { day: 12, phase: 3, title: 'ОСНОВНАЯ ПРАКТИКА', icon: '🔥', desc: 'Живой созвон, выполняем вместе!' },
+    { day: 13, phase: 3, title: 'Восстановление', icon: '🌿', desc: 'Покой, лёгкая пища' },
+    { day: 14, phase: 3, title: 'Завершение', icon: '🌿', desc: 'Итоги, как продолжать' }
+];
+
+const PHASES = {
+    1: 'Phase 1 — Подготовка (дни 1-5)',
+    2: 'Phase 2 — Практика (дни 6-10)',
+    3: 'Phase 3 — Главная практика (дни 11-14)'
+};
+</script>
+
+<div class="container" id="login_screen">
+    <div class="login-box">
+        <h2 style="margin-bottom:8px;">Вход на курс</h2>
+        <p style="color:var(--muted);margin-bottom:24px;">Введите ваш персональный код доступа</p>
+        <div id="error_msg">Неверный код доступа</div>
+        <input type="text" id="access_code" placeholder="АБВГДЕ" maxlength="10">
+        <button class="btn" onclick="login()">Войти</button>
+    </div>
+</div>
+
+<div class="container" id="course_screen">
+    <div class="header">
+        <div>
+            <h1 id="welcome_msg" style="font-size:24px;">Привет!</h1>
+            <div style="color:var(--muted);">Курс «Восстановление тела»</div>
+        </div>
+        <button class="btn btn-outline" style="padding:8px 16px; margin:0;" onclick="logout()">Выйти</button>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span style="font-weight:600;">Прогресс</span>
+        <span id="progress_text" style="color:var(--muted);">День 0 из 14</span>
+    </div>
+    <div class="progress-container">
+        <div class="progress-bar" id="progress_bar"></div>
+    </div>
+
+    <div id="course_list"></div>
+
+    <div class="chat-section">
+        <h3 style="margin-bottom:16px;">Комментарии и вопросы</h3>
+        <!-- 💬 ЧАТ КУРСА — вставить виджет VK -->
+        <div id="vk_comments" class="vk-placeholder">
+            💬 Чат курса — подключается после старта потока
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно дня -->
+<div id="modal">
+    <div class="modal-content">
+        <button class="btn btn-outline" style="margin-bottom:24px; margin-top:0;" onclick="closeModal()">← Назад к программе</button>
+        <h1 id="modal_title"></h1>
+        <p id="modal_desc" style="color:var(--muted); margin-top:8px;"></p>
+        
+        <div class="video-placeholder">
+            Видео будет добавлено
+        </div>
+        
+        <div class="text-content">
+            <p>Здесь будет текстовое описание практики, задания на день и дополнительные материалы.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function getDaysDiff(startDateStr) {
+        // Учитываем разницу в днях. День 1 = дата старта.
+        const start = new Date(startDateStr);
+        start.setHours(0,0,0,0);
+        const now = new Date();
+        now.setHours(0,0,0,0);
+        const diffTime = now - start;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays + 1; // В день старта = 1
+    }
+
+    function init() {
+        const code = localStorage.getItem('course_code');
+        if (code && STUDENTS[code]) {
+            showCourse(code);
+        }
+    }
+
+    function login() {
+        const code = document.getElementById('access_code').value.trim().toUpperCase();
+        if (STUDENTS[code]) {
+            localStorage.setItem('course_code', code);
+            document.getElementById('error_msg').style.display = 'none';
+            showCourse(code);
+        } else {
+            document.getElementById('error_msg').style.display = 'block';
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('course_code');
+        document.getElementById('course_screen').style.display = 'none';
+        document.getElementById('login_screen').style.display = 'flex';
+        document.getElementById('access_code').value = '';
+    }
+
+    function showCourse(code) {
+        document.getElementById('login_screen').style.display = 'none';
+        document.getElementById('course_screen').style.display = 'block';
+        
+        const student = STUDENTS[code];
+        document.getElementById('welcome_msg').textContent = `Привет, ${student.name}!`;
+        
+        const currentDayNum = Math.max(1, getDaysDiff(student.start));
+        const activeDay = Math.min(currentDayNum, student.days);
+        
+        document.getElementById('progress_text').textContent = `День ${activeDay} из ${student.days}`;
+        document.getElementById('progress_bar').style.width = `${(activeDay / student.days) * 100}%`;
+
+        renderDays(currentDayNum);
+    }
+
+    function renderDays(currentDayNum) {
+        const list = document.getElementById('course_list');
+        list.innerHTML = '';
+        
+        let currentPhase = 0;
+
+        COURSE_DAYS.forEach(day => {
+            if (day.phase !== currentPhase) {
+                currentPhase = day.phase;
+                const ph = document.createElement('div');
+                ph.className = 'phase-header';
+                ph.textContent = PHASES[currentPhase];
+                list.appendChild(ph);
+            }
+
+            const isOpen = day.day <= currentDayNum;
+            const card = document.createElement('div');
+            card.className = `day-card ${isOpen ? 'open' : 'locked'}`;
+            
+            let statusHtml = '';
+            if (isOpen) {
+                statusHtml = `<div class="status-badge">✅ Открыто</div>`;
+                card.onclick = () => openModal(day);
+            } else {
+                const waitDays = day.day - currentDayNum;
+                statusHtml = `<div class="status-badge">🔒 Откроется через ${waitDays} дн.</div>`;
+            }
+
+            card.innerHTML = `
+                <div class="day-icon">${day.icon}</div>
+                <div class="day-content">
+                    <div class="day-title">День ${day.day}: ${day.title}</div>
+                    <div class="day-desc">${day.desc}</div>
+                </div>
+                <div class="day-status">
+                    ${statusHtml}
+                </div>
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    function openModal(day) {
+        document.getElementById('modal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        document.getElementById('modal_title').textContent = `День ${day.day}: ${day.title}`;
+        document.getElementById('modal_desc').textContent = day.desc;
+        window.scrollTo(0,0);
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    init();
+</script>
+
+</body>
+</html>
