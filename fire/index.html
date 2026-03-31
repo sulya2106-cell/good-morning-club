@@ -444,6 +444,9 @@
             .day-num { padding-left: 12px; }
             .pricing-grid { grid-template-columns: 1fr; }
         }
+    
+    /* Scroll progress bar */
+    .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent, #a0b87a); z-index: 9999; transition: width 0.1s; }
     </style>
 </head>
 <body>
@@ -636,6 +639,16 @@
             </div>
         </div>
     </footer>
+
+
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <script>
+    window.addEventListener('scroll', function() {
+        var h = document.documentElement;
+        var pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+        document.getElementById('scrollProgress').style.width = pct + '%';
+    });
+    </script>
 
 </body>
 </html>

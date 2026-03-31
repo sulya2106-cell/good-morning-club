@@ -233,6 +233,9 @@
         .text-content li { margin-bottom: 10px; padding-left: 4px; }
         .text-content strong { color: var(--accent); }
         .text-content em { color: var(--muted); font-style: italic; }
+    
+    /* Scroll progress bar */
+    .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent, #a0b87a); z-index: 9999; transition: width 0.1s; }
     </style>
 </head>
 <body>
@@ -858,6 +861,16 @@ const COURSES = {
 
     init();
 </script>
+
+
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <script>
+    window.addEventListener('scroll', function() {
+        var h = document.documentElement;
+        var pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+        document.getElementById('scrollProgress').style.width = pct + '%';
+    });
+    </script>
 
 </body>
 </html>

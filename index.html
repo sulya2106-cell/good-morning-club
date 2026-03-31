@@ -395,6 +395,9 @@
             .schedule { padding: 40px 20px; }
             .footer-content { flex-direction: column; text-align: center; }
         }
+    
+    /* Scroll progress bar */
+    .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent, #a0b87a); z-index: 9999; transition: width 0.1s; }
     </style>
 </head>
 <body>
@@ -598,5 +601,15 @@
 
     document.querySelectorAll('.hero h1, .hero p, .about-wrap, .app-card, .course-card, .schedule, .section-title').forEach(el => observer.observe(el));
     </script>
+
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <script>
+    window.addEventListener('scroll', function() {
+        var h = document.documentElement;
+        var pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+        document.getElementById('scrollProgress').style.width = pct + '%';
+    });
+    </script>
+
 </body>
 </html>
