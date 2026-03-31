@@ -37,6 +37,22 @@
 
         html {
             scroll-behavior: smooth;
+            scroll-snap-type: y proximity;
+        }
+
+        section {
+            scroll-snap-align: start;
+        }
+
+        /* Apple-style smooth animations on scroll */
+        .hero h1, .hero p, .about-wrap, .app-card, .course-card, .schedule, .section-title {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .hero h1.visible, .hero p.visible, .about-wrap.visible, .app-card.visible, .course-card.visible, .schedule.visible, .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         body {
@@ -566,5 +582,20 @@
         </div>
     </footer>
 
+    <script>
+    // Apple-style scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                }, i * 100);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.hero h1, .hero p, .about-wrap, .app-card, .course-card, .schedule, .section-title').forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
