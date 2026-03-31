@@ -2,7 +2,7 @@
   "name": "Йога Будни",
   "short_name": "Йога Будни",
   "description": "Закрытая библиотека практик. Вячеслав Эрдниев.",
-  "start_url": "./app.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#0c0c0c",
   "theme_color": "#a0b87a",
