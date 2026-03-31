@@ -239,20 +239,20 @@ const COURSES = {
     recovery: {
         name: 'Восстановление тела',
         days: [
-            { day: 1, phase: 1, title: 'Введение', icon: '🎬', desc: 'Что будет происходить и зачем' },
-            { day: 2, phase: 1, title: 'Дыхательные практики', icon: '🫁', desc: 'Подготовка дыхательной системы' },
-            { day: 3, phase: 1, title: 'Вакуумные техники', icon: '🌀', desc: 'Брюшные техники, массаж органов' },
-            { day: 4, phase: 1, title: 'Медитация на свечу', icon: '🕯', desc: 'Концентрация и очищение глаз' },
-            { day: 5, phase: 1, title: 'Закрепление', icon: '📋', desc: 'Повторение всех техник' },
-            { day: 6, phase: 2, title: 'Очищение желудка. Теория', icon: '💧', desc: 'Подготовка, что нужно' },
-            { day: 7, phase: 2, title: 'Очищение желудка. Практика', icon: '💧', desc: 'Выполнение под руководством' },
-            { day: 8, phase: 2, title: 'Рефлексия', icon: '📝', desc: 'Как прошло, разбор ошибок' },
-            { day: 9, phase: 2, title: 'Питание. Подготовка', icon: '🍽', desc: 'Диета перед основной практикой' },
-            { day: 10, phase: 2, title: 'Питание. Детали', icon: '🍽', desc: 'Что можно, что нельзя' },
-            { day: 11, phase: 3, title: 'День тишины', icon: '🍽', desc: 'Лёгкая пища, подготовка воды и соли' },
-            { day: 12, phase: 3, title: 'ОСНОВНАЯ ПРАКТИКА', icon: '🔥', desc: 'Живой созвон, выполняем вместе!' },
-            { day: 13, phase: 3, title: 'Восстановление', icon: '🌿', desc: 'Покой, лёгкая пища' },
-            { day: 14, phase: 3, title: 'Завершение', icon: '🌿', desc: 'Итоги, как продолжать' }
+            { day: 1, phase: 1, title: 'Дыхательные и вакуумные практики', icon: '🫁', desc: 'Подготовка тела к началу дня', content: `<h3>«Дыхательные и вакуумные практики»</h3>\n<p>Подготовка тела к началу дня. Очищение дыхательных путей с помощью специальных техник. Брюшные и вакуумные шодханы для восстановления кровообращения, лимфообеспечения и работа с периферией тела.</p>\n<h4>Важно:</h4>\n<ul>\n<li>Все практики выполняются без напряжения, кроме «Бхастрики»</li>\n<li>Выполнять утром натощак</li>\n<li>Вакуумные практики не выполняются при активной фазе менструации</li>\n<li>Перед началом можно чуть-чуть попить воды</li>\n</ul>\n<div style="background:var(--sh);padding:16px;border-radius:10px;margin-top:16px;border-left:3px solid var(--accent)">\n<strong>⚠️ Важная ремарка:</strong><br>\nЕсли не удаётся сделать вакуум (например, большой живот), то выполняйте его лёжа на спине в комфортной позе.\n</div>` },
+            { day: 2, phase: 1, title: 'Очищение желудка', icon: '💧', desc: 'Очищение верхних отделов ЖКТ', content: `<h3>«Очищение желудка»</h3>\n<p>Очищение верхних отделов ЖКТ. Практика извержения воды призвана:</p>\n<ul>\n<li>Улучшить перистальтику внутренних органов</li>\n<li>Восстановить тонус гладкой мускулатуры пищевода и желудка</li>\n<li>Очистить желудок от слизи и непереваренных продуктов пищи</li>\n<li>Поднимать энергию</li>\n<li>Очищать лицо</li>\n</ul>\n<h4>Важно:</h4>\n<ol>\n<li>Выполнять с утра натощак</li>\n<li>Вода должна быть комфортной температуры</li>\n<li>Полностью расслабиться во время практики</li>\n<li>Не отвлекаться на посторонние мысли и предметы</li>\n</ol>\n<p>Практика выполняется ежедневно на протяжении 5-7 суток.</p>\n<div style="background:#2a1a1a;padding:16px;border-radius:10px;margin-top:16px;border-left:3px solid #d07070">\n<strong>❗ Внимание!</strong><br>\nПеред извержением продержать воду в себе в течение 20-30 секунд на время выполнения вакуумных манипуляций.\n</div>` },
+            { day: 3, phase: 1, title: 'Питание и рекомендации', icon: '🍽', desc: 'Корректировка рациона', content: `<h3>Рекомендации по питанию</h3>\n<p>На этот момент временно отказываемся от некоторых продуктов:</p>\n<ul>\n<li><strong>Мучное</strong> — хлеб, макароны, булки, торты и дрожжевые изделия</li>\n<li><strong>Алкоголь</strong> — категорически</li>\n<li><strong>Синтетические продукты</strong> — чипсы, мармеладки и пр.</li>\n</ul>\n<p>И добавляем в рацион горсть зелёной травы: петрушка, шпинат, листья салата и подобные.</p>\n<div style="background:var(--sh);padding:16px;border-radius:10px;margin-top:16px;border-left:3px solid var(--accent)">\nОгурцы и капуста — это не трава 😊☝🏻\n</div>` },
+            { day: 4, phase: 1, title: 'Медитация на свечу', icon: '🕯', desc: 'Концентрация и очищение глаз', content: `<h3>«Медитация на свечу»</h3>\n<p>Это пристальный взгляд на свечу, который:</p>\n<ul>\n<li>Успокаивает ум</li>\n<li>Повышает концентрацию</li>\n<li>Лечит глаза</li>\n<li>Восстанавливает здоровый сон</li>\n</ul>\n<h4>Важно:</h4>\n<ol>\n<li>Полная неподвижность</li>\n<li>Не моргать</li>\n<li>Не отводить взгляд от пламени</li>\n<li>Ни о чём не думать и сосредоточиться на пламени</li>\n</ol>\n<p>Практика выполняется ежедневно на пустой желудок, можно выполнять несколько раз в день. У неё нет противопоказаний.</p>\n<p>В первые разы будет сложно держать глаза открытыми. Поэтому можно чуть 🤏 прищуриться и смотреть не моргая, пусть текут слёзы — не переживайте.</p>\n<p>Начинаем выполнять практику от 3 минут. Затем увеличивайте время до 5-10 минут. И обязательно: не шевелитесь 🤓</p>\n<h4 style="margin-top:24px">Медитация на свечу (внутренняя)</h4>\n<p>Выполняется с закрытыми глазами после практики созерцания на пламени свечи.</p>\n<ol>\n<li>Полная неподвижность</li>\n<li>Центрировать след пламени</li>\n<li>Стараться погружаться в центр пятна</li>\n<li>Ни о чём не думать</li>\n</ol>\n<p>Практика выполняется ежедневно на пустой желудок.</p>` },
+            { day: 5, phase: 1, title: 'Закрепление', icon: '📋', desc: 'Повторение всех техник', content: `<p>Повторение и закрепление всех техник первых четырёх дней. Выполняйте утреннюю последовательность полностью.</p>` },
+            { day: 6, phase: 2, title: 'Очищение желудка. Теория', icon: '💧', desc: 'Подготовка, что нужно', content: `<p>Теоретическая подготовка к практике очищения желудка. Что нужно: тёплая вода комфортной температуры, соль.</p>` },
+            { day: 7, phase: 2, title: 'Очищение желудка. Практика', icon: '💧', desc: 'Выполнение под руководством', content: `<p>Выполнение практики очищения желудка. Голосовое сопровождение от Вячеслава.</p>` },
+            { day: 8, phase: 2, title: 'Рефлексия', icon: '📝', desc: 'Как прошло, разбор ошибок', content: `<p>Как прошло? Поделитесь впечатлениями. Разбор ошибок и корректировка техники.</p>` },
+            { day: 9, phase: 2, title: 'Питание. Подготовка', icon: '🍽', desc: 'Диета перед основной практикой', content: `<h3>Подготовка к основной практике</h3>\n<p>С завтрашнего дня переход на предписанное питание. Ешьте досыта, пейте больше воды.</p>\n<p>По утрам продолжаем выполнять практики. С каждым днём они будут даваться всё легче 🙌</p>` },
+            { day: 10, phase: 2, title: 'Питание. Детали', icon: '🍽', desc: 'Что можно, что нельзя', content: `<p>Что можно: каши, овощи, фрукты, супы, рис. Что нельзя: мясо, жареное, алкоголь, кофе (только в день практики).</p>` },
+            { day: 11, phase: 3, title: 'День тишины', icon: '🍽', desc: 'Лёгкая пища, подготовка воды и соли', content: `<p>Лёгкая пища. Ранний отбой. Подготовка воды и соли.</p>` },
+            { day: 12, phase: 3, title: 'ОСНОВНАЯ ПРАКТИКА', icon: '🔥', desc: 'Живой созвон, выполняем вместе!', content: `<h3>«Полное очищение ЖКТ»</h3>\n<h4>1. Подготовка</h4>\n<ul>\n<li>Соблюдение предписанной диеты (❗ внимательно прослушайте лекцию ❗)</li>\n<li>Разведение необходимого раствора воды</li>\n<li>Обеспечение комфортных условий для выполнения практики</li>\n<li>Подготовка пищи по завершению практики</li>\n</ul>\n<h4>2. В день практики</h4>\n<ul>\n<li>Соблюдение алгоритма действий, предписанного инструктором:\n  <ul>\n  <li>Выпивание некоторого количества воды</li>\n  <li>Выполнение комплекса асан</li>\n  <li>Выполнение указаний инструктора во время практики</li>\n  </ul>\n</li>\n<li>Общее время — 1,5 часа</li>\n<li>Приём заранее приготовленной пищи</li>\n<li>Отдых (❗ не спать ❗)</li>\n</ul>\n<h4>3. Диета</h4>\n<ul>\n<li>Соблюдение кашно-овощной диеты</li>\n<li>Восстановление организма</li>\n</ul>\n<div style="background:var(--sh);padding:16px;border-radius:10px;margin-top:16px;border-left:3px solid var(--accent)">\nПрактика выполняется в интерактивном режиме со старшим инструктором, готовым подсказать и помочь по необходимости.\n</div>` },
+            { day: 13, phase: 3, title: 'Восстановление', icon: '🌿', desc: 'Покой, лёгкая пища', content: `<p>Покой, лёгкая пища, никаких физнагрузок. Пейте воду. Не спите днём.</p>` },
+            { day: 14, phase: 3, title: 'Завершение', icon: '🌿', desc: 'Итоги, как продолжать', content: `<p>Итоги курса. Наблюдайте за своим телом, замечайте изменения. Одна из целей практики — не просто оздоровление, а знакомство со своим телом ☝🏻😊</p>` }
         ],
         phases: {
             1: 'Фаза 1 — Подготовка (дни 1-5)',
@@ -357,6 +357,15 @@ const COURSES = {
         <div id="vk_comments" class="vk-placeholder">
             💬 Чат курса — подключается после старта потока
         </div>
+    </div>
+</div>
+
+<!-- Welcome Modal -->
+<div id="welcome_modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 200; overflow-y: auto;">
+    <div class="modal-content" style="max-width: 600px; margin: 10vh auto; text-align: center;">
+        <h2 style="margin-bottom: 24px;">🕉 Добро пожаловать на курс «Восстановление тела»!</h2>
+        <p style="color: var(--text); margin-bottom: 24px; text-align: left;">Приветствую! В данном курсе вы ознакомитесь с основными очистительными техниками. Практики будут подаваться порционно — с каждым новым днём добавляется одна практика к предыдущей. Все вопросы пишите преподавателю — разъясню, подскажу. Удачи 🍀</p>
+        <button class="btn" onclick="closeWelcomeModal()">Начать курс</button>
     </div>
 </div>
 
@@ -480,16 +489,23 @@ const COURSES = {
             document.getElementById('progress_text').textContent = `${totalDays} материалов`;
             document.getElementById('progress_bar').style.width = '100%';
             renderDays(totalDays);
-            return;
-        }
-        
-        const currentDayNum = Math.max(1, getDaysDiff(student.start));
-        const activeDay = Math.min(currentDayNum, totalDays);
-        
-        document.getElementById('progress_text').textContent = `День ${activeDay} из ${totalDays}`;
-        document.getElementById('progress_bar').style.width = `${(activeDay / totalDays) * 100}%`;
+        } else {
+            const currentDayNum = Math.max(1, getDaysDiff(student.start));
+            const activeDay = Math.min(currentDayNum, totalDays);
+            
+            document.getElementById('progress_text').textContent = `День ${activeDay} из ${totalDays}`;
+            document.getElementById('progress_bar').style.width = `${(activeDay / totalDays) * 100}%`;
 
-        renderDays(currentDayNum);
+            renderDays(currentDayNum);
+        }
+
+        // Show welcome popup if first time
+        const welcomeKey = 'yb_welcome_shown_' + code;
+        if (!localStorage.getItem(welcomeKey)) {
+            document.getElementById('welcome_modal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            localStorage.setItem(welcomeKey, '1');
+        }
     }
 
     function renderDays(currentDayNum) {
@@ -539,11 +555,24 @@ const COURSES = {
         document.body.style.overflow = 'hidden';
         document.getElementById('modal_title').textContent = `День ${day.day}: ${day.title}`;
         document.getElementById('modal_desc').textContent = day.desc;
+        
+        const contentDiv = document.querySelector('.text-content');
+        if (day.content) {
+            contentDiv.innerHTML = day.content;
+        } else {
+            contentDiv.innerHTML = '<p>Здесь будет текстовое описание практики, задания на день и дополнительные материалы.</p>';
+        }
+        
         window.scrollTo(0,0);
     }
 
     function closeModal() {
         document.getElementById('modal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    function closeWelcomeModal() {
+        document.getElementById('welcome_modal').style.display = 'none';
         document.body.style.overflow = 'auto';
     }
 
