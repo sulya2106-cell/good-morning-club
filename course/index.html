@@ -701,11 +701,14 @@ const COURSES = {
         // Загрузить учеников из Google Sheets
         try {
             const resp = await fetch(SHEET_URL);
+            if (!resp.ok) throw new Error('Network response was not ok');
             const csv = await resp.text();
             // Поддержка \r\n и \n
             const lines = csv.replace(/\r/g, '').split('\n').slice(1);
             lines.forEach(line => {
-                const parts = line.split(',').map(s => s.trim());
+                // Если строка разбита запятыми (стандартный CSV) или точками с запятой
+                const separator = line.includes(';') ? ';' : ',';
+                const parts = line.split(separator).map(s => s.trim());
                 if (parts.length >= 5 && parts[0]) {
                     STUDENTS[parts[0].toUpperCase()] = {
                         name: parts[1],
@@ -716,8 +719,12 @@ const COURSES = {
                 }
             });
         } catch(e) {
-            console.log('Google Sheets недоступен, используем базовые данные');
+            console.log('Google Sheets error:', e);
         }
+        
+        // Добавим хардкод на всякий случай, если таблица отвалилась
+        STUDENTS['СУЛЯ'] = { name: 'Айса', start: '2026-03-28', course: 'recovery', days: 30 };
+        
         // Проверить сохранённый логин
         const code = localStorage.getItem('course_code');
         if (code && STUDENTS[code]) {
@@ -953,6 +960,14 @@ const COURSES = {
         document.body.style.overflow = 'auto';
     }
 
+<script>
+    document.getElementById('access_code').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            login();
+        }
+    });
+    
+    // Вызов init() остаётся в самом низу скрипта
     init();
 </script>
 
