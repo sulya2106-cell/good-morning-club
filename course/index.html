@@ -688,6 +688,10 @@ const COURSES = {
 <script>
     function getDaysDiff(startDateStr) {
         // Учитываем разницу в днях. День 1 = дата старта.
+        // Переводим дату из DD.MM.YYYY в YYYY-MM-DD если нужно
+        if (startDateStr.includes('.')) {
+            startDateStr = startDateStr.split('.').reverse().join('-');
+        }
         const start = new Date(startDateStr);
         start.setHours(0,0,0,0);
         const now = new Date();
