@@ -967,17 +967,16 @@ const COURSES = {
         document.body.style.overflow = 'auto';
     }
 
-<script>
+    // Вызов init()
+    init();
+
     document.getElementById('access_code').addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
             login();
         }
     });
-    
-    // Вызов init() остаётся в самом низу скрипта
-    init();
-</script>
 
+</script>
 
     <div class="scroll-progress" id="scrollProgress"></div>
     <script>
