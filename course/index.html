@@ -611,9 +611,16 @@ const COURSES = {
         <p style="color:var(--muted);margin-bottom:24px;">Введите ваш персональный код доступа</p>
         <div id="error_msg">Неверный код доступа</div>
         <input type="text" id="access_code" placeholder="АБВГДЕ" maxlength="10">
-        <button class="btn" onclick="login()">Войти</button>
+        <button class="btn" id="loginBtn" onclick="login()">Войти</button>
     </div>
 </div>
+
+<script>
+    // Если скрипт ломается где-то выше, мы хотя бы сможем залогировать это
+    window.onerror = function(msg, url, line, col, error) {
+        console.error('JS Error: ', msg, 'at line', line);
+    };
+</script>
 
 <div class="container" id="course_screen">
     <div class="header">
