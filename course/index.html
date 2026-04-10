@@ -687,12 +687,15 @@ const COURSES = {
 
 <script>
     function getDaysDiff(startDateStr) {
+        if (!startDateStr) return 1;
         // Учитываем разницу в днях. День 1 = дата старта.
         // Переводим дату из DD.MM.YYYY в YYYY-MM-DD если нужно
         if (startDateStr.includes('.')) {
             startDateStr = startDateStr.split('.').reverse().join('-');
         }
         const start = new Date(startDateStr);
+        if (isNaN(start.getTime())) return 1; // Защита от NaN, если дата совсем битая
+        
         start.setHours(0,0,0,0);
         const now = new Date();
         now.setHours(0,0,0,0);
