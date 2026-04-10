@@ -583,7 +583,10 @@ const COURSES = {
             <h1 id="welcome_msg" style="font-size:24px;">Привет!</h1>
             <div style="color:var(--muted);">Курс «Восстановление тела»</div>
         </div>
-        <button class="btn btn-outline" style="padding:8px 16px; margin:0;" onclick="logout()">Выйти</button>
+        <div style="display:flex; gap: 8px;">
+            <a href="https://vk.me/join/0Nk/kyhuf9Y95r0EqNEbouhH1KNuwbA3Jqs=" target="_blank" class="btn btn-outline" style="padding:8px 16px; margin:0; border-color: var(--accent); color: var(--accent); text-decoration: none;">💬 Чат</a>
+            <button class="btn btn-outline" style="padding:8px 16px; margin:0;" onclick="logout()">Выйти</button>
+        </div>
     </div>
 
     <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
@@ -623,7 +626,13 @@ const COURSES = {
             </div>
             <p>Далее вам откроются детали по диете, которую нужно будет держать <strong>2 дня до основной практики</strong> (кишечник) и <strong>от 2 до 7 дней после</strong>.</p>
         </div>
-        <button class="btn" onclick="closeWelcomeModal()">Начать курс</button>
+
+        <div style="background:var(--sh);padding:20px;border-radius:10px;margin-bottom:32px;border: 1px solid var(--accent); text-align: center;">
+            <p style="margin-bottom:16px; font-weight: 500;">Обязательно вступите в закрытый чат потока. Слава отвечает на вопросы и проверяет технику выполнения только там.</p>
+            <a href="https://vk.me/join/0Nk/kyhuf9Y95r0EqNEbouhH1KNuwbA3Jqs=" target="_blank" class="btn" style="display:inline-block; text-decoration:none; width: auto; padding: 12px 32px; margin-bottom: 0;">Вступить в чат</a>
+        </div>
+
+        <button class="btn" onclick="closeWelcomeModal()" style="background: var(--sh); color: var(--text);">Перейти к урокам</button>
     </div>
 </div>
 
