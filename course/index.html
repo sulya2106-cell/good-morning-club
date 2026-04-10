@@ -702,7 +702,8 @@ const COURSES = {
         try {
             const resp = await fetch(SHEET_URL);
             const csv = await resp.text();
-            const lines = csv.split('\n').slice(1);
+            // Поддержка \r\n и \n
+            const lines = csv.replace(/\r/g, '').split('\n').slice(1);
             lines.forEach(line => {
                 const parts = line.split(',').map(s => s.trim());
                 if (parts.length >= 5 && parts[0]) {
