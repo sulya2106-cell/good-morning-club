@@ -461,8 +461,7 @@ const COURSES = {
             { day: 6, phase: 2, title: 'День тишины', icon: '🕊', desc: 'Лёгкая пища, ранний отбой',
               content: `<h3>День тишины</h3>
 <p>Продолжаем <strong>выполнение уже изученных практик</strong> по утрам. Лёгкая пища. Ранний отбой.</p>
-<h4>🎬 Комплекс упражнений для основной практики</h4>
-<div class="video-placeholder" style="margin:16px 0">Видео будет добавлено</div>
+
 <p>Подготовьте:</p>
 <ul>
 <li>Воду и соль для раствора</li>
@@ -658,7 +657,7 @@ const COURSES = {
             <p>Здесь будет текстовое описание практики, задания на день и дополнительные материалы.</p>
         </div>
         
-        <div class="video-placeholder" id="modal_video">
+        <div class="video-placeholder" id="modal_video" style="display: none;">
             Видео будет добавлено
         </div>
     </div>
@@ -915,9 +914,8 @@ const COURSES = {
             contentDiv.innerHTML = '<p>Здесь будет текстовое описание практики, задания на день и дополнительные материалы.</p>';
         }
         
-        // Скрыть видео для дней без видео
-        const noVideo = [0, 5, 7, 8, 9];
-        document.getElementById('modal_video').style.display = noVideo.includes(day.day) ? 'none' : 'flex';
+        // Скрыть плейсхолдеры для видео (мы вставляем реальные видео прямо в текст content)
+        document.getElementById('modal_video').style.display = 'none';
         
         window.scrollTo(0,0);
     }
