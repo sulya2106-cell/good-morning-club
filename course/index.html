@@ -102,18 +102,29 @@
         /* Course Screen */
         #course_screen { display: none; }
         
+        .header-sticky-container {
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 100;
+            padding-top: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 16px;
+            margin-top: -24px; /* compensate for body padding */
+        }
+
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
         .progress-container {
             background: var(--surface);
             border-radius: 8px;
             height: 8px;
-            margin-bottom: 32px;
             overflow: hidden;
         }
         .progress-bar {
@@ -629,23 +640,25 @@ const COURSES = {
 </script>
 
 <div class="container" id="course_screen">
-    <div class="header">
-        <div>
-            <h1 id="welcome_msg" style="font-size:24px;">Привет!</h1>
-            <div style="color:var(--muted);">Курс «Восстановление тела»</div>
+    <div class="header-sticky-container">
+        <div class="header">
+            <div>
+                <h1 id="welcome_msg" style="font-size:24px;">Привет!</h1>
+                <div style="color:var(--muted);">Курс «Восстановление тела»</div>
+            </div>
+            <div style="display:flex; gap: 8px;">
+                <a href="https://vk.me/join/0Nk/kyhuf9Y95r0EqNEbouhH1KNuwbA3Jqs=" target="_blank" class="btn btn-outline" style="padding:8px 16px; margin:0; border-color: var(--accent); color: var(--accent); text-decoration: none;">💬 Чат</a>
+                <button class="btn btn-outline" style="padding:8px 16px; margin:0;" onclick="logout()">Выйти</button>
+            </div>
         </div>
-        <div style="display:flex; gap: 8px;">
-            <a href="https://vk.me/join/0Nk/kyhuf9Y95r0EqNEbouhH1KNuwbA3Jqs=" target="_blank" class="btn btn-outline" style="padding:8px 16px; margin:0; border-color: var(--accent); color: var(--accent); text-decoration: none;">💬 Чат</a>
-            <button class="btn btn-outline" style="padding:8px 16px; margin:0;" onclick="logout()">Выйти</button>
-        </div>
-    </div>
 
-    <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-        <span style="font-weight:600;">Прогресс</span>
-        <span id="progress_text" style="color:var(--muted);">День 0 из 14</span>
-    </div>
-    <div class="progress-container">
-        <div class="progress-bar" id="progress_bar"></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span style="font-weight:600;">Прогресс</span>
+            <span id="progress_text" style="color:var(--muted);">День 0 из 14</span>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress_bar"></div>
+        </div>
     </div>
 
     <div id="course_list"></div>
