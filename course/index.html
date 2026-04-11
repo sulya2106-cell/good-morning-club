@@ -111,7 +111,7 @@
             padding-bottom: 16px;
             border-bottom: 1px solid rgba(255,255,255,0.05);
             margin-bottom: 16px;
-            margin-top: -24px; /* compensate for body padding */
+            margin-top: -24px;
         }
 
         .header {
@@ -865,7 +865,7 @@ const COURSES = {
         currentCourse = COURSES[courseType] || COURSES.recovery;
         
         document.getElementById('welcome_msg').textContent = `Привет, ${student.name}!`;
-        document.querySelector('#course_screen > .header > div > div[style]').textContent = `Курс «${currentCourse.name}»`;
+        document.querySelector('.header > div > div[style]').textContent = `Курс «${currentCourse.name}»`;
         
         const totalDays = currentCourse.days.length;
         
