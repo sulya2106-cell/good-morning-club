@@ -1,661 +1,878 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Йога Будни с Вячеславом Эрдниевым</title>
-    <meta name="description" content="Хатха-йога, очищение и восстановление тела. Только то, что работает — проверено на себе.">
-    <meta property="og:title" content="Йога Будни с Вячеславом">
-    <meta property="og:description" content="Хатха-йога, очищение и восстановление тела. Только то, что работает — проверено на себе.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://sulya2106-cell.github.io/good-morning-club/">
-    <link rel="icon" href="icon-192.png">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#a0b87a">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #0c0c0c;
-            --surface: #161616;
-            --sh: #1e1e1e;
-            --accent: #a0b87a;
-            --ad: rgba(160, 184, 122, 0.12);
-            --text: #e8e6e1;
-            --muted: #7a7870;
-            --r: 14px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,
+initial-scale=1.0">
+<title>Йога Будни с Вячеславом Эрдниевым</title>
+<meta name="description" content="Хатха-йога, очищение и
+восстановление тела. Только то, что работает --- проверено на себе.">
+<meta property="og:title" content="Йога Будни с Вячеславом">
+<meta property="og:description" content="Хатха-йога, очищение и
+восстановление тела. Только то, что работает --- проверено на себе.">
+<meta property="og:type" content="website">
+<meta property="og:url"
+content="https://shatkarm.ru/">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#a0b87a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link
+href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+<style>
+:root {
+--bg: #0c0c0c;
+--surface: #161616;
+--sh: #1e1e1e;
+--accent: #a0b87a;
+--ad: rgba(160, 184, 122, 0.12);
+--text: #e8e6e1;
+--muted: #7a7870;
+--r: 14px;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
 
-        html {
-            scroll-behavior: smooth;
-            scroll-snap-type: y proximity;
-        }
+html {
+scroll-behavior: smooth;
+scroll-snap-type: y proximity;
+}
 
-        section {
-            scroll-snap-align: start;
-        }
+section {
+scroll-snap-align: start;
+}
 
-        /* Apple-style smooth animations on scroll */
-        .hero h1, .hero p, .about-wrap, .app-card, .course-card, .schedule, .section-title {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-        .hero h1.visible, .hero p.visible, .about-wrap.visible, .app-card.visible, .course-card.visible, .schedule.visible, .section-title.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+/* Apple-style smooth animations on scroll */
+.hero h1, .hero p, .about-wrap, .app-card, .course-card, .schedule,
+.section-title {
+opacity: 0;
+transform: translateY(40px);
+transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.hero h1.visible, .hero p.visible, .about-wrap.visible,
+.app-card.visible, .course-card.visible, .schedule.visible,
+.section-title.visible {
+opacity: 1;
+transform: translateY(0);
+}
 
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+body {
+font-family: 'Inter', -apple-system, sans-serif;
+background: var(--bg);
+color: var(--text);
+line-height: 1.6;
+min-height: 100vh;
+overflow-x: hidden;
+}
 
-        a {
-            color: var(--accent);
-            text-decoration: none;
-            transition: opacity 0.2s ease;
-        }
+a {
+color: var(--accent);
+text-decoration: none;
+transition: opacity 0.2s ease;
+}
 
-        a:hover {
-            opacity: 0.8;
-        }
+a:hover {
+opacity: 0.8;
+}
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
+.container {
+max-width: 1000px;
+margin: 0 auto;
+padding: 0 24px;
+}
 
-        /* Header */
-        header {
-            padding: 24px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+/* Header */
+header {
+padding: 24px 0;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--text);
-        }
+.logo {
+display: flex;
+align-items: center;
+gap: 12px;
+text-decoration: none;
+color: var(--text);
+}
 
-        .logo-icon {
-            font-size: 28px;
-            filter: grayscale(30%);
-        }
+.logo-icon {
+font-size: 28px;
+filter: grayscale(30%);
+}
 
-        .logo-text {
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
+.logo-text {
+font-size: 18px;
+font-weight: 700;
+letter-spacing: -0.5px;
+}
 
-        .logo-sub {
-            font-size: 13px;
-            color: var(--muted);
-            font-weight: 400;
-        }
+.logo-sub {
+font-size: 13px;
+color: var(--muted);
+font-weight: 400;
+}
 
-        .nav-link {
-            font-size: 15px;
-            font-weight: 500;
-            color: var(--text);
-        }
+.nav-link {
+font-size: 15px;
+font-weight: 500;
+color: var(--text);
+}
 
-        /* Hero */
-        .hero {
-            padding: 80px 0 100px;
-            text-align: center;
-            background: radial-gradient(ellipse at 50% 0%, #1c2415 0%, var(--bg) 60%);
-        }
+/* Hero */
+.hero {
+padding: 80px 0 100px;
+text-align: center;
+background: radial-gradient(ellipse at 50% 0%, #1c2415 0%, var(--bg)
+60%);
+}
 
-        .hero h1 {
-            font-size: 56px;
-            font-weight: 800;
-            letter-spacing: -1.5px;
-            line-height: 1.1;
-            margin-bottom: 20px;
-        }
+.hero h1 {
+font-size: 56px;
+font-weight: 800;
+letter-spacing: -1.5px;
+line-height: 1.1;
+margin-bottom: 20px;
+}
 
-        .hero h1 span {
-            color: var(--accent);
-        }
+.hero h1 span {
+color: var(--accent);
+}
 
-        .hero p {
-            font-size: 18px;
-            color: var(--muted);
-            max-width: 600px;
-            margin: 0 auto 40px;
-            line-height: 1.6;
-        }
+.hero p {
+font-size: 18px;
+color: var(--muted);
+max-width: 600px;
+margin: 0 auto 40px;
+line-height: 1.6;
+}
 
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--accent);
-            color: var(--bg);
-            font-size: 16px;
-            font-weight: 600;
-            padding: 16px 32px;
-            border-radius: 12px;
-            transition: transform 0.2s, opacity 0.2s;
-            box-shadow: 0 4px 20px rgba(160, 184, 122, 0.2);
-        }
+.btn {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+background: var(--accent);
+color: var(--bg);
+font-size: 16px;
+font-weight: 600;
+padding: 16px 32px;
+border-radius: 12px;
+transition: transform 0.2s, opacity 0.2s;
+box-shadow: 0 4px 20px rgba(160, 184, 122, 0.2);
+}
 
-        .btn:hover {
-            transform: translateY(-2px);
-            opacity: 0.95;
-            text-decoration: none;
-        }
+.btn:hover {
+transform: translateY(-2px);
+opacity: 0.95;
+text-decoration: none;
+}
 
-        /* Section Global */
-        section {
-            padding: 80px 0;
-        }
+/* Section Global */
+section {
+padding: 80px 0;
+}
 
-        .section-title {
-            font-size: 32px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 40px;
-            text-align: center;
-        }
+.section-title {
+font-size: 32px;
+font-weight: 700;
+letter-spacing: -0.5px;
+margin-bottom: 40px;
+text-align: center;
+}
 
-        /* About */
-        .about-wrap {
-            display: flex;
-            gap: 40px;
-            background: var(--surface);
-            padding: 40px;
-            border-radius: var(--r);
-            border: 1px solid #2a2a2a;
-            align-items: flex-start;
-        }
+/* About */
+.about-wrap {
+display: flex;
+gap: 40px;
+background: var(--surface);
+padding: 40px;
+border-radius: var(--r);
+border: 1px solid #2a2a2a;
+align-items: flex-start;
+}
 
-        .about-avatar {
-            font-size: 100px;
-            background: var(--sh);
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            border: 1px solid #2a2a2a;
-        }
+.about-avatar {
+font-size: 100px;
+background: var(--sh);
+width: 160px;
+height: 160px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-shrink: 0;
+border: 1px solid #2a2a2a;
+}
 
-        .about-content h2 {
-            font-size: 28px;
-            margin-bottom: 4px;
-        }
+.about-content h2 {
+font-size: 28px;
+margin-bottom: 4px;
+}
 
-        .about-role {
-            color: var(--accent);
-            font-weight: 500;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
+.about-role {
+color: var(--accent);
+font-weight: 500;
+font-size: 16px;
+margin-bottom: 20px;
+}
 
-        .about-bio {
-            color: var(--muted);
-            font-size: 16px;
-            margin-bottom: 24px;
-        }
+.about-bio {
+color: var(--muted);
+font-size: 16px;
+margin-bottom: 24px;
+}
 
-        .about-links {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
+.about-links {
+display: flex;
+gap: 16px;
+flex-wrap: wrap;
+}
 
-        .link-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--bg);
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            color: var(--text);
-            border: 1px solid #2a2a2a;
-            transition: border-color 0.2s;
-        }
+.link-item {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+background: var(--bg);
+padding: 10px 16px;
+border-radius: 8px;
+font-size: 14px;
+color: var(--text);
+border: 1px solid #2a2a2a;
+transition: border-color 0.2s;
+}
 
-        .link-item:hover {
-            border-color: var(--accent);
-            text-decoration: none;
-        }
+.link-item:hover {
+border-color: var(--accent);
+text-decoration: none;
+}
 
-        /* Courses/Directions */
-        .grid-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-        }
+/* Courses/Directions */
+.grid-cards {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+gap: 24px;
+}
 
-        .course-card {
-            background: var(--surface);
-            border: 1px solid #2a2a2a;
-            border-radius: var(--r);
-            padding: 32px 24px;
-            transition: transform 0.2s, border-color 0.2s;
-        }
+.course-card {
+background: var(--surface);
+border: 1px solid #2a2a2a;
+border-radius: var(--r);
+padding: 32px 24px;
+transition: transform 0.2s, border-color 0.2s;
+}
 
-        .course-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-        }
+.course-card:hover {
+transform: translateY(-4px);
+border-color: var(--accent);
+}
 
-        .course-icon {
-            font-size: 32px;
-            margin-bottom: 20px;
-            background: var(--sh);
-            width: 64px;
-            height: 64px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 16px;
-        }
+.course-icon {
+font-size: 32px;
+margin-bottom: 20px;
+background: var(--sh);
+width: 64px;
+height: 64px;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+border-radius: 16px;
+}
 
-        .course-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--text);
-        }
+.course-title {
+font-size: 20px;
+font-weight: 600;
+margin-bottom: 12px;
+color: var(--text);
+}
 
-        .course-desc {
-            color: var(--muted);
-            font-size: 15px;
-            line-height: 1.6;
-        }
+.course-desc {
+color: var(--muted);
+font-size: 15px;
+line-height: 1.6;
+}
 
-        /* Approach */
-        .approach-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
+/* Approach */
+.approach-cards {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 24px;
+}
 
-        .app-card {
-            background: var(--surface);
-            padding: 32px 24px;
-            border-radius: var(--r);
-            text-align: center;
-            border: 1px solid #2a2a2a;
-        }
+.app-card {
+background: var(--surface);
+padding: 32px 24px;
+border-radius: var(--r);
+text-align: center;
+border: 1px solid #2a2a2a;
+}
 
-        .app-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--accent);
-        }
+.app-title {
+font-size: 18px;
+font-weight: 600;
+margin-bottom: 12px;
+color: var(--accent);
+}
 
-        .app-desc {
-            color: var(--muted);
-            font-size: 14px;
-        }
+.app-desc {
+color: var(--muted);
+font-size: 14px;
+}
 
-        /* Schedule */
-        .schedule {
-            background: linear-gradient(135deg, var(--surface) 0%, #1a2016 100%);
-            border-radius: var(--r);
-            padding: 60px 40px;
-            text-align: center;
-            border: 1px solid #2a2a2a;
-        }
+/* Schedule */
+.schedule {
+background: linear-gradient(135deg, var(--surface) 0%, #1a2016 100%);
+border-radius: var(--r);
+padding: 60px 40px;
+text-align: center;
+border: 1px solid #2a2a2a;
+}
 
-        .schedule h2 {
-            font-size: 32px;
-            margin-bottom: 32px;
-        }
+.schedule h2 {
+font-size: 32px;
+margin-bottom: 32px;
+}
 
-        .sch-item {
-            font-size: 18px;
-            margin-bottom: 16px;
-            color: var(--text);
-        }
+.sch-item {
+font-size: 18px;
+margin-bottom: 16px;
+color: var(--text);
+}
 
-        .sch-item span {
-            color: var(--muted);
-            display: block;
-            font-size: 15px;
-            margin-top: 4px;
-        }
+.sch-item span {
+color: var(--muted);
+display: block;
+font-size: 15px;
+margin-top: 4px;
+}
 
-        .sch-cta {
-            margin-top: 32px;
-            font-size: 16px;
-            color: var(--accent);
-            font-weight: 500;
-        }
+.sch-cta {
+margin-top: 32px;
+font-size: 16px;
+color: var(--accent);
+font-weight: 500;
+}
 
-        /* Footer */
-        footer {
-            border-top: 1px solid #2a2a2a;
-            padding: 40px 0;
-            margin-top: 40px;
-        }
+/* Footer */
+footer {
+border-top: 1px solid #2a2a2a;
+padding: 40px 0;
+margin-top: 40px;
+}
 
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
+.footer-content {
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: wrap;
+gap: 20px;
+}
 
-        .footer-text {
-            color: var(--muted);
-            font-size: 14px;
-        }
+.footer-text {
+color: var(--muted);
+font-size: 14px;
+}
 
-        .footer-links {
-            display: flex;
-            gap: 24px;
-        }
+.footer-links {
+display: flex;
+gap: 24px;
+}
 
-        .footer-links a {
-            color: var(--muted);
-            font-size: 14px;
-        }
+.footer-links a {
+color: var(--muted);
+font-size: 14px;
+}
 
-        .footer-links a:hover {
-            color: var(--text);
-        }
+.footer-links a:hover {
+color: var(--text);
+}
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 42px; }
-            .hero p { font-size: 16px; padding: 0 16px; }
-            .about-wrap { flex-direction: column; align-items: center; text-align: center; padding: 32px 20px; }
-            .about-links { justify-content: center; }
-            .approach-cards { grid-template-columns: 1fr; }
-            .schedule { padding: 40px 20px; }
-            .footer-content { flex-direction: column; text-align: center; }
-        }
-    
-    /* Scroll progress bar */
-    .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent, #a0b87a); z-index: 9999; transition: width 0.1s; }
-    </style>
+/* Responsive */
+\@media (max-width: 768px) {
+.hero h1 { font-size: 42px; }
+.hero p { font-size: 16px; padding: 0 16px; }
+.about-wrap { flex-direction: column; align-items: center; text-align:
+center; padding: 32px 20px; }
+.about-links { justify-content: center; }
+.approach-cards { grid-template-columns: 1fr; }
+.schedule { padding: 40px 20px; }
+.footer-content { flex-direction: column; text-align: center; }
+}
+
+/* Scroll progress bar */
+.scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height:
+3px; background: var(--accent, #a0b87a); z-index: 9999; transition:
+width 0.1s; }
+</style>
 </head>
 <body>
 
-    <!-- ═══ ШАПКА САЙТА ═══ -->
-    <div class="container">
-        <header>
-            <a href="#" class="logo">
-                <span class="logo-icon">🕉</span>
-                <div>
-                    <div class="logo-text">Йога Будни</div>
-                    <div class="logo-sub">Вячеслав Эрдниев</div>
-                </div>
-            </a>
-            <a href="/library/" class="nav-link">Библиотека</a>
-        </header>
-    </div>
+<!-- ═══ ШАПКА САЙТА ═══ -->
+<div class="container">
+<header>
+<a href="#" class="logo">
+<span class="logo-icon">🕉</span>
+<div>
+<div class="logo-text">Йога Будни</div>
+<div class="logo-sub">Вячеслав Эрдниев</div>
+</div>
+</a>
+<a href="/library/" class="nav-link">Библиотека</a>
+</header>
+</div>
 
-    <!-- ═══ ГЕРОЙ (ГЛАВНЫЙ БАННЕР) ═══ -->
-    <section class="hero" style="position:relative;overflow:hidden;background:transparent">
-        <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 90%;z-index:0;opacity:.6">
-            <source src="hero-bg.mp4" type="video/mp4">
-        </video>
-        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(12,12,12,.2),rgba(12,12,12,.7));z-index:1"></div>
-        <div class="container" style="position:relative;z-index:2">
-            <!-- Поменяй текст ниже -->
-            <h1>Йога Будни<br><span>с Вячеславом Эрдниевым</span></h1>
-            <!-- Поменяй текст ниже -->
-            <p>Хатха-йога, очищение и восстановление тела. Только то, что работает — проверено на себе.</p>
-            <a href="/start/" class="btn" style="margin-right:12px">Попробовать бесплатно</a>
-        </div>
-    </section>
-
-    <!-- ═══ О ПРЕПОДАВАТЕЛЕ ═══ -->
-    <section id="about">
-        <div class="container">
-            <div class="about-wrap">
-                <div class="about-avatar"><img src="slava.jpg" alt="Вячеслав Эрдниев" style="width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center 20%"></div>
-                <div class="about-content">
-                    <!-- Поменяй текст ниже -->
-                    <h2>Вячеслав Эрдниев</h2>
-                    <!-- Поменяй текст ниже -->
-                    <div class="about-role">Преподаватель хатха-йоги и очистительных практик</div>
-                    <!-- Поменяй текст ниже -->
-                    <p class="about-bio">Учился в S-VYASA University, Бангалор - единственный в Индии университет, где йога подкреплена наукой, а не верой.<br><br>Объясняю каждое движение: зачем и почему мы это делаем и какую пользу оно приносит. Подбираю практику под человека, а не человека под практику. Шаткармы, дыхание, работа с телом изнутри.</p>
-                    <div class="about-links">
-                        <a href="https://instagram.com/shat_karm" target="_blank" class="link-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> @shat_karm</a>
-                        <a href="https://t.me/shat_karm" target="_blank" class="link-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg> @shat_karm</a>
-                        <a href="https://vk.com/id773511982" target="_blank" class="link-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.391 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4.03 8.57 4.03 8.096c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.677.863 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.204.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.253-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.49-.085.744-.576.744z"/></svg> @shat_karm</a>
-                        <a href="https://yogaenthusiasts.ru/shatkarm" target="_blank" class="link-item">Website</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══ ПОДХОД ═══ -->
-    <section id="approach">
-        <div class="container">
-            <h2 class="section-title">Подход</h2>
-            <div class="approach-cards">
-                <div class="app-card">
-                    <div class="app-title">Без эзотерики</div>
-                    <div class="app-desc">Только физиология, анатомия и личный опыт. Никаких чакр, аур и магии.</div>
-                </div>
-                <div class="app-card">
-                    <div class="app-title">Безопасность</div>
-                    <div class="app-desc">Грамотные отстройки каждой асаны. Работаем с телом, а не против него.</div>
-                </div>
-                <div class="app-card">
-                    <div class="app-title">Практика</div>
-                    <div class="app-desc">Теория — только для понимания. Главное — делать.</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══ ОТЗЫВЫ ═══ -->
-    <section id="testimonials">
-        <div class="container">
-            <h2 class="section-title">Что говорят ученики</h2>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:24px">
-                <div class="app-card" style="text-align:left">
-                    <div style="font-size:40px;color:var(--accent);line-height:1;margin-bottom:12px">"</div>
-                    <div style="font-style:italic;font-size:16px;margin-bottom:16px;line-height:1.6">Лёгкость в теле, энергия «ровная» каждый день, без скачков. Тон кожи выравнивается, сон очень хороший стал.</div>
-                    <div style="color:var(--muted);font-size:14px">— ученица курса</div>
-                </div>
-                <div class="app-card" style="text-align:left">
-                    <div style="font-size:40px;color:var(--accent);line-height:1;margin-bottom:12px">"</div>
-                    <div style="font-style:italic;font-size:16px;margin-bottom:16px;line-height:1.6">Яснее стала голова. Мысли упорядочились, ощущение баланса между телом и головой. Утро стало радовать!</div>
-                    <div style="color:var(--muted);font-size:14px">— ученица курса</div>
-                </div>
-                <div class="app-card" style="text-align:left">
-                    <div style="font-size:40px;color:var(--accent);line-height:1;margin-bottom:12px">"</div>
-                    <div style="font-style:italic;font-size:16px;margin-bottom:16px;line-height:1.6">Честно, не ожидала такого эффекта. Благодарю за практику очищения.</div>
-                    <div style="color:var(--muted);font-size:14px">— ученица курса</div>
-                </div>
-                <div class="app-card" style="text-align:left">
-                    <div style="font-size:40px;color:var(--accent);line-height:1;margin-bottom:12px">"</div>
-                    <div style="font-style:italic;font-size:16px;margin-bottom:16px;line-height:1.6">Настроение, утренние подъёмы, отход ко сну, лёгкость во всём теле, ясность в голове — и тело стало гибче!</div>
-                    <div style="color:var(--muted);font-size:14px">— ученица курса</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══ НАПРАВЛЕНИЯ (КУРСЫ) ═══ -->
-    <section id="directions">
-        <div class="container">
-            <h2 class="section-title">Направления</h2>
-            <div class="grid-cards">
-                <div class="course-card">
-                    <div class="course-icon">🧘</div>
-                    <h3 class="course-title">Телесные практики</h3>
-                    <p class="course-desc">Утренние комплексы, работа со спиной, вечерние практики. Безопасная хатха-йога с грамотными отстройками.</p>
-                    <a href="/start/" style="display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-weight:600;font-size:14px;margin-top:16px;border-top:1px solid #2a2a2a;padding-top:16px;width:100%">Попробовать йогу со мной →</a>
-                </div>
-                <div class="course-card">
-                    <div class="course-icon">💆</div>
-                    <h3 class="course-title">Восстановление тела</h3>
-                    <p class="course-desc">Очищение организма изнутри — кишечник, желудок, дыхательные пути. Техники, которым тысячи лет, адаптированные под обычных людей.</p>
-                    <a href="/recovery/" style="display:inline-flex; align-items:center; gap:6px; color:var(--accent); font-weight:600; font-size:14px; margin-top:16px; border-top:1px solid #2a2a2a; padding-top:16px; width:100%;">Смотреть курс «Восстановление тела» →</a>
-                </div>
-                <div class="course-card">
-                    <div class="course-icon">💨</div>
-                    <h3 class="course-title">Дыхательные практики</h3>
-                    <p class="course-desc">Техники дыхания, которые успокаивают нервную систему, улучшают сон и возвращают энергию. 5-10 минут в день — и тело работает иначе.</p>
-                </div>
-                <div class="course-card">
-                    <div class="course-icon">🌀</div>
-                    <h3 class="course-title">Внутренний огонь</h3>
-                    <p class="course-desc">От нуля до практики. Пошаговое освоение одной из самых мощных техник хатха-йоги.</p>
-                    <a href="/fire/" style="display:inline-flex; align-items:center; gap:6px; color:var(--accent); font-weight:600; font-size:14px; margin-top:16px; border-top:1px solid #2a2a2a; padding-top:16px; width:100%;">Смотреть курс «Внутренний огонь» →</a>
-                </div>
-                <div class="course-card">
-                    <div class="course-icon">📖</div>
-                    <h3 class="course-title">Теория</h3>
-                    <p class="course-desc">Питание, принципы восстановления, работа с телом. Понимание того, что и зачем мы делаем.</p>
-                </div>
-                <div class="course-card" style="background:var(--accent);border-color:var(--accent);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-                    <div class="course-icon">▶️</div>
-                    <h3 class="course-title" style="color:var(--bg)">Попробуйте бесплатно</h3>
-                    <p class="course-desc" style="color:rgba(12,12,12,.7)">33 минуты практики для начинающих. Без регистрации, без оплаты.</p>
-                    <a href="/start/" style="display:inline-flex;align-items:center;gap:6px;background:var(--bg);color:var(--text);font-weight:600;font-size:14px;padding:10px 20px;border-radius:10px;margin-top:16px;text-decoration:none">Начать →</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Направления работы -->
-    <section id="services">
-        <div class="container">
-            <h2 class="section-title">Услуги</h2>
-            <div class="grid-cards">
-                <div class="course-card">
-                    <div class="course-icon">🧘</div>
-                    <h3 class="course-title">Хатха-йога</h3>
-                    <p class="course-desc">Работа с телом через асаны и дыхание. Грамотные отстройки каждого движения. Персональные онлайн и групповые в Элисте (ПН/СР/ПТ 19:00, 8 мкр, 46А).</p>
-                </div>
-                <div class="course-card">
-                    <div class="course-icon">🔥</div>
-                    <h3 class="course-title">Курсы очищения и восстановления</h3>
-                    <p class="course-desc">Программы от 14 до 30 дней. Дыхание, вакуум, очищение — пошагово, с поддержкой в чате и живыми созвонами. Два направления: «Восстановление тела» и «Внутренний огонь».</p>
-                </div>
-                <div class="course-card">
-                    <div class="course-icon">💪</div>
-                    <h3 class="course-title">Персональный тренинг</h3>
-                    <p class="course-desc">Индивидуальные тренировки в зале + дистанционные программы. Смотрю на движения, нахожу слабые места, составляю план.</p>
-                </div>
-                <div class="course-card">
-                    <div class="course-icon">⚡</div>
-                    <h3 class="course-title">Похудение</h3>
-                    <p class="course-desc">Индивидуальная программа: разбираем питание, подбираем техники, работаем с телом. Без голодовок и марафонов — через практику и понимание, как работает тело.</p>
-                </div>
-                <div class="course-card">
-                    <div class="course-icon">🔩</div>
-                    <h3 class="course-title">Гвоздестояние</h3>
-                    <p class="course-desc">Практика осознанной работы с телом и вниманием. Провожу оффлайн — индивидуально и для групп. Выезд по запросу.</p>
-                </div>
-                <div class="course-card">
-                    <div class="course-icon">🎤</div>
-                    <h3 class="course-title">Мастер-классы</h3>
-                    <p class="course-desc">Провожу для организаций, спортивных секций и частных групп. Оффлайн и онлайн. Йога, восстановление, работа с телом — формат под запрос.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══ РАСПИСАНИЕ ═══ -->
-    <section id="schedule">
-        <div class="container">
-            <div class="schedule">
-                <h2>Расписание</h2>
-                <div class="sch-item">
-                    <strong>Групповые занятия</strong>
-                    <!-- Поменяй текст ниже -->
-                    <span>ПН / СР / ПТ в 19:00<br>Элиста, 8 мкр, д.46</span>
-                </div>
-                <div class="sch-item" style="margin-top: 24px;">
-                    <strong>Онлайн формат</strong>
-                    <!-- Поменяй текст ниже -->
-                    <span>Индивидуальные занятия по записи</span>
-                </div>
-                <div class="sch-cta">
-                    Запись: <a href="https://instagram.com/shat_karm" target="_blank" style="display:inline-flex;align-items:center;gap:4px;vertical-align:middle"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a> или <a href="https://t.me/shat_karm" target="_blank" style="display:inline-flex;align-items:center;gap:4px;vertical-align:middle"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a> или <a href="https://vk.com/id773511982" target="_blank" style="display:inline-flex;align-items:center;gap:4px;vertical-align:middle"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.391 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4.03 8.57 4.03 8.096c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.677.863 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.204.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.253-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.49-.085.744-.576.744z"/></svg></a> @shat_karm
-                </div>
-            </div>
-        </div>
-    </section>
-
-<section style="padding:60px 0;text-align:center">
-    <div class="container">
-        <h2 style="font-size:28px;font-weight:700;margin-bottom:12px">Готовы начать?</h2>
-        <p style="color:var(--muted);font-size:16px;margin-bottom:32px">Попробуйте бесплатную практику — 33 минуты, которые изменят ваше утро</p>
-        <a href="/start/" class="btn">Попробовать бесплатно</a>
-    </div>
+<!-- ═══ ГЕРОЙ (ГЛАВНЫЙ БАННЕР) ═══ -->
+<section class="hero"
+style="position:relative;overflow:hidden;background:transparent">
+<video autoplay muted loop playsinline
+style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50%
+90%;z-index:0;opacity:.6">
+<source src="hero-bg.mp4" type="video/mp4">
+</video>
+<div id="video-fallback" style="display:none;position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%, #1c2415 0%, #0c0c0c 60%);z-index:0;"></div>
+<script>document.querySelector('video').onerror=function(){document.getElementById('video-fallback').style.display='block';};</script>
+<div style="position:absolute;inset:0;background:linear-gradient(to
+bottom,rgba(12,12,12,.2),rgba(12,12,12,.7));z-index:1"></div>
+<div class="container" style="position:relative;z-index:2">
+<!-- Поменяй текст ниже -->
+<h1>Йога Будни<br><span>с Вячеславом Эрдниевым</span></h1>
+<!-- Поменяй текст ниже -->
+<p>Хатха-йога, очищение и восстановление тела. Только то, что работает
+--- проверено на себе.</p>
+<a href="/start/" class="btn"
+style="margin-right:12px">Попробовать бесплатно</a>
+</div>
 </section>
 
-    <!-- ═══ ПОДВАЛ ═══ -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-text">
-                    &copy; 2026 Йога Будни &middot; Вячеслав Эрдниев
-                </div>
-                <div class="footer-links">
-                    <a href="https://t.me/shat_karm" target="_blank" style="display:inline-flex;align-items:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
-                    <a href="https://instagram.com/shat_karm" target="_blank" style="display:inline-flex;align-items:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
-                    <a href="/library/">Библиотека практик</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+<!-- ═══ О ПРЕПОДАВАТЕЛЕ ═══ -->
+<section id="about">
+<div class="container">
+<div class="about-wrap">
+<div class="about-avatar"><img src="slava.jpg" alt="Вячеслав
+Эрдниев"
+style="width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center
+20%"></div>
+<div class="about-content">
+<!-- Поменяй текст ниже -->
+<h2>Вячеслав Эрдниев</h2>
+<!-- Поменяй текст ниже -->
+<div class="about-role">Преподаватель хатха-йоги и очистительных
+практик</div>
+<!-- Поменяй текст ниже -->
+<p class="about-bio">Учился в S-VYASA University, Бангалор -
+единственный в Индии университет, где йога подкреплена наукой, а не
+верой.<br><br>Объясняю каждое движение: зачем и почему мы это делаем
+и какую пользу оно приносит. Подбираю практику под человека, а не
+человека под практику. Шаткармы, дыхание, работа с телом изнутри.</p>
+<div class="about-links">
+<a href="https://instagram.com/shat_karm" target="\_blank"
+class="link-item"><svg width="18" height="18" viewBox="0 0 24
+24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012
+4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849
+0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919
+4.919-1.266.058-1.644.07-4.85.07-3.204
+0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849
+0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057
+1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273
+2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2
+4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0
+3.668-.014 4.948-.072 4.354-.2 6.782-2.618
+6.979-6.98.059-1.28.073-1.689.073-4.948
+0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014
+15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0
+000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100
+2.881 1.44 1.44 0 000-2.881z"/></svg> \@shat_karm</a>
+<a href="https://t.me/shat_karm" target="\_blank"
+class="link-item"><svg width="18" height="18" viewBox="0 0 24
+24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12
+0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962
+7.224c.1-.002.321.023.465.14a.506.506 0 0 1
+.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36
+8.627-.168.9-.499 1.201-.82
+1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184
+3.247-2.977
+3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793
+1.14-5.061
+3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663
+3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627
+4.476-1.635z"/></svg> \@shat_karm</a>
+<a href="https://vk.com/id773511982" target="\_blank"
+class="link-item"><svg width="18" height="18" viewBox="0 0 24
+24" fill="currentColor"><path d="M15.684 0H8.316C1.592 0 0 1.592 0
+8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24
+15.684V8.316C24 1.592 22.391 0 15.684 0zm3.692 17.123h-1.744c-.66
+0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356
+0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846
+0-3.896-1.118-5.335-3.202C4.624 10.857 4.03 8.57 4.03
+8.096c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.677.863 2.49 2.303
+4.675 2.896 4.675.22 0
+.322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71
+0-.204.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0
+.372.17.508.271.508.22 0 .407-.136.813-.542 1.253-1.406 2.151-3.574
+2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22
+1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779
+1.203 1.253.745.847 1.32 1.558 1.473
+2.05.17.49-.085.744-.576.744z"/></svg> \@shat_karm</a>
+<a href="https://yogaenthusiasts.ru/shatkarm" target="\_blank"
+class="link-item">Website</a>
+</div>
+</div>
+</div>
+</div>
+</section>
 
-    <script>
-    // Apple-style scroll reveal
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, i) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, i * 100);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
+<!-- ═══ ПОДХОД ═══ -->
+<section id="approach">
+<div class="container">
+<h2 class="section-title">Подход</h2>
+<div class="approach-cards">
+<div class="app-card">
+<div class="app-title">Без эзотерики</div>
+<div class="app-desc">Только физиология, анатомия и личный опыт.
+Никаких чакр, аур и магии.</div>
+</div>
+<div class="app-card">
+<div class="app-title">Безопасность</div>
+<div class="app-desc">Грамотные отстройки каждой асаны. Работаем с
+телом, а не против него.</div>
+</div>
+<div class="app-card">
+<div class="app-title">Практика</div>
+<div class="app-desc">Теория --- только для понимания. Главное ---
+делать.</div>
+</div>
+</div>
+</div>
+</section>
 
-    document.querySelectorAll('.hero h1, .hero p, .about-wrap, .app-card, .course-card, .schedule, .section-title').forEach(el => observer.observe(el));
-    </script>
+<!-- ═══ ОТЗЫВЫ ═══ -->
+<section id="testimonials">
+<div class="container">
+<h2 class="section-title">Что говорят ученики</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,
+minmax(300px, 1fr));gap:24px">
+<div class="app-card" style="text-align:left">
+<div
+style="font-size:40px;color:var(--accent);line-height:1;margin-bottom:12px">"</div>
+<div
+style="font-style:italic;font-size:16px;margin-bottom:16px;line-height:1.6">Лёгкость
+в теле, энергия «ровная» каждый день, без скачков. Тон кожи
+выравнивается, сон очень хороший стал.</div>
+<div style="color:var(--muted);font-size:14px">--- ученица
+курса</div>
+</div>
+<div class="app-card" style="text-align:left">
+<div
+style="font-size:40px;color:var(--accent);line-height:1;margin-bottom:12px">"</div>
+<div
+style="font-style:italic;font-size:16px;margin-bottom:16px;line-height:1.6">Яснее
+стала голова. Мысли упорядочились, ощущение баланса между телом и
+головой. Утро стало радовать!</div>
+<div style="color:var(--muted);font-size:14px">--- ученица
+курса</div>
+</div>
+<div class="app-card" style="text-align:left">
+<div
+style="font-size:40px;color:var(--accent);line-height:1;margin-bottom:12px">"</div>
+<div
+style="font-style:italic;font-size:16px;margin-bottom:16px;line-height:1.6">Честно,
+не ожидала такого эффекта. Благодарю за практику очищения.</div>
+<div style="color:var(--muted);font-size:14px">--- ученица
+курса</div>
+</div>
+<div class="app-card" style="text-align:left">
+<div
+style="font-size:40px;color:var(--accent);line-height:1;margin-bottom:12px">"</div>
+<div
+style="font-style:italic;font-size:16px;margin-bottom:16px;line-height:1.6">Настроение,
+утренние подъёмы, отход ко сну, лёгкость во всём теле, ясность в голове
+--- и тело стало гибче!</div>
+<div style="color:var(--muted);font-size:14px">--- ученица
+курса</div>
+</div>
+</div>
+</div>
+</section>
 
-    <div class="scroll-progress" id="scrollProgress"></div>
-    <script>
-    window.addEventListener('scroll', function() {
-        var h = document.documentElement;
-        var pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
-        document.getElementById('scrollProgress').style.width = pct + '%';
-    });
-    </script>
+<!-- ═══ НАПРАВЛЕНИЯ (КУРСЫ) ═══ -->
+<section id="directions">
+<div class="container">
+<h2 class="section-title">Направления</h2>
+<div class="grid-cards">
+<div class="course-card">
+<div class="course-icon">🧘</div>
+<h3 class="course-title">Телесные практики</h3>
+<p class="course-desc">Утренние комплексы, работа со спиной,
+вечерние практики. Безопасная хатха-йога с грамотными
+отстройками.</p>
+<a href="/start/"
+style="display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-weight:600;font-size:14px;margin-top:16px;border-top:1px
+solid #2a2a2a;padding-top:16px;width:100%">Попробовать йогу со мной
+→</a>
+</div>
+<div class="course-card">
+<div class="course-icon">💆</div>
+<h3 class="course-title">Восстановление тела</h3>
+<p class="course-desc">Очищение организма изнутри --- кишечник,
+желудок, дыхательные пути. Техники, которым тысячи лет, адаптированные
+под обычных людей.</p>
+<a href="/recovery/" style="display:inline-flex; align-items:center;
+gap:6px; color:var(--accent); font-weight:600; font-size:14px;
+margin-top:16px; border-top:1px solid #2a2a2a; padding-top:16px;
+width:100%;">Смотреть курс «Восстановление тела» →</a>
+</div>
+<div class="course-card">
+<div class="course-icon">💨</div>
+<h3 class="course-title">Дыхательные практики</h3>
+<p class="course-desc">Техники дыхания, которые успокаивают нервную
+систему, улучшают сон и возвращают энергию. 5-10 минут в день --- и тело
+работает иначе.</p>
+</div>
+<div class="course-card">
+<div class="course-icon">🌀</div>
+<h3 class="course-title">Внутренний огонь</h3>
+<p class="course-desc">От нуля до практики. Пошаговое освоение одной
+из самых мощных техник хатха-йоги.</p>
+<a href="/fire/" style="display:inline-flex; align-items:center;
+gap:6px; color:var(--accent); font-weight:600; font-size:14px;
+margin-top:16px; border-top:1px solid #2a2a2a; padding-top:16px;
+width:100%;">Смотреть курс «Внутренний огонь» →</a>
+</div>
+<div class="course-card">
+<div class="course-icon">📖</div>
+<h3 class="course-title">Теория</h3>
+<p class="course-desc">Питание, принципы восстановления, работа с
+телом. Понимание того, что и зачем мы делаем.</p>
+</div>
+<div class="course-card"
+style="background:var(--accent);border-color:var(--accent);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+<div class="course-icon">▶️</div>
+<h3 class="course-title" style="color:var(--bg)">Попробуйте
+бесплатно</h3>
+<p class="course-desc" style="color:rgba(12,12,12,.7)">33 минуты
+практики для начинающих. Без регистрации, без оплаты.</p>
+<a href="/start/"
+style="display:inline-flex;align-items:center;gap:6px;background:var(--bg);color:var(--text);font-weight:600;font-size:14px;padding:10px
+20px;border-radius:10px;margin-top:16px;text-decoration:none">Начать
+→</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Направления работы -->
+<section id="services">
+<div class="container">
+<h2 class="section-title">Услуги</h2>
+<div class="grid-cards">
+<div class="course-card">
+<div class="course-icon">🧘</div>
+<h3 class="course-title">Хатха-йога</h3>
+<p class="course-desc">Работа с телом через асаны и дыхание.
+Грамотные отстройки каждого движения. Персональные онлайн и групповые в
+Элисте (ПН/СР/ПТ 19:00, 8 мкр, 46А).</p>
+</div>
+<div class="course-card">
+<div class="course-icon">🔥</div>
+<h3 class="course-title">Курсы очищения и восстановления</h3>
+<p class="course-desc">Программы от 14 до 30 дней. Дыхание, вакуум,
+очищение --- пошагово, с поддержкой в чате и живыми созвонами. Два
+направления: «Восстановление тела» и «Внутренний огонь».</p>
+</div>
+<div class="course-card">
+<div class="course-icon">💪</div>
+<h3 class="course-title">Персональный тренинг</h3>
+<p class="course-desc">Индивидуальные тренировки в зале +
+дистанционные программы. Смотрю на движения, нахожу слабые места,
+составляю план.</p>
+</div>
+<div class="course-card">
+<div class="course-icon">⚡</div>
+<h3 class="course-title">Похудение</h3>
+<p class="course-desc">Индивидуальная программа: разбираем питание,
+подбираем техники, работаем с телом. Без голодовок и марафонов --- через
+практику и понимание, как работает тело.</p>
+</div>
+<div class="course-card">
+<div class="course-icon">🔩</div>
+<h3 class="course-title">Гвоздестояние</h3>
+<p class="course-desc">Практика осознанной работы с телом и
+вниманием. Провожу оффлайн --- индивидуально и для групп. Выезд по
+запросу.</p>
+</div>
+<div class="course-card">
+<div class="course-icon">🎤</div>
+<h3 class="course-title">Мастер-классы</h3>
+<p class="course-desc">Провожу для организаций, спортивных секций и
+частных групп. Оффлайн и онлайн. Йога, восстановление, работа с телом
+--- формат под запрос.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ═══ РАСПИСАНИЕ ═══ -->
+<section id="schedule">
+<div class="container">
+<div class="schedule">
+<h2>Расписание</h2>
+<div class="sch-item">
+<strong>Групповые занятия</strong>
+<!-- Поменяй текст ниже -->
+<span>ПН / СР / ПТ в 19:00<br>Элиста, 8 мкр, д.46</span>
+</div>
+<div class="sch-item" style="margin-top: 24px;">
+<strong>Онлайн формат</strong>
+<!-- Поменяй текст ниже -->
+<span>Индивидуальные занятия по записи</span>
+</div>
+<div class="sch-cta">
+Запись: <a href="https://instagram.com/shat_karm" target="\_blank"
+style="display:inline-flex;align-items:center;gap:4px;vertical-align:middle"><svg
+width="16" height="16" viewBox="0 0 24 24"
+fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07
+3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0
+3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919
+4.919-1.266.058-1.644.07-4.85.07-3.204
+0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849
+0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057
+1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273
+2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2
+4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0
+3.668-.014 4.948-.072 4.354-.2 6.782-2.618
+6.979-6.98.059-1.28.073-1.689.073-4.948
+0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014
+15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0
+000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100
+2.881 1.44 1.44 0 000-2.881z"/></svg></a> или <a
+href="https://t.me/shat_karm" target="\_blank"
+style="display:inline-flex;align-items:center;gap:4px;vertical-align:middle"><svg
+width="16" height="16" viewBox="0 0 24 24"
+fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0
+12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962
+7.224c.1-.002.321.023.465.14a.506.506 0 0 1
+.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36
+8.627-.168.9-.499 1.201-.82
+1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184
+3.247-2.977
+3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793
+1.14-5.061
+3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663
+3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627
+4.476-1.635z"/></svg></a> или <a
+href="https://vk.com/id773511982" target="\_blank"
+style="display:inline-flex;align-items:center;gap:4px;vertical-align:middle"><svg
+width="16" height="16" viewBox="0 0 24 24"
+fill="currentColor"><path d="M15.684 0H8.316C1.592 0 0 1.592 0
+8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24
+15.684V8.316C24 1.592 22.391 0 15.684 0zm3.692 17.123h-1.744c-.66
+0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356
+0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846
+0-3.896-1.118-5.335-3.202C4.624 10.857 4.03 8.57 4.03
+8.096c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.677.863 2.49 2.303
+4.675 2.896 4.675.22 0
+.322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71
+0-.204.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0
+.372.17.508.271.508.22 0 .407-.136.813-.542 1.253-1.406 2.151-3.574
+2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22
+1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779
+1.203 1.253.745.847 1.32 1.558 1.473
+2.05.17.49-.085.744-.576.744z"/></svg></a> \@shat_karm
+</div>
+</div>
+</div>
+</section>
+
+<section style="padding:60px 0;text-align:center">
+<div class="container">
+<h2 style="font-size:28px;font-weight:700;margin-bottom:12px">Готовы
+начать?</h2>
+<p
+style="color:var(--muted);font-size:16px;margin-bottom:32px">Попробуйте
+бесплатную практику --- 33 минуты, которые изменят ваше утро</p>
+<a href="/start/" class="btn">Попробовать бесплатно</a>
+</div>
+</section>
+
+<!-- ═══ ПОДВАЛ ═══ -->
+<footer>
+<div class="container">
+<div class="footer-content">
+<div class="footer-text">
+&copy; 2026 Йога Будни &middot; Вячеслав Эрдниев
+</div>
+<div class="footer-links">
+<a href="https://t.me/shat_karm" target="\_blank"
+style="display:inline-flex;align-items:center"><svg width="18"
+height="18" viewBox="0 0 24 24" fill="currentColor"><path
+d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12
+0 0 0 12 0a12 12 0 0 0-.056 0zm4.962
+7.224c.1-.002.321.023.465.14a.506.506 0 0 1
+.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36
+8.627-.168.9-.499 1.201-.82
+1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184
+3.247-2.977
+3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793
+1.14-5.061
+3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663
+3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627
+4.476-1.635z"/></svg></a>
+<a href="https://instagram.com/shat_karm" target="\_blank"
+style="display:inline-flex;align-items:center"><svg width="18"
+height="18" viewBox="0 0 24 24" fill="currentColor"><path
+d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919
+4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149
+3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204
+0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849
+0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057
+1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273
+2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2
+4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0
+3.668-.014 4.948-.072 4.354-.2 6.782-2.618
+6.979-6.98.059-1.28.073-1.689.073-4.948
+0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014
+15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0
+000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100
+2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+</div>
+</div>
+</div>
+</footer>
+
+<script>
+// Apple-style scroll reveal
+const observer = new IntersectionObserver((entries) => {
+entries.forEach((entry, i) => {
+if (entry.isIntersecting) {
+setTimeout(() => {
+entry.target.classList.add('visible');
+}, i * 100);
+observer.unobserve(entry.target);
+}
+});
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.hero h1, .hero p, .about-wrap, .app-card,
+.course-card, .schedule, .section-title').forEach(el =>
+observer.observe(el));
+</script>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<script>
+window.addEventListener('scroll', function() {
+var h = document.documentElement;
+var pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+document.getElementById('scrollProgress').style.width = pct + '%';
+});
+</script>
 
 </body>
 </html>
