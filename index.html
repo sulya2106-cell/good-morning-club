@@ -858,9 +858,7 @@ observer.unobserve(entry.target);
 });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.hero h1, .hero p, .about-wrap, .app-card,
-.course-card, .schedule, .section-title').forEach(el =>
-observer.observe(el));
+document.querySelectorAll('.hero h1, .hero p, .about-wrap, .app-card, .course-card, .schedule, .section-title').forEach(el => observer.observe(el));
 </script>
 
 <div class="scroll-progress" id="scrollProgress"></div>
